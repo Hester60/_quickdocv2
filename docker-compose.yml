@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  api:
+    container_name: "quickdoc_api"
+    build:
+      context: .
+      target: api_${NODE_ENV}
+    volumes:
+      - ./api:/usr/src/api
+    ports:
+      - "${API_PORT}:3001"
+    links:
+      - "database"
+    env_file:
+      - .env
+  database:
+    container_name: "quickdoc_database"
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    ports:
+      - "${DATABASE_PORT}:27017"
+    volumes:
+      - ./dbdata:/data/db
+volumes:
+  dbdata:
+    driver: local

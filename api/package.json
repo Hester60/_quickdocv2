@@ -1,0 +1,24 @@
+{
+  "name": "quickdocv2_api",
+  "description": "Quickdoc V2 API",
+  "version": "2.0.0",
+  "main": "server.js",
+  "scripts": {
+    "development": "nodemon -r dotenv/config server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "CARBUCCIA Thomas",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Hester60/_quickdocv2/issues"
+  },
+  "homepage": "https://github.com/Hester60/_quickdocv2",
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "express": "^4.18.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
+}

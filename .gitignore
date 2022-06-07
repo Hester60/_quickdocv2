@@ -1,0 +1,6 @@
+.idea
+.vscode
+.env
+
+dbdata
+node_modules
