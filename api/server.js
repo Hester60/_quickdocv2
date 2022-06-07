@@ -1,10 +1,14 @@
 const express = require('express');
+
 const app = express();
+
+// middlewares
+app.use(express.json());
 
 const PORT = process.env.API_PORT;
 
 app.listen(PORT, () => {
-    console.log(`Server listening on ${PORT}`);
+    console.log(`Server listening on ${PORT}.`);
 });
 
 app.on('error', (error) => {
