@@ -3,9 +3,7 @@ version: "3.8"
 services:
   api:
     container_name: "quickdoc_api"
-    build:
-      context: .
-      target: api_${NODE_ENV}
+    image: node
     volumes:
       - ./api:/usr/src/api
     ports:
@@ -14,6 +12,8 @@ services:
       - "database"
     env_file:
       - .env
+    command: "/bin/bash -c 'cd /usr/src/api && npm install && npm run ${NODE_ENV}'"
+
   database:
     container_name: "quickdoc_database"
     image: mongo
