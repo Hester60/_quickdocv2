@@ -9,7 +9,6 @@ const projectSchema = new Schema({
         set: value => value.trim(),
         validate: {
             validator: function(value) {
-                console.log( value === "");
                 return value !== "";
             },
             message: "Project name cannot be empty"
