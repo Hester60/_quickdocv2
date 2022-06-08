@@ -12,7 +12,9 @@ module.exports = (error, req, res, next) => {
      * Mongoose validation errors
      */
     if (error instanceof ValidationError) {
-        return res.status(422).json({errors: {...error.errors}, status: 422});
+        if (error.name === 'ValidationError') {
+            return res.status(422).json({errors: {...error.errors}, status: 422});
+        }
     }
 
     // Not found error (404)
