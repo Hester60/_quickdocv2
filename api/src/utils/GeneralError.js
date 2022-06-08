@@ -18,4 +18,4 @@ class AuthenticationError extends GeneralError {}
  */
 class NotFoundError extends GeneralError {}
 
-module.exports = {GeneralError, AuthenticationError, NotFoundError, PermissionError};
+module.exports = {GeneralError, AuthenticationError, NotFoundError};

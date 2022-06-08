@@ -2,7 +2,6 @@ const {TokenExpiredError, JsonWebTokenError, NotBeforeError} = require('jsonwebt
 const {AuthenticationError, NotFoundError, PermissionError} = require('../utils/GeneralError');
 const {PRODUCTION} = require("../constants/environment");
 
-// eslint-disable-next-line no-unused-vars
 module.exports = (error, req, res, next) => {
     if (process.env.NODE_ENV !== PRODUCTION) {
         console.error(error);
