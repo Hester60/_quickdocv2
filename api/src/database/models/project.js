@@ -4,7 +4,7 @@ const projectSchema = new Schema({
     name: {
         type: String,
         required: [true, 'Project name is required'],
-        maxlength: [30, "Project name cannot exceed 30 characters"],
+        maxLength: [30, "Project name cannot exceed 30 characters"],
         set: value => value ? value.trim() : null,
     }
 });
