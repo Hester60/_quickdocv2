@@ -13,6 +13,7 @@ services:
     env_file:
       - .env
     command: "/bin/bash -c 'cd /usr/src/api && npm install && npm run ${NODE_ENV}'"
+    working_dir: /usr/src/api
 
   database:
     container_name: "quickdoc_database"
