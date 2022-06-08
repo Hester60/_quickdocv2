@@ -1,12 +1,17 @@
 const express = require('express');
 const connectDb = require('./src/database/connect');
+const router = require('./src/router')
+const errorHandler = require('./src/middlewares/errorHandler');
+
 const app = express();
 
 // middlewares
 app.use(express.json());
+app.use(process.env.API_BASE_PATH, router);
 
 const PORT = process.env.API_PORT;
 
+app.use(errorHandler); // keep it here to catch all http errors
 app.listen(PORT, async () => {
     console.log(`Server listening on ${PORT}.`);
     await connectDb();

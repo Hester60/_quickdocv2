@@ -1,19 +1,29 @@
 const {TokenExpiredError, JsonWebTokenError, NotBeforeError} = require('jsonwebtoken');
-const {AuthenticationError, NotFoundError, PermissionError} = require('../utils/GeneralError');
+const {AuthenticationError, NotFoundError} = require('../utils/GeneralError');
 const {PRODUCTION} = require("../constants/environment");
+const {Error: ValidationError} = require('mongoose');
 
 module.exports = (error, req, res, next) => {
     if (process.env.NODE_ENV !== PRODUCTION) {
         console.error(error);
     }
 
+    /**
+     * Mongoose validation errors
+     */
+    if (error instanceof ValidationError) {
+        if (error.name === 'ValidationError') {
+            return res.status(422).json({errors: {...error.errors}, status: 422});
+        }
+    }
+
     // Not found error (404)
-    if (error.constructor === NotFoundError) {
+    if (error instanceof NotFoundError) {
         return res.status(404).json({error: error.message, status: 404});
     }
 
     // Authentication error (invalid credentials ...)
-    if (error.constructor === AuthenticationError) {
+    if (error instanceof AuthenticationError) {
         return res.status(401).json({error: error.message, status: 401});
     }
 
