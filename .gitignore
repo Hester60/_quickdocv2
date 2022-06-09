@@ -2,5 +2,6 @@
 .vscode
 .env
 
-dbdata
+dbdata/
 node_modules
+scripts/cluster.key

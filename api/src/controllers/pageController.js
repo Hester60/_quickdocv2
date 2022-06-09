@@ -2,16 +2,28 @@ const {Page} = require('../database/models');
 const asyncWrapper = require('../middlewares/asyncWrapper.js');
 const {NotFoundError} = require("../utils/GeneralError");
 const pageManager = require("../managers/pageManager");
+const db = require('../database/db');
 
-module.exports.createPage = asyncWrapper(async (req, res) => {
-    if (req.body.parent && !pageManager.isSameProject(req.body.project, req.body.parent)) {
-        delete req.body.parent;
+module.exports.createPage = async (req, res, next) => {
+    const session = await db.conn.startSession();
+
+    try {
+        session.startTransaction();
+
+        const [page] = await Page.create([
+            req.body
+        ], { session });
+
+        await session.commitTransaction();
+
+        res.status(201).json(page);
+    } catch (error) {
+        await session.abortTransaction();
+        next(error);
     }
 
-    const page = await Page.create(req.body);
-
-    return res.status(201).json(page);
-});
+    return session.endSession();
+};
 
 module.exports.updatePage = asyncWrapper(async (req, res) => {
     let page = await Page.findById(req.params.pageId);

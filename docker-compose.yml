@@ -2,30 +2,73 @@ version: "3.8"
 
 services:
   api:
-    container_name: "quickdoc_api"
+    container_name: ${DOCKER_API_CONTAINER_NAME}
     image: node
     volumes:
       - ./api:/usr/src/api
     ports:
       - "${API_PORT}:3001"
-    links:
-      - "database"
+    networks:
+      - ${QUICKDOC_NETWORK_NAME}
     env_file:
       - .env
+    depends_on:
+      - quickdoc_database_1
     command: "/bin/bash -c 'cd /usr/src/api && npm install && npm run ${NODE_ENV}'"
     working_dir: /usr/src/api
 
-  database:
-    container_name: "quickdoc_database"
+  quickdoc_database_3:
+    hostname: quickdoc_database_3
+    container_name: quickdoc_database_3
     image: mongo
-    restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    entrypoint: [ "/usr/bin/mongod", "--keyFile", "/data/file.key", "--replSet", "rs", "--journal", "--bind_ip_all" ]
     ports:
-      - "${DATABASE_PORT}:27017"
+      - "${DATABASE_3_PORT}:27017"
+    restart: always
+    env_file:
+      - .env
+    networks:
+      - ${QUICKDOC_NETWORK_NAME}
     volumes:
-      - ./dbdata:/data/db
-volumes:
-  dbdata:
-    driver: local
+      - ./dbdata/quickdoc_database_3:/data/db
+      - "./scripts/cluster.key:/data/file.key"
+
+  quickdoc_database_2:
+    hostname: quickdoc_database_2
+    container_name: quickdoc_database_2
+    image: mongo
+    entrypoint: [ "/usr/bin/mongod", "--keyFile", "/data/file.key", "--replSet", "rs", "--journal", "--bind_ip_all" ]
+    ports:
+      - "${DATABASE_2_PORT}:27017"
+    restart: always
+    env_file:
+      - .env
+    networks:
+      - ${QUICKDOC_NETWORK_NAME}
+    volumes:
+      - ./dbdata/quickdoc_database_2:/data/db
+      - "./scripts/cluster.key:/data/file.key"
+
+  quickdoc_database_1:
+    hostname: quickdoc_database_1
+    container_name: quickdoc_database_1
+    image: mongo
+    command: sh -c "/usr/bin/mongod --keyFile=/data/file.key --replSet=rs --journal --bind_ip_all"
+    ports:
+      - "${DATABASE_1_PORT}:27017"
+    links:
+      - quickdoc_database_2:quickdoc_database_2
+      - quickdoc_database_3:quickdoc_database_3
+    restart: always
+    env_file:
+      - .env
+    networks:
+      - ${QUICKDOC_NETWORK_NAME}
+    volumes:
+      - ./dbdata/quickdoc_database_1:/data/db
+      - "./scripts/cluster-setup.sh:/scripts/cluster-setup.sh"
+      - "./scripts/cluster.key:/data/file.key"
+
+networks:
+  quickdoc-network:
+    name: ${QUICKDOC_NETWORK_NAME}
