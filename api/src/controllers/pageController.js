@@ -14,15 +14,22 @@ module.exports.createPage = async (req, res, next) => {
             req.body
         ], { session });
 
+        if (req.body.parent) {
+            const parent = await Page.findById(req.body.parent);
+
+            pageManager.pagesHaveSameProject(parent, page); // throw error if page and his parent doesn't have same prj
+        }
+
         await session.commitTransaction();
 
         res.status(201).json(page);
     } catch (error) {
         await session.abortTransaction();
+        session.endSession();
         next(error);
     }
 
-    return session.endSession();
+    session.endSession();
 };
 
 module.exports.updatePage = asyncWrapper(async (req, res) => {

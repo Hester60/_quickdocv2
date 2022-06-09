@@ -45,6 +45,21 @@ module.exports.getPageChildrenFlat = async (page) => {
 }
 
 /**
+ * Throw error if page doesn't have same project
+ *
+ * @param target1
+ * @param target2
+ * @returns {boolean}
+ */
+module.exports.pagesHaveSameProject = (target1, target2) => {
+    if (!target1.project.equals(target2.project)) {
+        throw new Error('Error when trying to create page, please retry');
+    }
+
+    return true;
+}
+
+/**
  * Check if page id and new parent id is not same, and if new parent is not one of page's children
  *
  * @param page
