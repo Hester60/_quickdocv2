@@ -69,17 +69,24 @@ module.exports.updatePage = asyncWrapper(async (req, res) => {
 });
 
 module.exports.findPageById = asyncWrapper(async (req, res) => {
-    let page = await Page.findById(req.params.pageId);
+    let page = await Page.findById(req.params.pageId).populate('project').populate({path: 'parent', select: '_id title __v'});
 
     if (!page) {
-        throw new NotFoundError(`Page with id ${req.params.pageId} not found`)
+        throw new NotFoundError(`Page with id ${req.params.pageId} not found`);
     }
 
     return res.status(200).json(page);
 });
 
 module.exports.findAllPages = asyncWrapper(async (req, res) => {
-    const pages = await Page.find();
+    const {project} = req.query;
+    const query = {};
+
+    if (project) {
+        query.project = project;
+    }
+
+    const pages = await Page.find(query);
 
     return res.status(200).json(pages);
 })

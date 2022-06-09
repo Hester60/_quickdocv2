@@ -42,8 +42,7 @@ const pageSchema = new Schema({
             },
             message: "Project does not exist"
         }
-    },
-    children: [{type: Schema.Types.ObjectId, ref: 'Page'}]
+    }
 });
 
 module.exports = model('Page', pageSchema);
