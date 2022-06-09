@@ -1,6 +1,5 @@
 include ./.env
 EXEC = docker exec ${DOCKER_API_CONTAINER_NAME}
-EXEC_DB =
 
 connect-api: ## Connect to api container
 	docker exec -it ${DOCKER_API_CONTAINER_NAME} bash
