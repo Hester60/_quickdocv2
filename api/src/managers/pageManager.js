@@ -1,6 +1,5 @@
 const {Page} = require('../database/models');
 
-
 /**
  * Update project object if newData contains change.
  *
