@@ -92,7 +92,9 @@ module.exports.findAllPages = asyncWrapper(async (req, res) => {
     const currentPage = req.query.page ?? 1;
     const skip = limit * (currentPage - 1);
     const {project} = req.query;
-    const query = {};
+    const query = {
+        title: {$regex: req.query.q ?? '', $options: 'i'}
+    };
 
     if (project) {
         query.project = mongoose.Types.ObjectId(project);
