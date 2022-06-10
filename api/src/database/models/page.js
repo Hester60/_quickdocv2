@@ -43,6 +43,8 @@ const pageSchema = new Schema({
             message: "Project does not exist"
         }
     }
+}, {
+    timestamps: true
 });
 
 module.exports = model('Page', pageSchema);

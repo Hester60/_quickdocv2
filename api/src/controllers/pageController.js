@@ -3,6 +3,7 @@ const asyncWrapper = require('../middlewares/asyncWrapper.js');
 const {NotFoundError} = require("../utils/GeneralError");
 const pageManager = require("../managers/pageManager");
 const db = require('../database/db');
+const mongoose = require('mongoose');
 
 module.exports.createPage = async (req, res, next) => {
     const session = await db.conn.startSession();
@@ -79,14 +80,26 @@ module.exports.findPageById = asyncWrapper(async (req, res) => {
 });
 
 module.exports.findAllPages = asyncWrapper(async (req, res) => {
+    const limit = req.query.limit ?? 10;
+    const currentPage = req.query.page ?? 1;
+    const skip = limit * (currentPage - 1);
     const {project} = req.query;
     const query = {};
 
     if (project) {
-        query.project = project;
+        query.project = mongoose.Types.ObjectId(project);
     }
 
-    const pages = await Page.find(query);
+    const pages = await Page.find(query).skip(skip).limit(limit);
+    const totalItems = await Page.count(query);
+    const pagination = {
+        totalItems,
+        currentPage,
+        itemsPerPage: limit,
+        back: currentPage > 1,
+        next: (currentPage * limit) < totalItems,
+        maxPages: Math.round(totalItems / limit)
+    }
 
-    return res.status(200).json(pages);
+    return res.status(200).json({pages, pagination});
 })
