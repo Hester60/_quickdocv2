@@ -90,7 +90,7 @@ module.exports.findAllPages = asyncWrapper(async (req, res) => {
         query.project = mongoose.Types.ObjectId(project);
     }
 
-    const pages = await Page.find(query).skip(skip).limit(limit);
+    const pages = await Page.find(query).sort({createdAt: -1}).skip(skip).limit(limit);
     const totalItems = await Page.count(query);
     const pagination = {
         totalItems,
