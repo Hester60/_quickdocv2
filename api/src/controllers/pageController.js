@@ -13,12 +13,14 @@ module.exports.createPage = async (req, res, next) => {
 
         const [page] = await Page.create([
             req.body
-        ], { session });
+        ], {session});
 
         if (req.body.parent) {
             const parent = await Page.findById(req.body.parent);
 
-            pageManager.pagesHaveSameProject(parent, page); // throw error if page and his parent doesn't have same prj
+            if (!pageManager.pagesHaveSameProject(parent, page)) {
+                throw new Error('Error when trying to create page, please retry');
+            }
         }
 
         await session.commitTransaction();
@@ -33,44 +35,50 @@ module.exports.createPage = async (req, res, next) => {
     session.endSession();
 };
 
-module.exports.updatePage = asyncWrapper(async (req, res) => {
+module.exports.updatePage = asyncWrapper(async (req, res, next) => {
     let page = await Page.findById(req.params.pageId);
 
     if (!page) {
         throw new NotFoundError(`Page with id ${req.params.pageId} not found`)
     }
 
-    // Remove parent from request body if parent is not editable or if it doesn't exist
-    const {parent} = req.body;
+    const session = await db.conn.startSession();
 
-    if (parent) {
-        const parentExist = await Page.findById(req.body.parent);
-        let deleteParent = false;
+    try {
+        session.startTransaction();
 
-        if (!parentExist || !pageManager.isSameProject(page.project, )) {
-            deleteParent = true;
+        const updatedPage = pageManager.update(page, req.body);
+        await updatedPage.save();
+
+        if (req.body.parent) {
+            const parent = await Page.findById(req.body.parent);
+
+            if (!pageManager.pagesHaveSameProject(parent, page)) {
+                throw new Error('Error when trying to update page, please retry');
+            }
+
+            if (!await pageManager.canUpdateParent(page, parent)) {
+                throw new Error('Error when trying to update page, please retry');
+            }
         }
 
-        const canUpdateParent = await pageManager.canUpdateParent(page, parent);
+        await session.commitTransaction();
 
-        if (!canUpdateParent) {
-            deleteParent = true;
-        }
-
-        if (deleteParent) {
-            delete req.body.parent;
-        }
+        res.status(200).json(updatedPage);
+    } catch (error) {
+        await session.abortTransaction();
+        session.endSession();
+        next(error);
     }
 
-    page = pageManager.update(page, req.body);
-
-    await page.save();
-
-    return res.status(200).json(page);
+    session.endSession();
 });
 
 module.exports.findPageById = asyncWrapper(async (req, res) => {
-    let page = await Page.findById(req.params.pageId).populate('project').populate({path: 'parent', select: '_id title __v'});
+    let page = await Page.findById(req.params.pageId).populate('project').populate({
+        path: 'parent',
+        select: '_id title __v'
+    });
 
     if (!page) {
         throw new NotFoundError(`Page with id ${req.params.pageId} not found`);

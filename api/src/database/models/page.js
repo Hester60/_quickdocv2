@@ -20,9 +20,8 @@ const pageSchema = new Schema({
         default: null,
         validate: {
             validator: async function(value) {
-                console.log(value);
                 if (value) {
-                    const parent = await Project.findById(value);
+                    const parent = await model('Page').findById(value);
 
                     return !!parent;
                 }

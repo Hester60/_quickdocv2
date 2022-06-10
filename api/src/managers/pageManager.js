@@ -1,16 +1,5 @@
 const {Page} = require('../database/models');
-const mongoose = require('mongoose');
-const {generateTreeFromGeneration} = require("../utils/generateTree");
 
-/**
- * Return true if both parameters are equal
- *
- * @param pageProjectId
- * @param compareProjectId
- */
-module.exports.isSameProject = (pageProjectId, compareProjectId) => {
-    return pageProjectId.equals(compareProjectId);
-}
 
 /**
  * Update project object if newData contains change.
@@ -52,11 +41,7 @@ module.exports.getPageChildrenFlat = async (page) => {
  * @returns {boolean}
  */
 module.exports.pagesHaveSameProject = (target1, target2) => {
-    if (!target1.project.equals(target2.project)) {
-        throw new Error('Error when trying to create page, please retry');
-    }
-
-    return true;
+    return target1.project.equals(target2.project);
 }
 
 /**
@@ -71,19 +56,13 @@ module.exports.canUpdateParent = async (page, newParent) => {
         return true;
     }
 
-    newParent = mongoose.Types.ObjectId(newParent);
-
-    if (page._id.equals(newParent) || page.parent.equals(newParent)) {
+    if (page._id.equals(newParent._id)) {
         return false;
     }
 
     const aggrationResult = await this.getPageChildrenFlat(page);
-    const child = aggrationResult[0].children.find(e => e._id.equals(newParent));
+
+    const child = aggrationResult[0].children.find(e => e._id.equals(newParent._id));
 
     return !child;
-}
-
-module.exports.getTreeFromPage = async (page) => {
-    const aggrationResult = await this.getPageChildrenFlat(page);
-    return generateTreeFromGeneration(aggrationResult[0]);
 }
