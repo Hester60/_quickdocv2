@@ -8,11 +8,10 @@ const {Page} = require('../database/models');
  * @returns {*}
  */
 module.exports.update = (page, newData) => {
-    const {title, body, parent} = newData;
+    const {title, body} = newData;
 
     page.title = title !== undefined ? title : page.title;
     page.body = body !== undefined ? body : page.body;
-    page.parent = parent !== undefined ? parent : page.parent;
 
     return page;
 }

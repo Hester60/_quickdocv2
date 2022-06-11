@@ -42,6 +42,20 @@ module.exports.updatePage = asyncWrapper(async (req, res, next) => {
         throw new NotFoundError(`Page with id ${req.params.pageId} not found`)
     }
 
+
+    const updatedPage = pageManager.update(page, req.body);
+    await updatedPage.save();
+
+    return res.status(200).json(updatedPage);
+});
+
+module.exports.movePage = asyncWrapper(async (req, res, next) => {
+    let page = await Page.findById(req.params.pageId);
+
+    if (!page) {
+        throw new NotFoundError(`Page with id ${req.params.pageId} not found`)
+    }
+
     const session = await db.conn.startSession();
 
     try {
