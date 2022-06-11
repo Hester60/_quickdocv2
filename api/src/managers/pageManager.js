@@ -16,6 +16,12 @@ module.exports.update = (page, newData) => {
     return page;
 }
 
+module.exports.move = (page, parent) => {
+    page.parent = parent._id;
+
+    return page;
+}
+
 /**
  * Return page with an children array who contains all children (from all generation) of a page.
  *

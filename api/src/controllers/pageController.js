@@ -42,7 +42,6 @@ module.exports.updatePage = asyncWrapper(async (req, res, next) => {
         throw new NotFoundError(`Page with id ${req.params.pageId} not found`)
     }
 
-
     const updatedPage = pageManager.update(page, req.body);
     await updatedPage.save();
 
@@ -56,36 +55,20 @@ module.exports.movePage = asyncWrapper(async (req, res, next) => {
         throw new NotFoundError(`Page with id ${req.params.pageId} not found`)
     }
 
-    const session = await db.conn.startSession();
+    const parent = await Page.findById(req.body.parent);
 
-    try {
-        session.startTransaction();
-
-        const updatedPage = pageManager.update(page, req.body);
-        await updatedPage.save();
-
-        if (req.body.parent) {
-            const parent = await Page.findById(req.body.parent);
-
-            if (!pageManager.pagesHaveSameProject(parent, page)) {
-                throw new Error('Error when trying to update page, please retry');
-            }
-
-            if (!await pageManager.canUpdateParent(page, parent)) {
-                throw new Error('Error when trying to update page, please retry');
-            }
-        }
-
-        await session.commitTransaction();
-
-        res.status(200).json(updatedPage);
-    } catch (error) {
-        await session.abortTransaction();
-        session.endSession();
-        next(error);
+    if (!pageManager.pagesHaveSameProject(parent, page)) {
+        throw new Error('Error when trying to update page, please retry');
     }
 
-    session.endSession();
+    if (!await pageManager.canUpdateParent(page, parent)) {
+        throw new Error('Error when trying to update page, please retry');
+    }
+
+    page = pageManager.move(page, parent);
+    await page.save();
+
+    return res.status(200).json(page);
 });
 
 module.exports.findPageById = asyncWrapper(async (req, res) => {
