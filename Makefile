@@ -4,14 +4,13 @@ EXEC = docker exec ${DOCKER_API_CONTAINER_NAME}
 connect-api: ## Connect to api container
 	docker exec -it ${DOCKER_API_CONTAINER_NAME} bash
 
-init: build exec-setup
+init: up exec-setup
 
 exec-setup:
 	docker exec -it quickdoc_database_1 ./scripts/cluster-setup.sh
 
-build: ## Build containers
-	docker-compose up -d --build
-
+up: ## Build containers
+	docker-compose up -d
 restart: ## Restart containers
 	docker-compose restart
 
