@@ -56,7 +56,6 @@ const pageSchema = new Schema({
 });
 
 pageSchema.pre('save', async function (next) {
-
     // Increment parent childrenCount in case of new page or update
     if (this.parent && (this.isNew || this.modifiedPaths().includes('parent'))) {
         const parent = await model('Page').findById(this.parent);

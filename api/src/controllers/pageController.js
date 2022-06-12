@@ -85,7 +85,7 @@ module.exports.findPageById = asyncWrapper(async (req, res) => {
 });
 
 module.exports.findAllPages = asyncWrapper(async (req, res) => {
-    const limit = req.query.limit ?? 10;
+    const limit = req.query.limit ?? 0;
     const currentPage = req.query.page ?? 1;
     const skip = limit * (currentPage - 1);
     const {project} = req.query;
@@ -97,7 +97,9 @@ module.exports.findAllPages = asyncWrapper(async (req, res) => {
         query.project = mongoose.Types.ObjectId(project);
     }
 
-    const pages = await Page.find(query).sort({createdAt: -1}).skip(skip).limit(limit);
+    const projection = req.query.projection ? req.query.projection.split(',').join(' ') : '';
+
+    const pages = await Page.find(query, projection).sort({createdAt: -1}).skip(skip).limit(limit);
     const totalItems = await Page.count(query);
     const pagination = {
         totalItems,
