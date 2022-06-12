@@ -1,8 +1,10 @@
 include ./.env
-EXEC = docker exec ${DOCKER_API_CONTAINER_NAME}
 
 connect-api: ## Connect to api container
 	docker exec -it ${DOCKER_API_CONTAINER_NAME} bash
+
+connect-app: ## Connect to app container
+	docker exec -it ${DOCKER_APP_CONTAINER_NAME} bash
 
 init: up exec-setup
 
