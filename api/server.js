@@ -1,10 +1,12 @@
 const express = require('express');
+const cors = require('cors');
 
 const router = require('./src/router');
 const db = require('./src/database/db');
 const errorHandler = require('./src/middlewares/errorHandler');
 
 const app = express();
+app.use(cors());
 
 // middlewares
 app.use(express.json());
