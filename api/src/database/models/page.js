@@ -1,5 +1,5 @@
-const {Schema, model} = require('mongoose');
-const Project = require('./project')
+const {Schema, model, Types} = require('mongoose');
+const Project = require('./project');
 
 const pageSchema = new Schema({
     title: {
@@ -13,13 +13,18 @@ const pageSchema = new Schema({
         required: false,
         default: null
     },
+    childrenCount: {
+        type: Number,
+        required: false,
+        default: 0
+    },
     parent: {
         type: Schema.Types.ObjectId,
         ref: 'Page',
         required: false,
         default: null,
         validate: {
-            validator: async function(value) {
+            validator: async function (value) {
                 if (value) {
                     const parent = await model('Page').findById(value);
 
@@ -27,6 +32,10 @@ const pageSchema = new Schema({
                 }
             },
             message: "Parent does not exist"
+        },
+        set: function (value) {
+            this._oldParent = this.parent ? Types.ObjectId(this.parent) : null;
+            return value;
         }
     },
     project: {
@@ -34,7 +43,7 @@ const pageSchema = new Schema({
         ref: 'Project',
         required: [true, 'Page must be part of a project'],
         validate: {
-            validator: async function(value) {
+            validator: async function (value) {
                 const project = await Project.findById(value);
 
                 return !!project;
@@ -44,6 +53,30 @@ const pageSchema = new Schema({
     }
 }, {
     timestamps: true
+});
+
+pageSchema.pre('save', async function (next) {
+
+    // Increment parent childrenCount in case of new page or update
+    if (this.parent && (this.isNew || this.modifiedPaths().includes('parent'))) {
+        const parent = await model('Page').findById(this.parent);
+        parent.childrenCount = parent.childrenCount + 1;
+        await parent.save();
+    }
+
+    // Decrement old parent in case of update
+    if (this.modifiedPaths().includes('parent') && this._oldParent) {
+        if (this._oldParent) {
+            const oldParent = await model('Page').findById(this._oldParent);
+
+            if (oldParent) {
+                oldParent.childrenCount = oldParent.childrenCount - 1;
+                await oldParent.save();
+            }
+        }
+    }
+
+    next();
 });
 
 module.exports = model('Page', pageSchema);
