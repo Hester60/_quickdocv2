@@ -106,7 +106,7 @@ module.exports.findAllPages = asyncWrapper(async (req, res) => {
         currentPage,
         itemsPerPage: limit,
         back: currentPage > 1,
-        next: (currentPage * limit) < totalItems,
+        next: (currentPage * limit) > 0 && (currentPage * limit) < totalItems,
         maxPages: Math.round(totalItems / limit)
     }
 
