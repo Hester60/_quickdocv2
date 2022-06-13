@@ -1,58 +1,81 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
 import { fetchProjects, selectAllProjects } from '../../../reducers/projectsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import ProjectSelectSkeleton from './ProjectSelectSkeleton';
-import { Divider, Typography } from '@mui/material';
+import {Button, Menu, Typography} from '@mui/material';
+import {KeyboardArrowDown} from "@mui/icons-material";
+import Divider from "@mui/material/Divider";
+import {selectCurrentProject} from "../../../reducers/currentProjectSlice";
 
 export default function ProjectSelect() {
     const dispatch = useDispatch();
     const projectsLoading = useSelector(state => state.projects.loading);
     const projects = useSelector(selectAllProjects);
-    const selectId = Math.random();
-    const [selectedValue, setSelectedValue] = useState(projects[0] ? projects[0] : '');
-    
-    useEffect(() => {
-        if (selectedValue !== '') {
-            setSelectedValue(projects[0] ? projects[0]._id : '');
-        }
-    }, [projects]);
+    const menuId = Math.random();
+    const currentProject = useSelector(state => state.currentProject.item);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
 
-    const handleChange = (event) => {
-        setSelectedValue(event.target.value);
-      };
+    const handleClick = (event) => {
+        dispatch(fetchProjects());
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = (_id) => {
+        setAnchorEl(null);
+        dispatch(selectCurrentProject(projects.find(project => project._id === _id)));
+    };
 
     const renderMenuItems = () => {
         return projectsLoading ? <ProjectSelectSkeleton /> : projects.map(project => {
-            return <MenuItem value={project._id} key={project._id}>{project.name}</MenuItem>
+            return <MenuItem value={project._id} key={project._id} onClick={() => handleClose(project._id)} selected={currentProject && currentProject._id === project._id}>{project.name}</MenuItem>
         });
     }
 
-    const handleOpen = () => {
-        dispatch(fetchProjects());
+    const getButtonLabel = () => {
+        return currentProject ? currentProject.name : 'Select a project'
     }
 
     return (
         <>
-            <FormControl fullWidth>
-                <InputLabel id={`project-select-${selectId}-label`}>Selected Project</InputLabel>
-                <Select
-                    labelId={`project-select-${selectId}-label`}
-                    id={`project-select-${selectId}`}
-                    value={selectedValue}
-                    label="Selected Project"
-                    onChange={handleChange}
-                    onOpen={handleOpen}
-                >
-                    <MenuItem disabled>Select a project</MenuItem>
-                    {renderMenuItems()}
-                    <Divider />
-                    <MenuItem onClick={() => console.log('create new !')}><Typography color="primary">Create new project</Typography></MenuItem>
-                </Select>
-            </FormControl>
+            <Button
+                id="basic-button"
+                aria-controls={open ? 'basic-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? 'true' : undefined}
+                onClick={handleClick}
+                variant="outlined"
+                disableElevation
+                fullWidth={true}
+                endIcon={<KeyboardArrowDown />}
+                sx={{
+                    '&.MuiButton-outlined > div': {
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textAlign: "left",
+                        display: "block"
+                    }
+                }}
+                aria-label={getButtonLabel()}
+                title={getButtonLabel()}
+            >
+                <div>{getButtonLabel()}</div>
+            </Button>
+            <Menu
+                id={`project-menu-${menuId}-label`}
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                MenuListProps={{
+                    'aria-labelledby': 'button'
+                }}
+            >
+                <MenuItem disabled={true}>Select a project</MenuItem>
+                {renderMenuItems()}
+                <Divider />
+                <MenuItem><Typography color="primary">Create new project</Typography></MenuItem>
+            </Menu>
         </>
     )
 }

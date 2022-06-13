@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 import api from '../api';
 
 const initialState = {
@@ -13,17 +13,17 @@ const projectsSlice = createSlice({
     reducers: {},
     extraReducers(build) {
         build
-        .addCase(fetchProjects.pending, (state, action) => {
-            state.loading = true;
-          })
-          .addCase(fetchProjects.fulfilled, (state, action) => {
-            state.loading = false;
-            state.items = action.payload;
-          })
-          .addCase(fetchProjects.rejected, (state, action) => {
-            state.loading = false;
-            state.error = action.error.message
-          })
+            .addCase(fetchProjects.pending, (state, action) => {
+                state.loading = true;
+            })
+            .addCase(fetchProjects.fulfilled, (state, action) => {
+                state.loading = false;
+                state.items = action.payload;
+            })
+            .addCase(fetchProjects.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message
+            })
     }
 });
 
