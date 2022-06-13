@@ -3,10 +3,15 @@ import Toolbar from '@mui/material/Toolbar';
 import Divider from '@mui/material/Divider';
 import { Box } from '@mui/material';
 import ProjectSelect from './ProjectMenu/ProjectSelect';
+import {useSelector} from "react-redux";
+import {selectAllPage} from "../../reducers/pagesSlice";
 
 export const drawerWidth = 260;
 
 export default function MainDrawer() {
+    const pagesLoading = useSelector(state => state.pages.loading);
+    const pages = useSelector(selectAllPage);
+
     return (
         <Drawer
             sx={{
@@ -25,7 +30,9 @@ export default function MainDrawer() {
             </Box>
             <Divider />
             <Box px={1} py={2}>
-                Page Tree
+                {!pagesLoading && pages.map(page => {
+                    return <div>{page.title}</div>;
+                })}
             </Box>
         </Drawer>
     )

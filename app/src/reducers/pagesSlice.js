@@ -29,8 +29,8 @@ const pagesSlice = createSlice({
     }
 });
 
-export const fetchPages = createAsyncThunk('pages/fetchPages', async (query) => {
-    const response = await api.get('pages');
+export const fetchPages = createAsyncThunk('pages/fetchPages', async (query= '' ) => {
+    const response = await api.get(`pages${query}`);
     return response.data;
 });
 

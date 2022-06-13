@@ -27,8 +27,8 @@ const projectsSlice = createSlice({
     }
 });
 
-export const fetchProjects = createAsyncThunk('projects/fetchProjects', async (query = '') => {
-    const response = await api.get(`projects${query}`);
+export const fetchProjects = createAsyncThunk('projects/fetchProjects', async () => {
+    const response = await api.get(`projects`);
     return response.data;
 });
 
