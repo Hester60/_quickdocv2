@@ -26,6 +26,10 @@ export default function ProjectSelect() {
         dispatch(selectCurrentProject(projects.find(project => project._id === _id)));
     };
 
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+    }
+
     const renderMenuItems = () => {
         return projectsLoading ? <ProjectSelectSkeleton /> : projects.map(project => {
             return <MenuItem value={project._id} key={project._id} onClick={() => handleClose(project._id)} selected={currentProject && currentProject._id === project._id}>{project.name}</MenuItem>
@@ -66,7 +70,7 @@ export default function ProjectSelect() {
                 id={`project-menu-${menuId}-label`}
                 anchorEl={anchorEl}
                 open={open}
-                onClose={handleClose}
+                onClose={handleMenuClose}
                 MenuListProps={{
                     'aria-labelledby': 'button'
                 }}
