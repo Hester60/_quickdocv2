@@ -14,12 +14,14 @@ function App() {
             (async () => {
                 const projects = await dispatch(fetchProjects()).unwrap();
 
-                if (projects.length > 0 && !currentProject) {
-                    dispatch(selectCurrentProject(projects[0]));
+                if (projects.length > 0 ) {
+                    if (!currentProject) {
+                        dispatch(selectCurrentProject(projects[0]));
+                    }
+                } else {
+                    // Redirect to create new project page
                 }
-
             })();
-
         }
     }, [dispatch]);
 

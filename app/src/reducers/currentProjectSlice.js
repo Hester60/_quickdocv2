@@ -1,7 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const fromLocalStorage = localStorage.getItem('currentProject');
+
+if (fromLocalStorage === 'undefined') {
+    localStorage.removeItem('currentProject');
+}
+
 const initialState = {
-    item: null
+    item: fromLocalStorage ? JSON.parse(fromLocalStorage) : null
 }
 
 const currentProjectSlice = createSlice({
@@ -10,6 +16,7 @@ const currentProjectSlice = createSlice({
     reducers: {
         selectCurrentProject(state, action) {
             state.item = action.payload
+            localStorage.setItem('currentProject', JSON.stringify(action.payload));
         }
     }
 });
