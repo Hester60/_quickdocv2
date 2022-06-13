@@ -3,6 +3,7 @@ import {useEffect} from 'react';
 import {fetchProjects} from './reducers/projectsSlice';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectCurrentProject} from "./reducers/currentProjectSlice";
+import {fetchPages} from "./reducers/pagesSlice";
 
 function App() {
     const dispatch = useDispatch();
@@ -13,11 +14,11 @@ function App() {
         if (!projectsLoading) {
             (async () => {
                 const projects = await dispatch(fetchProjects()).unwrap();
-
+                const selectedProject = currentProject ?? projects[0];
                 if (projects.length > 0 ) {
-                    if (!currentProject) {
-                        dispatch(selectCurrentProject(projects[0]));
-                    }
+                    dispatch(selectCurrentProject(selectedProject));
+                    const query = `?project=${selectedProject._id}&projection=_id,title`;
+                    dispatch(fetchPages(query));
                 } else {
                     // Redirect to create new project page
                 }

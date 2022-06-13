@@ -7,6 +7,7 @@ import {Button, Menu, Typography} from '@mui/material';
 import {KeyboardArrowDown} from "@mui/icons-material";
 import Divider from "@mui/material/Divider";
 import {selectCurrentProject} from "../../../reducers/currentProjectSlice";
+import {fetchPages} from "../../../reducers/pagesSlice";
 
 export default function ProjectSelect() {
     const dispatch = useDispatch();
@@ -23,7 +24,10 @@ export default function ProjectSelect() {
     };
     const handleClose = (_id) => {
         setAnchorEl(null);
-        dispatch(selectCurrentProject(projects.find(project => project._id === _id)));
+        const selectedProject = projects.find(project => project._id === _id);
+        dispatch(selectCurrentProject(selectedProject));
+        const query = `?project=${selectedProject._id}&projection=_id,title`;
+        dispatch(fetchPages(query));
     };
 
     const handleMenuClose = () => {
