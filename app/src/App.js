@@ -1,11 +1,14 @@
 import MainDrawer from "./components/Navigation/MainDrawer";
+import {Box, CssBaseline} from "@mui/material";
 
 function App() {
-
-
-
     return (
-        <MainDrawer/>
+        <>
+            <CssBaseline/>
+            <Box display="flex">
+                <MainDrawer/>
+            </Box>
+        </>
     );
 }
 

@@ -24,9 +24,7 @@ export default function ProjectSelect() {
                 const projects = await dispatch(fetchProjects()).unwrap();
                 const selectedProject = currentProject ?? projects[0];
                 if (projects.length > 0 ) {
-                    dispatch(selectCurrentProject(selectedProject));
-                    const query = `?project=${selectedProject._id}&projection=_id,title`;
-                    dispatch(fetchPages(query));
+                    projectSelected(selectedProject);
                 } else {
                     // Redirect to create new project page
                 }
@@ -34,6 +32,12 @@ export default function ProjectSelect() {
         }
     }, [dispatch]);
 
+    function projectSelected(selectedProject) {
+        dispatch(selectCurrentProject(selectedProject));
+        const query = `?project=${selectedProject._id}&projection=_id,title,parent`;
+        dispatch(fetchPages(query));
+    }
+ 
     const handleClick = (event) => {
         dispatch(fetchProjects());
         setAnchorEl(event.currentTarget);
@@ -41,9 +45,7 @@ export default function ProjectSelect() {
     const handleClose = (_id) => {
         setAnchorEl(null);
         const selectedProject = projects.find(project => project._id === _id);
-        dispatch(selectCurrentProject(selectedProject));
-        const query = `?project=${selectedProject._id}&projection=_id,title`;
-        dispatch(fetchPages(query));
+        projectSelected(selectedProject);
     };
 
     const handleMenuClose = () => {
