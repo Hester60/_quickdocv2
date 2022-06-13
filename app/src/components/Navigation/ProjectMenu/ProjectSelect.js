@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import MenuItem from '@mui/material/MenuItem';
 import { fetchProjects, selectAllProjects } from '../../../reducers/projectsSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,6 +17,22 @@ export default function ProjectSelect() {
     const currentProject = useSelector(state => state.currentProject.item);
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
+
+    useEffect(() => {
+        if (!projectsLoading) {
+            (async () => {
+                const projects = await dispatch(fetchProjects()).unwrap();
+                const selectedProject = currentProject ?? projects[0];
+                if (projects.length > 0 ) {
+                    dispatch(selectCurrentProject(selectedProject));
+                    const query = `?project=${selectedProject._id}&projection=_id,title`;
+                    dispatch(fetchPages(query));
+                } else {
+                    // Redirect to create new project page
+                }
+            })();
+        }
+    }, [dispatch]);
 
     const handleClick = (event) => {
         dispatch(fetchProjects());
