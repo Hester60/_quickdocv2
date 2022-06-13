@@ -1,6 +1,8 @@
+import MainDrawer from "./components/Navigation/MainDrawer";
+
 function App() {
   return (
-    <div>Hello</div>
+    <MainDrawer />
   );
 }
 
