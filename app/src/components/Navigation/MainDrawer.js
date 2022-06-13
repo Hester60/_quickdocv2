@@ -1,6 +1,6 @@
 import Drawer from '@mui/material/Drawer';
 import Divider from '@mui/material/Divider';
-import {Box} from '@mui/material';
+import {Box, Button} from '@mui/material';
 import ProjectSelect from './ProjectMenu/ProjectSelect';
 import PageTree from "./PagesTree/PageTree";
 import {useCallback, useState} from "react";
@@ -46,6 +46,7 @@ export default function MainDrawer() {
         >
             <Box px={1} py={2}>
                 <ProjectSelect/>
+                <Button fullWidth variant="contained" disableElevation sx={{mt: 1}}>New page</Button>
             </Box>
             <Divider/>
             <Box py={2}>
