@@ -3,14 +3,17 @@ import Divider from '@mui/material/Divider';
 import {Box, Button} from '@mui/material';
 import ProjectSelect from './ProjectMenu/ProjectSelect';
 import PageTree from "./PagesTree/PageTree";
-import {useCallback, useState} from "react";
+import {useCallback} from "react";
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { modifyWidth } from '../../reducers/drawerWidthSlice';
 
-export const defaultDrawerWidth = 240;
 const minDrawerWidth = 240;
 const maxDrawerWidth = 750;
 
 export default function MainDrawer() {
-    const [drawerWidth, setDrawerWidth] = useState(defaultDrawerWidth);
+    const dispatch = useDispatch();
+    const drawerWidth = useSelector(state => state.drawerWidth.width);
 
     const handleMouseDown = e => {
         e.preventDefault();
@@ -26,7 +29,7 @@ export default function MainDrawer() {
     const handleMouseMove = useCallback(e => {
         const newWidth = e.clientX - document.body.offsetLeft;
         if (newWidth > minDrawerWidth && newWidth < maxDrawerWidth) {
-            setDrawerWidth(newWidth);
+            dispatch(modifyWidth(newWidth));
         }
     }, []);
 
