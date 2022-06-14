@@ -8,6 +8,7 @@ import {KeyboardArrowDown} from "@mui/icons-material";
 import Divider from "@mui/material/Divider";
 import {selectCurrentProject} from "../../../reducers/currentProjectSlice";
 import {fetchPages} from "../../../reducers/pagesSlice";
+import {useNavigate} from "react-router-dom";
 
 export default function ProjectSelect() {
     const dispatch = useDispatch();
@@ -17,6 +18,7 @@ export default function ProjectSelect() {
     const currentProject = useSelector(state => state.currentProject.item);
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (!projectsLoading) {
@@ -37,7 +39,7 @@ export default function ProjectSelect() {
         const query = `?project=${selectedProject._id}&projection=_id,title,parent`;
         dispatch(fetchPages(query));
     }
- 
+
     const handleClick = (event) => {
         dispatch(fetchProjects());
         setAnchorEl(event.currentTarget);
@@ -46,6 +48,7 @@ export default function ProjectSelect() {
         setAnchorEl(null);
         const selectedProject = projects.find(project => project._id === _id);
         projectSelected(selectedProject);
+        navigate('/dashboard');
     };
 
     const handleMenuClose = () => {
