@@ -12,7 +12,7 @@ export default function MainToolbar({ toolbarType, ...props }) {
     const dashboardToolbar = (
         <Toolbar>
             <Typography variant="h6" noWrap component="div">
-                {!props.isLoading ? props.name : <Skeleton width={150} />}
+                {!props.isLoading && props.project ? props.project.name : <Skeleton width={150} />}
             </Typography>
         </Toolbar>
     )

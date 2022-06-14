@@ -10,7 +10,7 @@ export default function Dashboard() {
 
     return (
         <Box>
-            <MainToolbar toolbarType={DASHBOARD_TOOLBAR} name={project.name} isLoading={isLoading} />
+            <MainToolbar toolbarType={DASHBOARD_TOOLBAR} project={project} isLoading={isLoading} />
         </Box>
     )
 }
