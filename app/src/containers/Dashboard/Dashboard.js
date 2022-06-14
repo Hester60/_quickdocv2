@@ -1,16 +1,69 @@
-import {Box} from "@mui/material";
-import { useEffect } from "react";
+import { Box, Card, ListSubheader, Toolbar } from "@mui/material";
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText'; import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import MainToolbar from "../../components/Navigation/MainToolbar";
 import { DASHBOARD_TOOLBAR } from "../../components/Navigation/MainToolbar";
+import api from '../../api'
+import { Link } from "react-router-dom";
 
 export default function Dashboard() {
     const project = useSelector(state => state.currentProject.item);
-    const isLoading = useSelector(state => state.currentProject.loading);
+    const isProjectLoading = useSelector(state => state.currentProject.loading);
+    const [isPagesLoading, setIsPagesLoading] = useState(false);
+    const [lastCreatedPages, setLastCreatedPages] = useState([]);
+
+    useEffect(() => {
+        if (!isProjectLoading && project) {
+            (async function () {
+                setIsPagesLoading(true);
+                const res = await api.get(`pages?project=${project._id}&projection=_id,title&limit=5`);
+                setLastCreatedPages(res.data.pages);
+                setIsPagesLoading(false);
+            })();
+        }
+    }, [project]);
+
+    const renderLastPagesCreatedItems = () => {
+        if (lastCreatedPages.length <= 0) {
+            return (
+                <ListItem>
+                    <ListItemText primary="This project does not contain any page yet !" />
+                </ListItem>
+            )
+        } else {
+            return lastCreatedPages.map(page => {
+                return (
+                    <ListItem>
+                        <ListItemText primary={<Link to={`/page/${page._id}`}>{page.title}</Link>} />
+                    </ListItem>
+                )
+            })
+        }
+    }
+
 
     return (
-        <Box>
-            <MainToolbar toolbarType={DASHBOARD_TOOLBAR} project={project} isLoading={isLoading} />
+        <Box sx={{ display: 'flex', flexFlow: 'column' }}>
+            <MainToolbar toolbarType={DASHBOARD_TOOLBAR} project={project} isLoading={isProjectLoading} />
+            <Toolbar />
+            <Box p={3}>
+                <Card sx={{ maxWidth: 360 }} variant="outlined" >
+                    <List
+                        sx={{ bgcolor: 'background.paper' }}
+                        component="nav"
+                        aria-labelledby="nested-list-subheader"
+                        subheader={
+                            <ListSubheader component="div" id="nested-list-subheader">
+                                Last pages created
+                            </ListSubheader>
+                        }
+                    >
+                        {!isPagesLoading && renderLastPagesCreatedItems()}
+                    </List>
+                </Card>
+            </Box>
         </Box>
     )
 }
