@@ -5,21 +5,25 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import TreeItem from '@mui/lab/TreeItem';
 import {Typography} from "@mui/material";
+import {useNavigate} from "react-router-dom";
 
 export default function PageTree({drawerWidth}) {
     const pages = useSelector(selectAllPage);
     const pagesLoading = useSelector(state => state.pages.loading);
+    const navigate = useNavigate();
 
     const renderNode = (page) => {
         const children = pages.filter(e => e.parent === page._id);
-        const onLabelClicked = (e) => {
-            e.stopPropagation();
-            console.log('Clicked !')
-        }
 
         return (
             <TreeItem nodeId={page._id}
-                      label={<Typography onClick={onLabelClicked} noWrap>{page.title}</Typography>} key={page._id}>
+                      label={<Typography
+                          noWrap
+                          onClick={(e) => {
+                              e.stopPropagation();
+                              navigate(`/page/${page._id}`)
+                          }}
+                      >{page.title}</Typography>} key={page._id}>
                 {children.map(child => {
                     return renderNode(child);
                 })}
