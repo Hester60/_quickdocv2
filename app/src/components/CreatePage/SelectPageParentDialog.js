@@ -22,11 +22,16 @@ export default function SelectPageParentDialog() {
         (async () => {
             await refreshPages();
         })();
-    }, [])
+    }, []);
 
-    async function refreshPages () {
+    // TODO Trottle
+    async function onInputChange(e, value) {
+        await refreshPages(value);
+    }
+
+    async function refreshPages(title = '') {
         setIsLoading(true);
-        const res = await api.get(`pages?project=${currentProject._id}&projection=_id,title&limit=7`);
+        const res = await api.get(`pages?project=${currentProject._id}&projection=_id,title&limit=7&q=${title}`);
         setPages(res.data.pages);
         setIsLoading(false);
     }
@@ -45,7 +50,7 @@ export default function SelectPageParentDialog() {
                     options={pages}
                     getOptionLabel={(option) => option.title}
                     fullWidth
-                    id="combo-box-demo"
+                    onInputChange={onInputChange}
                     renderOption={(props, option) => {
                         return (
                             <li {...props} key={option._id}>
