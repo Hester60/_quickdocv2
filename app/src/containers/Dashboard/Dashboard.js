@@ -18,7 +18,7 @@ export default function Dashboard() {
         if (!isProjectLoading && project) {
             (async function () {
                 setIsPagesLoading(true);
-                const res = await api.get(`pages?project=${project._id}&projection=_id,title&limit=5`);
+                const res = await api.get(`pages?project=${project._id}&projection=_id,title,createdAt&limit=5`);
                 setLastCreatedPages(res.data.pages);
                 setIsPagesLoading(false);
             })();
@@ -35,8 +35,11 @@ export default function Dashboard() {
         } else {
             return lastCreatedPages.map(page => {
                 return (
-                    <ListItem>
-                        <ListItemText primary={<Link to={`/page/${page._id}`}>{page.title}</Link>} />
+                    <ListItem key={page._id}>
+                        <ListItemText 
+                        primary={<Link to={`/page/${page._id}`}>{page.title}</Link>}
+                        secondary={`Created on ${new Date(page.createdAt).toLocaleString()}`}
+                        />
                     </ListItem>
                 )
             })
