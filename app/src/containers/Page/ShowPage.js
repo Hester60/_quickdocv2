@@ -1,6 +1,8 @@
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import api from '../../api';
+import MainToolbar, {PAGE_TOOLBAR} from "../../components/Navigation/MainToolbar";
+import {Box, Card, Toolbar, Typography, CardContent} from "@mui/material";
 
 export default function ShowPage() {
     let {pageId} = useParams();
@@ -16,11 +18,29 @@ export default function ShowPage() {
         })();
     }, [pageId])
 
+    const pageContent = () => !page.body || page.body === '' ?
+        <Typography>Cette page est vide.</Typography> : page.body;
+
     return (
         <>
-            {!isLoading && (
-                <div>{page.title}</div>
-            )}
+            <Box sx={{display: 'flex', flexFlow: 'column'}}>
+                <MainToolbar toolbarType={PAGE_TOOLBAR} page={page} isLoading={isLoading}/>
+                <Toolbar/>
+                {!isLoading && (
+                    <Box  sx={{width: '100%', flexFlow: 'column'}} display='flex' alignItems="center">
+                        <Box sx={{width: '100%', maxWidth: 1250}}>
+                            <Typography variant="h5" fontWeight="700" textTransform="uppercase">
+                                {page.title}
+                            </Typography>
+                        </Box>
+                        <Card variant="outlined" sx={{width: '100%', maxWidth: 1250, mt: 2}}>
+                            <CardContent>
+                                {pageContent()}
+                            </CardContent>
+                        </Card>
+                    </Box>
+                )}
+            </Box>
         </>
     )
 }

@@ -13,6 +13,12 @@ exec-setup:
 
 up: ## Build containers
 	docker-compose up -d
+
 restart: ## Restart containers
 	docker-compose restart
 
+npm-install-app:
+	docker exec -it ${DOCKER_APP_CONTAINER_NAME} npm install
+
+npm-install-api:
+	docker exec -it ${DOCKER_API_CONTAINER_NAME} npm install
