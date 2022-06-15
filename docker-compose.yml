@@ -4,6 +4,7 @@ services:
   api:
     container_name: ${DOCKER_API_CONTAINER_NAME}
     image: node
+    restart: always
     volumes:
       - ./api:/usr/src/api
     ports:
@@ -20,7 +21,8 @@ services:
   app:
     container_name: ${DOCKER_APP_CONTAINER_NAME}
     image: node
-    volumes: 
+    restart: always
+    volumes:
       - ./app:/usr/src/app
     ports:
       - "${PORT}:${PORT}"

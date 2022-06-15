@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { modifyWidth } from '../../reducers/drawerWidthSlice';
 import { useNavigate } from 'react-router-dom';
+import NewPageButton from "../NewPageButton/NewPageButton";
 
 const minDrawerWidth = 240;
 const maxDrawerWidth = 750;
@@ -51,7 +52,7 @@ export default function MainDrawer() {
         >
             <Box px={1} py={2}>
                 <ProjectSelect />
-                <Button fullWidth variant="contained" disableElevation sx={{ mt: 1 }}>New page</Button>
+                {<NewPageButton />}
             </Box>
             <Divider />
             <Box px={1} py={2}>

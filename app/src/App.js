@@ -3,7 +3,6 @@ import { Box, CssBaseline } from "@mui/material";
 import { Routes, Route } from "react-router-dom";
 import ShowPage from "./containers/Page/ShowPage";
 import Dashboard from "./containers/Dashboard/Dashboard";
-import SelectPageParentDialog from "./components/CreatePage/SelectPageParentDialog";
 
 function App() {
     return (
@@ -17,7 +16,6 @@ function App() {
                         <Route path="/page/:pageId" element={<ShowPage />} />
                     </Routes>
                 </Box>
-                <SelectPageParentDialog />
             </Box>
         </>
     );
