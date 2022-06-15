@@ -8,12 +8,12 @@ import Button from '@mui/material/Button';
 import api from '../../api';
 import { useSelector } from "react-redux";
 import PageAutocompleter from "../PageAutocompleter/PageAutocompleter";
-import { TextField } from "@mui/material";
+import { Alert, AlertTitle, TextField, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import { validatePageParent, validatePageTitle } from "../../formValidations/pageValidation";
 
-export default function SelectPageParentDialog({ open, handleClose, submitForm }) {
+export default function SelectPageParentDialog({ open, handleClose, submitForm, errors }) {
     const [isLoading, setIsLoading] = useState(true);
     const [pages, setPages] = useState([]);
     const currentProject = useSelector(state => state.currentProject.item);
@@ -40,8 +40,8 @@ export default function SelectPageParentDialog({ open, handleClose, submitForm }
             page: ROOT_SELECTION
         },
         validationSchema,
-        onSubmit: (values) => {
-            console.log(values);
+        onSubmit: async (values) => {
+            submitForm(values);
         }
     });
 
@@ -50,6 +50,15 @@ export default function SelectPageParentDialog({ open, handleClose, submitForm }
             <DialogTitle>Configure your page</DialogTitle>
             <form onSubmit={formik.handleSubmit}>
                 <DialogContent>
+                    {errors && (
+                        <Alert severity="error" sx={{mb: 2}}>
+                            <AlertTitle>There are errors in your form !</AlertTitle>
+                            {Object.keys(errors).map(error => {
+                                return <Typography key={error}>{errors[error].message}</Typography>
+                            })}
+                        </Alert>
+
+                    )}
                     <DialogContentText>
                         Set a title and search for a parent, or select project root. You'll be able to move the page
                         later.
