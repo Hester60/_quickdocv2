@@ -11,7 +11,14 @@ const initialState = {
 const pagesSlice = createSlice({
     name: 'pages',
     initialState,
-    reducers: {},
+    reducers: {
+        addPage(state, action) {
+            const page = action.payload;
+            console.log(page);
+            state.items = state.items.concat(page);
+            console.log(state.items);
+        }
+    },
     extraReducers(build) {
         build
             .addCase(fetchPages.pending, (state, action) => {
@@ -34,5 +41,6 @@ export const fetchPages = createAsyncThunk('pages/fetchPages', async (query= '' 
     return response.data;
 });
 
+export const {addPage} = pagesSlice.actions;
 export const selectAllPage = state => state.pages.items;
 export default pagesSlice.reducer;

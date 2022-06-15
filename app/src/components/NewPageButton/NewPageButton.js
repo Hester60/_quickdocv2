@@ -2,9 +2,11 @@ import {Button} from "@mui/material";
 import SelectPageParentDialog from "../CreatePage/SelectPageParentDialog";
 import {useState} from "react";
 import api from '../../api';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addPage } from "../../reducers/pagesSlice";
 
 export default function NewPageButton() {
+    const dispatch = useDispatch();
     const [open, setOpen] = useState(false);
     const [errors, setErrors] = useState(null);
     const currentProject = useSelector(state => state.currentProject.item);
@@ -24,7 +26,7 @@ export default function NewPageButton() {
             setErrors(null);
             // Bloquer le formulaire
             const res = await api.post(`pages`, {title: values.title, parent, project: currentProject._id});
-            // Enregistrer la nouvelle page dans la sidenav
+            dispatch(addPage(res.data));
             // Rediriger l'utilsiateur vers la page edit
             console.log(res);
         } catch (error) {
