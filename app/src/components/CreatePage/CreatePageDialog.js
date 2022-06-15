@@ -52,7 +52,7 @@ export default function SelectPageParentDialog({ open, setOpen }) {
         },
         validationSchema,
         onSubmit: async (values) => {
-            validateSelectParent(values);
+            await validateSelectParent(values);
         }
     });
 

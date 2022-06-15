@@ -20,7 +20,7 @@ services:
 
   app:
     container_name: ${DOCKER_APP_CONTAINER_NAME}
-    image: node
+    image: node:16
     restart: always
     volumes:
       - ./app:/usr/src/app
