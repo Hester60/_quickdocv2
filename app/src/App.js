@@ -1,6 +1,6 @@
 import MainDrawer from "./components/Navigation/MainDrawer";
 import { Box, CssBaseline } from "@mui/material";
-import { Routes, Route } from "react-router-dom";
+import {Routes, Route} from "react-router-dom";
 import ShowPage from "./containers/Page/ShowPage";
 import Dashboard from "./containers/Dashboard/Dashboard";
 import EditPage from "./containers/Page/EditPage";

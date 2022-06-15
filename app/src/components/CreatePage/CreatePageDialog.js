@@ -70,6 +70,7 @@ export default function SelectPageParentDialog({ open, setOpen }) {
 
             navigate(`page/edit/${page._id}`);
             handleClose();
+            setIsLoading(false);
         } catch (error) {
             setIsLoading(false);
             if (error.response && error.response.status) {
