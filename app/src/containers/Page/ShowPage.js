@@ -1,10 +1,11 @@
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import api from '../../api';
 import MainToolbar, {PAGE_TOOLBAR} from "../../components/Navigation/MainToolbar";
 import {Box, Card, Toolbar, Typography, CardContent} from "@mui/material";
 
 export default function ShowPage() {
+    const navigate = useNavigate();
     let {pageId} = useParams();
     const [isLoading, setIsLoading] = useState(true);
     const [page, setPage] = useState(null);
@@ -24,7 +25,7 @@ export default function ShowPage() {
     return (
         <>
             <Box sx={{display: 'flex', flexFlow: 'column'}}>
-                <MainToolbar toolbarType={PAGE_TOOLBAR} page={page} isLoading={isLoading}/>
+                <MainToolbar toolbarType={PAGE_TOOLBAR} isLoading={isLoading} goToEdit={() => navigate(`/page/edit/${page._id}`)}/>
                 <Toolbar/>
                 {!isLoading && (
                     <Box  sx={{width: '100%', flexFlow: 'column'}} display='flex' alignItems="center">

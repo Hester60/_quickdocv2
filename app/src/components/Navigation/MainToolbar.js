@@ -21,9 +21,11 @@ export default function MainToolbar({ toolbarType, ...props }) {
 
     const pageToolbar = (
         <Toolbar>
-            <Typography variant="h6" noWrap component="div">
-                {!props.isLoading && props.page ? props.page.title : <Skeleton width={200} />}
+            <Typography variant="h6" noWrap component="div" sx={{flexGrow: 1}}>
+                Show page
             </Typography>
+            <Button color="inherit">Move page</Button>
+            <Button color="inherit" onClick={props.goToEdit}>Edit page</Button>
         </Toolbar>
     );
 
