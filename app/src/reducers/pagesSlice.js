@@ -15,7 +15,12 @@ const pagesSlice = createSlice({
         addPage(state, action) {
             const page = action.payload;
             state.items = state.items.concat(page);
-        }
+        },
+        editPage(state, action) {
+            const page = action.payload;
+            let foundPage = state.items.findIndex(e => e._id === page._id);
+            state.items[foundPage] = {...state.items[foundPage], ...page};
+         }
     },
     extraReducers(build) {
         build
@@ -39,6 +44,6 @@ export const fetchPages = createAsyncThunk('pages/fetchPages', async (query= '' 
     return response.data;
 });
 
-export const {addPage} = pagesSlice.actions;
+export const {addPage, editPage} = pagesSlice.actions;
 export const selectAllPage = state => state.pages.items;
 export default pagesSlice.reducer;

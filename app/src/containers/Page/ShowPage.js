@@ -18,8 +18,8 @@ export default function ShowPage() {
         })();
     }, [pageId])
 
-    const pageContent = () => !page.body || page.body === '' ?
-        <Typography>Cette page est vide.</Typography> : page.body;
+    const pageContent = () => !page.body || page.body.replace( /(<([^>]+)>)/ig, '') === '' ?
+        <Typography>Cette page est vide.</Typography> : <div dangerouslySetInnerHTML={{__html: page.body}} />;
 
     return (
         <>

@@ -106,7 +106,7 @@ export default function SelectPageParentDialog({ open, setOpen }) {
                         sx={{ mt: 2, mb: 3 }}
                         onChange={formik.handleChange}
                         value={formik.values.title}
-                        error={(formik.touched.title && formik.errors.title ? true : false)}
+                        error={(!!(formik.touched.title && formik.errors.title))}
                         helperText={formik.touched.title && formik.errors.title ? (
                             formik.errors.title
                         ) : null}

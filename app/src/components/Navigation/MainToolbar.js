@@ -32,8 +32,8 @@ export default function MainToolbar({ toolbarType, ...props }) {
             <Typography variant="h6" noWrap component="div" sx={{flexGrow: 1}}>
                 Edit page
             </Typography>
-            <Button color="inherit">Cancel</Button>
-            <Button color="secondary" variant="contained" sx={{ml: 2}}>Save changes</Button>
+            <Button color="inherit" onClick={props.backToPage}>Back to page</Button>
+            <Button color="secondary" type="button" variant="contained" sx={{ml: 2}} onClick={props.onSave}>Save changes</Button>
         </Toolbar>
     );
 
