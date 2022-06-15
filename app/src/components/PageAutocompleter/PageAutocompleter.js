@@ -2,7 +2,7 @@ import TextField from "@mui/material/TextField";
 import {Autocomplete, createFilterOptions} from "@mui/material";
 
 export default function PageAutocompleter({rootSelection, pages, formik, disabled}) {
-    const OPTIONS_LIMIT = 10;
+    const OPTIONS_LIMIT = 5;
 
     const filterOptions = createFilterOptions({
         limit: OPTIONS_LIMIT
