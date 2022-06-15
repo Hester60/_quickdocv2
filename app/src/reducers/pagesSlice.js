@@ -14,9 +14,7 @@ const pagesSlice = createSlice({
     reducers: {
         addPage(state, action) {
             const page = action.payload;
-            console.log(page);
             state.items = state.items.concat(page);
-            console.log(state.items);
         }
     },
     extraReducers(build) {

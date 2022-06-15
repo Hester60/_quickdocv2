@@ -1,7 +1,7 @@
 import TextField from "@mui/material/TextField";
 import {Autocomplete, createFilterOptions} from "@mui/material";
 
-export default function PageAutocompleter({rootSelection, pages, formik}) {
+export default function PageAutocompleter({rootSelection, pages, formik, disabled}) {
     const OPTIONS_LIMIT = 10;
 
     const filterOptions = createFilterOptions({
@@ -19,6 +19,7 @@ export default function PageAutocompleter({rootSelection, pages, formik}) {
     return (
         <Autocomplete
             onChange={onSelectionChange}
+            disabled={disabled}
             filterOptions={filterOptions}
             options={pages}
             isOptionEqualToValue={(option, value) => option._id === value._id}

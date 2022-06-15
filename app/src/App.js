@@ -3,6 +3,7 @@ import { Box, CssBaseline } from "@mui/material";
 import { Routes, Route } from "react-router-dom";
 import ShowPage from "./containers/Page/ShowPage";
 import Dashboard from "./containers/Dashboard/Dashboard";
+import EditPage from "./containers/Page/editPage";
 
 function App() {
     return (
@@ -14,6 +15,7 @@ function App() {
                     <Routes>
                         <Route path="/dashboard" element={<Dashboard />} />
                         <Route path="/page/:pageId" element={<ShowPage />} />
+                        <Route path="/page/edit/:pageId" element={<EditPage />} />
                     </Routes>
                 </Box>
             </Box>

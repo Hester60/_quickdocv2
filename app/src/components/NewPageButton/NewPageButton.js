@@ -1,22 +1,22 @@
 import {Button} from "@mui/material";
-import SelectPageParentDialog from "../CreatePage/SelectPageParentDialog";
+import CreatePageDialog from "../CreatePage/CreatePageDialog";
 import {useState} from "react";
 import api from '../../api';
 import { useDispatch, useSelector } from "react-redux";
 import { addPage } from "../../reducers/pagesSlice";
+import { useNavigate } from "react-router-dom";
 
 export default function NewPageButton() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [open, setOpen] = useState(false);
     const [errors, setErrors] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
     const currentProject = useSelector(state => state.currentProject.item);
+    
 
     const handleClickOpen = () => {
         setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
     };
 
     const validateSelectParent = async (values) => {
@@ -24,26 +24,28 @@ export default function NewPageButton() {
 
         try {
             setErrors(null);
-            // Bloquer le formulaire
+            setIsLoading(true);
+
             const res = await api.post(`pages`, {title: values.title, parent, project: currentProject._id});
-            dispatch(addPage(res.data));
-            // Rediriger l'utilsiateur vers la page edit
-            console.log(res);
+            const page = res.data;
+
+            dispatch(addPage(page));
+
+            setIsLoading(false);
+            navigate(`page/edit/${page._id}`);
         } catch (error) {
-            // Débloquer le formulaire !!
+            setIsLoading(false);
             if (error.response && error.response.status) {
                 console.log(error.response.data.errors);
                 setErrors(error.response.data.errors);
             }
         }
-        // Create new page
-        // If reponse 201, redirect to edit page : there is no creation page.
     }
 
     return (
         <>
             <Button fullWidth variant="contained" disableElevation sx={{ mt: 1 }} onClick={handleClickOpen}>New page</Button>
-            <SelectPageParentDialog open={open} handleClose={handleClose} submitForm={validateSelectParent} errors={errors}/>
+            <CreatePageDialog open={open} setOpen={setOpen} submitForm={validateSelectParent} errors={errors} formLoading={isLoading}/>
         </>
     )
 }
