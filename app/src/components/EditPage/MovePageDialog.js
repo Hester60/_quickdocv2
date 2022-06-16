@@ -14,6 +14,7 @@ import {validatePageParent} from "../../formValidations/pageValidation";
 import {ROOT_SELECTION} from '../../constants/PageConstants';
 import {useDispatch, useSelector} from 'react-redux';
 import {editPage} from "../../reducers/pagesSlice";
+import Notification from "../Notification/Notification";
 
 export default function MovePageDialog({open, setOpen, page, setPage}) {
     const dispatch = useDispatch();
@@ -22,6 +23,7 @@ export default function MovePageDialog({open, setOpen, page, setPage}) {
     const currentProject = useSelector(state => state.currentProject.item);
     const [errors, setErrors] = useState(null);
     const [defaultSelection, setDefaultSelection] = useState(null);
+    const [openNotification, setOpenNotification] = useState(false);
 
     useEffect(() => {
         if (open === true) {
@@ -73,7 +75,7 @@ export default function MovePageDialog({open, setOpen, page, setPage}) {
         }
     });
 
-    async function onSubmitMove (values) {
+    async function onSubmitMove(values) {
         try {
             setErrors(null);
             setIsLoading(true);
@@ -84,6 +86,7 @@ export default function MovePageDialog({open, setOpen, page, setPage}) {
             dispatch(editPage({...updatedPage, parent: updatedPage.parent ? updatedPage.parent._id : null}));
             setPage(updatedPage)
             handleClose();
+            setOpenNotification(true);
             setIsLoading(false);
         } catch (error) {
             setIsLoading(false);
@@ -98,34 +101,37 @@ export default function MovePageDialog({open, setOpen, page, setPage}) {
 
 
     return (
-        <Dialog open={open} onClose={handleClose}>
-            <DialogTitle>Configure your page</DialogTitle>
-            <form onSubmit={formik.handleSubmit}>
-                <DialogContent>
-                    {errors && (
-                        <Alert severity="error" sx={{mb: 2}}>
-                            <AlertTitle>There are errors in your form !</AlertTitle>
-                            {Object.keys(errors).map(error => {
-                                return <Typography key={error}>{errors[error].message}</Typography>
-                            })}
-                        </Alert>
+        <>
+            <Dialog open={open} onClose={handleClose}>
+                <DialogTitle>Configure your page</DialogTitle>
+                <form onSubmit={formik.handleSubmit}>
+                    <DialogContent>
+                        {errors && (
+                            <Alert severity="error" sx={{mb: 2}}>
+                                <AlertTitle>There are errors in your form !</AlertTitle>
+                                {Object.keys(errors).map(error => {
+                                    return <Typography key={error}>{errors[error].message}</Typography>
+                                })}
+                            </Alert>
 
-                    )}
-                    <DialogContentText>
-                        Search for a parent, or select project root. You'll be able to move the page
-                        later.
-                    </DialogContentText>
-                    <Box sx={{mt: 2}}>
-                        <PageAutocompleter pages={pages}
-                                           defaultSelection={defaultSelection}
-                                           formik={formik} disabled={isLoading}/>
-                    </Box>
-                </DialogContent>
-                <DialogActions>
-                    <Button variant="contained" color="error" onClick={handleClose}>Cancel</Button>
-                    <Button variant="contained" type="submit" disabled={isLoading}>Validate</Button>
-                </DialogActions>
-            </form>
-        </Dialog>
+                        )}
+                        <DialogContentText>
+                            Search for a parent, or select project root. You'll be able to move the page
+                            later.
+                        </DialogContentText>
+                        <Box sx={{mt: 2}}>
+                            <PageAutocompleter pages={pages}
+                                               defaultSelection={defaultSelection}
+                                               formik={formik} disabled={isLoading}/>
+                        </Box>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button variant="contained" color="error" onClick={handleClose}>Cancel</Button>
+                        <Button variant="contained" type="submit" disabled={isLoading}>Validate</Button>
+                    </DialogActions>
+                </form>
+            </Dialog>
+            <Notification open={openNotification} setOpen={setOpenNotification} message="Page has been moved !"/>
+        </>
     )
 }

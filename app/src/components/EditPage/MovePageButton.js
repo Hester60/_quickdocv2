@@ -1,6 +1,7 @@
 import {Button} from "@mui/material";
 import {useState} from "react";
 import MovePageDialog from "./MovePageDialog";
+import Notification from "../Notification/Notification";
 
 export default function MovePageButton({page, setPage}) {
 
