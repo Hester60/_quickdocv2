@@ -1,13 +1,13 @@
 import Drawer from '@mui/material/Drawer';
 import Divider from '@mui/material/Divider';
-import { Box, Button } from '@mui/material';
+import {Box, Button} from '@mui/material';
 import ProjectSelect from './ProjectMenu/ProjectSelect';
 import PageTree from "./PagesTree/PageTree";
-import { useCallback } from "react";
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
-import { modifyWidth } from '../../reducers/drawerWidthSlice';
-import { useNavigate } from 'react-router-dom';
+import {useCallback} from "react";
+import {useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
+import {modifyWidth} from '../../reducers/drawerWidthSlice';
+import {useNavigate} from 'react-router-dom';
 import NewPageButton from "../NewPageButton/NewPageButton";
 
 const minDrawerWidth = 240;
@@ -44,22 +44,35 @@ export default function MainDrawer() {
                 '& .MuiDrawer-paper': {
                     width: drawerWidth,
                     boxSizing: 'border-box',
-                    overflowX: 'hidden'
+                    overflow: 'hidden'
                 },
             }}
             variant="permanent"
             anchor="left"
         >
             <Box px={1} py={2}>
-                <ProjectSelect />
-                {<NewPageButton />}
+                <ProjectSelect/>
+                {<NewPageButton/>}
             </Box>
-            <Divider />
+            <Divider/>
             <Box px={1} py={2}>
-                <Button fullWidth variant="text" disableElevation onClick={() => navigate('/dashboard')}>Go to dashboard</Button>
+                <Button fullWidth variant="text" disableElevation onClick={() => navigate('/dashboard')}>Go to
+                    dashboard</Button>
             </Box>
-            <Divider />
-            <Box py={2}>
+            <Divider/>
+            <Box py={2} sx={{
+                overflowY: 'auto', overflowX: 'hidden', '&::-webkit-scrollbar': {
+                    width: '0.4em'
+                },
+                '&::-webkit-scrollbar-track': {
+                    boxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)',
+                    webkitBoxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)'
+                },
+                '&::-webkit-scrollbar-thumb': {
+                    backgroundColor: 'rgba(0,0,0,.1)',
+                    outline: '1px solid slategrey'
+                }
+            }}>
                 <div onMouseDown={e => handleMouseDown(e)} style={{
                     width: "5px",
                     cursor: "ew-resize",
@@ -71,8 +84,8 @@ export default function MainDrawer() {
                     bottom: 0,
                     zIndex: 100,
                     backgroundColor: "#f4f7f9"
-                }} />
-                <PageTree drawerWidth={drawerWidth} />
+                }}/>
+                <PageTree drawerWidth={drawerWidth}/>
             </Box>
         </Drawer>
     )

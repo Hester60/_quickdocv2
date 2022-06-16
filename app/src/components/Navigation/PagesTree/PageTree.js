@@ -30,7 +30,7 @@ export default function PageTree({drawerWidth}) {
         }
 
         openSelectedPageTree(pages.find(e => e._id === selectedPageId));
-    }, [pages])
+    }, [pages, matches])
 
     const renderTree = () => {
         return pages.filter(e => e.parent === null).map(page => <PageTreeItem onIconClick={toggleNode} key={page._id} page={page} pages={pages}
@@ -83,7 +83,7 @@ export default function PageTree({drawerWidth}) {
                 overflowX: 'hidden',
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
-                display: 'block'
+                display: 'block',
             }}
         >
             {!pagesLoading && renderTree()}
