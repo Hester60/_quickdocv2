@@ -1,6 +1,6 @@
 import MainDrawer from "./components/Navigation/MainDrawer";
 import { Box, CssBaseline } from "@mui/material";
-import {Routes, Route} from "react-router-dom";
+import {Routes, Route, Navigate} from "react-router-dom";
 import ShowPage from "./containers/Page/ShowPage";
 import Dashboard from "./containers/Dashboard/Dashboard";
 import EditPage from "./containers/Page/EditPage";
@@ -16,6 +16,7 @@ function App() {
                         <Route path="/dashboard" element={<Dashboard />} />
                         <Route path="/page/:pageId" element={<ShowPage />} />
                         <Route path="/page/edit/:pageId" element={<EditPage />} />
+                        <Route path="/" element={<Navigate replace to="/dashboard" />} />
                     </Routes>
                 </Box>
             </Box>
