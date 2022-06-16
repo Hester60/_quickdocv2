@@ -3,20 +3,20 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import Button from '@mui/material/Button';
 import api from '../../api';
 import PageAutocompleter from "../PageAutocompleter/PageAutocompleter";
-import { Alert, AlertTitle, TextField, Typography } from "@mui/material";
-import { useFormik } from "formik";
+import {Alert, AlertTitle, TextField, Typography} from "@mui/material";
+import {useFormik} from "formik";
 import * as Yup from 'yup';
-import { validatePageParent, validatePageTitle } from "../../formValidations/pageValidation";
-import { useDispatch, useSelector } from "react-redux";
-import { addPage } from "../../reducers/pagesSlice";
-import { useNavigate } from "react-router-dom";
-import { ROOT_SELECTION } from '../../constants/PageConstants';
+import {validatePageParent, validatePageTitle} from "../../formValidations/pageValidation";
+import {useDispatch, useSelector} from "react-redux";
+import {addPage} from "../../reducers/pagesSlice";
+import {useNavigate} from "react-router-dom";
+import {ROOT_SELECTION} from '../../constants/PageConstants';
 
-export default function CreatePageDialog({ open, setOpen }) {
+export default function CreatePageDialog({open, setOpen}) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [errors, setErrors] = useState(null);
@@ -25,13 +25,15 @@ export default function CreatePageDialog({ open, setOpen }) {
     const [pages, setPages] = useState([]);
 
     useEffect(() => {
-        (async () => {
-            setIsLoading(true);
-            const res = await api.get(`pages?project=${currentProject._id}&projection=_id,title`);
-            setPages([ROOT_SELECTION, ...res.data.pages]);
-            setIsLoading(false);
-        })();
-    }, []);
+        if (open) {
+            (async () => {
+                setIsLoading(true);
+                const res = await api.get(`pages?project=${currentProject._id}&projection=_id,title`);
+                setPages([ROOT_SELECTION, ...res.data.pages]);
+                setIsLoading(false);
+            })();
+        }
+    }, [open]);
 
     const handleClose = () => {
         setOpen(false);
@@ -61,7 +63,7 @@ export default function CreatePageDialog({ open, setOpen }) {
             setErrors(null);
             setIsLoading(true);
 
-            const res = await api.post(`pages`, { title: values.title, parent, project: currentProject._id });
+            const res = await api.post(`pages`, {title: values.title, parent, project: currentProject._id});
             const page = res.data;
 
             dispatch(addPage(page));
@@ -71,7 +73,7 @@ export default function CreatePageDialog({ open, setOpen }) {
             setIsLoading(false);
         } catch (error) {
             setIsLoading(false);
-            if (error.response && error.response.status) {
+            if (error.response && error.response.status === 422) {
                 console.log(error.response.data.errors);
                 setErrors(error.response.data.errors);
             }
@@ -84,7 +86,7 @@ export default function CreatePageDialog({ open, setOpen }) {
             <form onSubmit={formik.handleSubmit}>
                 <DialogContent>
                     {errors && (
-                        <Alert severity="error" sx={{ mb: 2 }}>
+                        <Alert severity="error" sx={{mb: 2}}>
                             <AlertTitle>There are errors in your form !</AlertTitle>
                             {Object.keys(errors).map(error => {
                                 return <Typography key={error}>{errors[error].message}</Typography>
@@ -93,7 +95,8 @@ export default function CreatePageDialog({ open, setOpen }) {
 
                     )}
                     <DialogContentText>
-                        Set a title and search for a parent, or select project root. You'll be able to move or edit the page
+                        Set a title and search for a parent, or select project root. You'll be able to move or edit the
+                        page
                         later.
                     </DialogContentText>
                     <TextField
@@ -102,7 +105,7 @@ export default function CreatePageDialog({ open, setOpen }) {
                         disabled={isLoading}
                         label="Set a title"
                         type="text"
-                        sx={{ mt: 2, mb: 3 }}
+                        sx={{mt: 2, mb: 3}}
                         onChange={formik.handleChange}
                         value={formik.values.title}
                         error={(!!(formik.touched.title && formik.errors.title))}
@@ -111,7 +114,7 @@ export default function CreatePageDialog({ open, setOpen }) {
                         ) : null}
                     />
                     <PageAutocompleter pages={pages}
-                        defaultSelection={ROOT_SELECTION} formik={formik} disabled={isLoading} />
+                                       defaultSelection={ROOT_SELECTION} formik={formik} disabled={isLoading}/>
                 </DialogContent>
                 <DialogActions>
                     <Button variant="contained" color="error" onClick={handleClose}>Cancel</Button>

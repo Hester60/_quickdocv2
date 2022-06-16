@@ -57,7 +57,7 @@ module.exports.movePage = asyncWrapper(async (req, res, next) => {
 
     const parent = await Page.findById(req.body.parent);
 
-    if (!pageManager.pagesHaveSameProject(parent, page)) {
+    if (parent && !pageManager.pagesHaveSameProject(parent, page)) {
         throw new Error('Error when trying to update page, please retry');
     }
 
@@ -67,6 +67,7 @@ module.exports.movePage = asyncWrapper(async (req, res, next) => {
 
     page = pageManager.move(page, parent);
     await page.save();
+    await page.populate('parent');
 
     return res.status(200).json(page);
 });

@@ -25,7 +25,7 @@ export default function ShowPage() {
     return (
         <>
             <Box sx={{display: 'flex', flexFlow: 'column'}}>
-                <MainToolbar page={page} toolbarType={PAGE_TOOLBAR} isLoading={isLoading} goToEdit={() => navigate(`/page/edit/${page._id}`)}/>
+                <MainToolbar page={page} toolbarType={PAGE_TOOLBAR} isLoading={isLoading} setPage={setPage} goToEdit={() => navigate(`/page/edit/${page._id}`)}/>
                 <Toolbar/>
                 {!isLoading && (
                     <Box  sx={{width: '100%', flexFlow: 'column'}} display='flex' alignItems="center">

@@ -17,7 +17,11 @@ module.exports.update = (page, newData) => {
 }
 
 module.exports.move = (page, parent) => {
-    page.parent = parent._id;
+    if (parent) {
+        page.parent = parent._id;
+    } else {
+        page.parent = null;
+    }
 
     return page;
 }

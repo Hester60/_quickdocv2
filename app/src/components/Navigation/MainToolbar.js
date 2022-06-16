@@ -25,7 +25,7 @@ export default function MainToolbar({ toolbarType, ...props }) {
             <Typography variant="h6" noWrap component="div" sx={{flexGrow: 1}}>
                 Show page
             </Typography>
-            {props.page && <MovePageButton page={props.page} />}
+            {props.page && <MovePageButton page={props.page} setPage={props.setPage}/>}
             <Button color="inherit" onClick={props.goToEdit}>Edit page</Button>
         </Toolbar>
     );
