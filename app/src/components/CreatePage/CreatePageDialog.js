@@ -13,7 +13,7 @@ import * as Yup from 'yup';
 import {validatePageParent, validatePageTitle} from "../../formValidations/pageValidation";
 import {useDispatch, useSelector} from "react-redux";
 import {addPage} from "../../reducers/pagesSlice";
-import {useNavigate} from "react-router-dom";
+import {matchPath, useLocation, useNavigate} from "react-router-dom";
 import {ROOT_SELECTION} from '../../constants/PageConstants';
 
 export default function CreatePageDialog({open, setOpen}) {
@@ -23,13 +23,35 @@ export default function CreatePageDialog({open, setOpen}) {
     const currentProject = useSelector(state => state.currentProject.item);
     const [isLoading, setIsLoading] = useState(true);
     const [pages, setPages] = useState([]);
+    const {pathname} = useLocation();
+    const [selectedPage, setSelectedPage] = useState(null);
+    const matches = [matchPath(
+        {path: "/page/:pageId"},
+        pathname,
+    ), matchPath(
+        {path: "/page/edit/:pageId"},
+        pathname,
+    )];
 
     useEffect(() => {
         if (open) {
+            setSelectedPage(null);
+            let match = matches.find(e => e !== null);
+
             (async () => {
                 setIsLoading(true);
                 const res = await api.get(`pages?project=${currentProject._id}&projection=_id,title`);
+                if (match) {
+                    match = res.data.pages.find(e => e._id === match.params.pageId);
+                    setSelectedPage(match);
+                } else {
+                    setSelectedPage(ROOT_SELECTION)
+                }
+                setSelectedPage(match);
                 setPages([ROOT_SELECTION, ...res.data.pages]);
+                if (match) {
+                    formik.setFieldValue('page', !match ? null : match)
+                }
                 setIsLoading(false);
             })();
         }
@@ -57,7 +79,7 @@ export default function CreatePageDialog({open, setOpen}) {
     });
 
     const validateSelectParent = async (values) => {
-        const parent = values.page._id !== '*' ? values.page._id : null;
+        const parent = values.page.id !== '*' ? values.page._id : null;
 
         try {
             setErrors(null);
@@ -114,7 +136,7 @@ export default function CreatePageDialog({open, setOpen}) {
                         ) : null}
                     />
                     <PageAutocompleter pages={pages}
-                                       defaultSelection={ROOT_SELECTION} formik={formik} disabled={isLoading}/>
+                                       defaultSelection={selectedPage} formik={formik} disabled={isLoading}/>
                 </DialogContent>
                 <DialogActions>
                     <Button variant="contained" color="error" onClick={handleClose}>Cancel</Button>

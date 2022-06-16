@@ -58,10 +58,11 @@ export default function PageTree({drawerWidth}) {
 
     const openSelectedPageTree = (page) => {
         if (page) {
-            if (!expanded.find(e => e === page._id)) {
-                expandItem(page._id);
+            const parent = getParent(page);
+            if (parent && !expanded.find(e => e === parent._id)) {
+                expandItem(parent._id);
+                openSelectedPageTree(parent);
             }
-            openSelectedPageTree(getParent(page))
         }
     }
 
