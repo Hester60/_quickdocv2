@@ -83,7 +83,6 @@ export default function MovePageDialog({open, setOpen, page, setPage}) {
             const updatedPage = res.data;
             dispatch(editPage({...updatedPage, parent: updatedPage.parent ? updatedPage.parent._id : null}));
             setPage(updatedPage)
-            console.log(updatedPage);
             handleClose();
             setIsLoading(false);
         } catch (error) {

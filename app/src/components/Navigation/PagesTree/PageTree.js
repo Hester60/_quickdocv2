@@ -28,13 +28,45 @@ export default function PageTree({drawerWidth}) {
         } else {
             setSelectedPageId(match.params.pageId);
         }
+
+        openSelectedPageTree(pages.find(e => e._id === selectedPageId));
     }, [pages])
 
     const renderTree = () => {
-        return pages.filter(e => e.parent === null).map(page => <PageTreeItem key={page._id} page={page} pages={pages}
-                                                                              expanded={expanded}
-                                                                              setExpanded={setExpanded}
-                                                                              selectedPageId={selectedPageId} />)
+        return pages.filter(e => e.parent === null).map(page => <PageTreeItem onIconClick={toggleNode} key={page._id} page={page} pages={pages}
+                                                                              selectedPageId={selectedPageId}/>)
+    }
+
+    const expandItem = (pageId) => {
+        if (!expanded.find(e => e === pageId)) {
+            setExpanded((oldVal => [...oldVal, pageId]));
+        }
+    }
+
+    const toggleNode = (nodeId) => {
+        const nodeIndex = expanded.findIndex(e => e === nodeId);
+
+        if (nodeIndex < 0) {
+            setExpanded((oldVal => [...oldVal, nodeId]));
+        } else {
+            setExpanded((oldVal) => {
+                oldVal.splice(nodeIndex, 1);
+                return oldVal;
+            });
+        }
+    }
+
+    const openSelectedPageTree = (page) => {
+        if (page) {
+            if (!expanded.find(e => e === page._id)) {
+                expandItem(page._id);
+            }
+            openSelectedPageTree(getParent(page))
+        }
+    }
+
+    const getParent = (page) => {
+        return pages.find(e => e._id === page.parent);
     }
 
     return (
@@ -43,6 +75,7 @@ export default function PageTree({drawerWidth}) {
             defaultCollapseIcon={<ExpandMoreIcon/>}
             defaultExpandIcon={<ChevronRightIcon/>}
             selected={selectedPageId}
+            expanded={expanded}
             sx={{
                 flexGrow: 1,
                 width: drawerWidth,
