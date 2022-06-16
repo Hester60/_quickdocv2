@@ -16,7 +16,7 @@ import { addPage } from "../../reducers/pagesSlice";
 import { useNavigate } from "react-router-dom";
 
 
-export default function SelectPageParentDialog({ open, setOpen }) {
+export default function CreatePageDialog({ open, setOpen }) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [errors, setErrors] = useState(null);
@@ -25,7 +25,6 @@ export default function SelectPageParentDialog({ open, setOpen }) {
     const [pages, setPages] = useState([]);
     const ROOT_SELECTION = { _id: '*', title: 'Project Root (No Parent)' };
 
-    // TODO : Don't fetch children !! (API EVOLUTION)
     useEffect(() => {
         (async () => {
             setIsLoading(true);
