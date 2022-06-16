@@ -14,7 +14,7 @@ import { validatePageParent, validatePageTitle } from "../../formValidations/pag
 import { useDispatch, useSelector } from "react-redux";
 import { addPage } from "../../reducers/pagesSlice";
 import { useNavigate } from "react-router-dom";
-
+import { ROOT_SELECTION } from '../../constants/PageConstants';
 
 export default function CreatePageDialog({ open, setOpen }) {
     const dispatch = useDispatch();
@@ -23,7 +23,6 @@ export default function CreatePageDialog({ open, setOpen }) {
     const currentProject = useSelector(state => state.currentProject.item);
     const [isLoading, setIsLoading] = useState(true);
     const [pages, setPages] = useState([]);
-    const ROOT_SELECTION = { _id: '*', title: 'Project Root (No Parent)' };
 
     useEffect(() => {
         (async () => {
@@ -112,7 +111,7 @@ export default function CreatePageDialog({ open, setOpen }) {
                         ) : null}
                     />
                     <PageAutocompleter pages={pages}
-                        rootSelection={ROOT_SELECTION} formik={formik} disabled={isLoading} />
+                        defaultSelection={ROOT_SELECTION} formik={formik} disabled={isLoading} />
                 </DialogContent>
                 <DialogActions>
                     <Button variant="contained" color="error" onClick={handleClose}>Cancel</Button>

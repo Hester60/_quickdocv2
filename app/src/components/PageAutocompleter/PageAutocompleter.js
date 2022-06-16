@@ -1,7 +1,7 @@
 import TextField from "@mui/material/TextField";
 import {Autocomplete, createFilterOptions} from "@mui/material";
 
-export default function PageAutocompleter({rootSelection, pages, formik, disabled}) {
+export default function PageAutocompleter({defaultSelection, pages, formik, disabled}) {
     const OPTIONS_LIMIT = 5;
 
     const filterOptions = createFilterOptions({
@@ -10,7 +10,7 @@ export default function PageAutocompleter({rootSelection, pages, formik, disable
 
     const onSelectionChange = (e, val, reason) => {
         if (reason === 'clear') {
-            formik.setFieldValue('page', rootSelection, true);
+            formik.setFieldValue('page', defaultSelection, true);
         } else {
             formik.setFieldValue('page', val, true);
         }

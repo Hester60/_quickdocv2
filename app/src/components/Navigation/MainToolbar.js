@@ -3,6 +3,7 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { useSelector } from 'react-redux';
+import MovePageButton from '../EditPage/MovePageButton';
 
 export const DASHBOARD_TOOLBAR = 'DASHBOARD_TOOLBAR';
 export const PAGE_TOOLBAR = 'PAGE_TOOLBAR';
@@ -24,7 +25,7 @@ export default function MainToolbar({ toolbarType, ...props }) {
             <Typography variant="h6" noWrap component="div" sx={{flexGrow: 1}}>
                 Show page
             </Typography>
-            <Button color="inherit">Move page</Button>
+            {props.page && <MovePageButton page={props.page} />}
             <Button color="inherit" onClick={props.goToEdit}>Edit page</Button>
         </Toolbar>
     );
@@ -34,7 +35,7 @@ export default function MainToolbar({ toolbarType, ...props }) {
             <Typography variant="h6" noWrap component="div" sx={{flexGrow: 1}}>
                 Edit page
             </Typography>
-            <Button color="inherit" onClick={props.backToPage}>Back to page</Button>
+            <Button color="inherit" onClick={props.backToPage} sx={{ml: 2}}>Back to page</Button>
             <Button color="secondary" type="button" variant="contained" sx={{ml: 2}} onClick={props.onSave}>Save changes</Button>
         </Toolbar>
     );
