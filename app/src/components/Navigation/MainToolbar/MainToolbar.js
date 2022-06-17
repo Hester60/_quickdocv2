@@ -6,6 +6,7 @@ import {useSelector} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
 import PageMenu from '../Menu/PageMenu/PageMenu';
 import RemoveProjectButton from "../Menu/ProjectMenu/RemoveProjectButton";
+import ProjectMenu from "../Menu/ProjectMenu/ProjectMenu";
 
 export const DASHBOARD_TOOLBAR = 'DASHBOARD_TOOLBAR';
 export const PAGE_TOOLBAR = 'PAGE_TOOLBAR';
@@ -23,8 +24,7 @@ export default function MainToolbar({toolbarType, ...props}) {
       <Typography variant="h6" noWrap component="div" sx={{flexGrow: 1}}>
         {!props.isLoading && props.project ? props.project.name : <Skeleton width={200}/>}
       </Typography>
-      <RemoveProjectButton/>
-      <Button color="inherit" onClick={() => navigate('/project/edit')}>Edit</Button>
+      <ProjectMenu />
     </Toolbar>
   );
 
