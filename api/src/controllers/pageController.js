@@ -124,7 +124,9 @@ module.exports.removePage = asyncWrapper(async (req, res) => {
         throw new NotFoundError(`Page with id ${req.params.pageId} not found`)
     }
 
-    const deletedIds = await pageManager.removePage(page);
+    const {deletedIds, session} = await pageManager.removePage(page);
 
+    session.endSession();
+    
     return res.status(200).json({deletedIds});
 });

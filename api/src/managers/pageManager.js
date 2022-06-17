@@ -78,28 +78,27 @@ module.exports.canUpdateParent = async (page, newParent) => {
 
 module.exports.removePage = async (page, next) => {
     const session = await db.conn.startSession();
+    let deletedIds = [page._id];
 
     try {
         session.startTransaction();
 
         const aggregationResult = await this.getPageChildrenFlat(page);
         const children = aggregationResult[0].children;
-        let deletedIds = [page._id];
 
         if (children.length > 0) {
-            const ids = children.map(child => child._id);
+            let ids = children.map(child => child._id);
             deletedIds = [...deletedIds, ...ids];
             await Page.deleteMany({ _id: { $in: ids } });
         }
 
+        await page.remove();
         await session.commitTransaction();
 
-        return deletedIds;
+        return {deletedIds, session};
     } catch (error) {
         await session.abortTransaction();
         session.endSession();
         throw new Error(error);
     }
-
-    session.endSession();
 }
