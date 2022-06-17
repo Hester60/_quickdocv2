@@ -12,13 +12,13 @@ import {useNavigate} from "react-router-dom";
 
 export default function ProjectSelect() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const projectsLoading = useSelector(state => state.projects.loading);
     const projects = useSelector(selectAllProjects);
     const menuId = Math.random();
     const currentProject = useSelector(state => state.currentProject.item);
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
-    const navigate = useNavigate();
 
     useEffect(() => {
         if (!projectsLoading) {
@@ -103,7 +103,7 @@ export default function ProjectSelect() {
                 <MenuItem disabled={true}>Select a project</MenuItem>
                 {renderMenuItems()}
                 <Divider />
-                <MenuItem><Typography color="primary">Create new project</Typography></MenuItem>
+                <MenuItem onClick={() => {navigate('/project/create'); handleMenuClose();}}><Typography color="primary">Create new project</Typography></MenuItem>
             </Menu>
         </>
     )

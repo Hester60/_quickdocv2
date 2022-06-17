@@ -55,6 +55,7 @@ export default function Dashboard() {
                 <Card sx={{ maxWidth: 360 }} variant="outlined" >
                     <List
                         sx={{ bgcolor: 'background.paper' }}
+                        dense={true}
                         component="nav"
                         aria-labelledby="nested-list-subheader"
                         subheader={

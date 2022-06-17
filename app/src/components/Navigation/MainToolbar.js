@@ -4,41 +4,64 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { useSelector } from 'react-redux';
 import MovePageButton from '../EditPage/MovePageButton';
+import { useNavigate } from 'react-router-dom';
 
 export const DASHBOARD_TOOLBAR = 'DASHBOARD_TOOLBAR';
 export const PAGE_TOOLBAR = 'PAGE_TOOLBAR';
 export const EDIT_PAGE_TOOLBAR = 'EDIT_PAGE_TOOLBAR';
+export const CREATE_PROJECT_TOOLBAR = 'CREATE_PROJECT_TOOLBAR';
+export const EDIT_PROJECT_TOOLBAR = 'EDIT_PROJECT_TOOLBAR';
 
 export default function MainToolbar({ toolbarType, ...props }) {
+    const navigate = useNavigate();
     const drawerWidth = useSelector(state => state.drawerWidth.width);
 
     const dashboardToolbar = (
         <Toolbar>
-            <Typography variant="h6" noWrap component="div">
+            <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
                 {!props.isLoading && props.project ? props.project.name : <Skeleton width={200} />}
             </Typography>
+            <Button color="inherit" onClick={() => navigate('/project/edit')}>Edit</Button>
         </Toolbar>
     );
 
     const pageToolbar = (
         <Toolbar>
-            <Typography variant="h6" noWrap component="div" sx={{flexGrow: 1}}>
+            <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
                 Show page
             </Typography>
-            {props.page && <MovePageButton page={props.page} setPage={props.setPage}/>}
+            {props.page && <MovePageButton page={props.page} setPage={props.setPage} />}
             <Button color="inherit" onClick={props.goToEdit}>Edit page</Button>
         </Toolbar>
     );
 
     const editPageToolbar = (
         <Toolbar>
-            <Typography variant="h6" noWrap component="div" sx={{flexGrow: 1}}>
+            <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
                 Edit page
             </Typography>
-            <Button color="inherit" onClick={props.backToPage} sx={{ml: 2}}>Back to page</Button>
-            <Button color="secondary" type="button" variant="contained" sx={{ml: 2}} onClick={props.onSave}>Save changes</Button>
+            <Button color="inherit" onClick={props.backToPage} sx={{ ml: 2 }}>Back to page</Button>
+            <Button color="secondary" type="button" variant="contained" sx={{ ml: 2 }} onClick={props.onSave}>Save changes</Button>
         </Toolbar>
     );
+
+    const createProjectToolbar = (
+        <Toolbar>
+            <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
+                Create project
+            </Typography>
+            <Button color="inherit" onClick={() => navigate('/dashboard')}>Back to dashboard</Button>
+        </Toolbar>
+    )
+
+    const editProjectToolbar = (
+        <Toolbar>
+            <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
+                Edit project
+            </Typography>
+            <Button color="inherit" onClick={() => navigate('/dashboard')}>Back to dashboard</Button>
+        </Toolbar>
+    )
 
     const getToolbar = () => {
         switch (toolbarType) {
@@ -48,6 +71,10 @@ export default function MainToolbar({ toolbarType, ...props }) {
                 return pageToolbar;
             case EDIT_PAGE_TOOLBAR:
                 return editPageToolbar;
+            case CREATE_PROJECT_TOOLBAR:
+                return createProjectToolbar;
+            case EDIT_PROJECT_TOOLBAR:
+                return editProjectToolbar;
             default:
                 throw new Error('Invalid toolbar type !')
         }

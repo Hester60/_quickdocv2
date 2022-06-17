@@ -79,7 +79,7 @@ export default function CreatePageDialog({open, setOpen}) {
     });
 
     const validateSelectParent = async (values) => {
-        const parent = values.page.id !== '*' ? values.page._id : null;
+        const parent = values.page._id !== '*' ? values.page._id : null;
 
         try {
             setErrors(null);

@@ -4,6 +4,8 @@ import {Routes, Route, Navigate} from "react-router-dom";
 import ShowPage from "./containers/Page/ShowPage";
 import Dashboard from "./containers/Dashboard/Dashboard";
 import EditPage from "./containers/Page/EditPage";
+import CreateProject from "./containers/Project/CreateProject";
+import EditProject from "./containers/Project/EditProject";
 
 function App() {
     return (
@@ -14,6 +16,8 @@ function App() {
                 <Box p={3} sx={{flexGrow: 1}}>
                     <Routes>
                         <Route path="/dashboard" element={<Dashboard />} />
+                        <Route path="/project/create" element={<CreateProject />} />
+                        <Route path="/project/edit" element={<EditProject />} />
                         <Route path="/page/:pageId" element={<ShowPage />} />
                         <Route path="/page/edit/:pageId" element={<EditPage />} />
                         <Route path="/" element={<Navigate replace to="/dashboard" />} />
