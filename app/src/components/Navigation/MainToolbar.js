@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import { useSelector } from 'react-redux';
 import MovePageButton from '../EditPage/MovePageButton';
 import { useNavigate } from 'react-router-dom';
+import RemovePageButton from '../RemovePage/RemovePageButton';
 
 export const DASHBOARD_TOOLBAR = 'DASHBOARD_TOOLBAR';
 export const PAGE_TOOLBAR = 'PAGE_TOOLBAR';
@@ -30,6 +31,7 @@ export default function MainToolbar({ toolbarType, ...props }) {
             <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
                 Show page
             </Typography>
+            {props.page && <RemovePageButton page={props.page} setPage={props.setPage} />}
             {props.page && <MovePageButton page={props.page} setPage={props.setPage} />}
             <Button color="inherit" onClick={props.goToEdit}>Edit page</Button>
         </Toolbar>

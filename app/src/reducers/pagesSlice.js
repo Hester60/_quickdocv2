@@ -1,4 +1,4 @@
-import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from '../api';
 
 const initialState = {
@@ -19,8 +19,19 @@ const pagesSlice = createSlice({
         editPage(state, action) {
             const page = action.payload;
             let foundPage = state.items.findIndex(e => e._id === page._id);
-            state.items[foundPage] = {...state.items[foundPage], ...page};
-         }
+            state.items[foundPage] = { ...state.items[foundPage], ...page };
+        },
+        deletePages(state, action) {
+            const deletedIds = action.payload;
+            let copy = [...state.items];
+            deletedIds.forEach(id => {
+                const index = copy.findIndex(e => e._id === id);
+                if (index) {
+                    copy.splice(index, 1);
+                }
+            });
+            state.items = copy;
+        }
     },
     extraReducers(build) {
         build
@@ -39,11 +50,11 @@ const pagesSlice = createSlice({
     }
 });
 
-export const fetchPages = createAsyncThunk('pages/fetchPages', async (query= '' ) => {
+export const fetchPages = createAsyncThunk('pages/fetchPages', async (query = '') => {
     const response = await api.get(`pages${query}`);
     return response.data;
 });
 
-export const {addPage, editPage} = pagesSlice.actions;
+export const { addPage, editPage, deletePages } = pagesSlice.actions;
 export const selectAllPage = state => state.pages.items;
 export default pagesSlice.reducer;
