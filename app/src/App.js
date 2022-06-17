@@ -8,9 +8,14 @@ import CreateProject from "./containers/Project/CreateProject";
 import EditProject from "./containers/Project/EditProject";
 import {useSelector} from "react-redux";
 import Notification from "./components/Notification/Notification";
+import {useEffect} from "react";
 
 function App() {
     const notifications = useSelector(state => state.notifications.items);
+
+    useEffect(() => {
+
+    }, [])
 
     return (
         <>

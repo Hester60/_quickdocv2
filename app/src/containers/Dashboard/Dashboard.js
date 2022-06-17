@@ -6,16 +6,20 @@ import { useSelector } from "react-redux";
 import MainToolbar from "../../components/Navigation/MainToolbar/MainToolbar";
 import { DASHBOARD_TOOLBAR } from "../../components/Navigation/MainToolbar/MainToolbar";
 import api from '../../api'
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 export default function Dashboard() {
+    const navigate = useNavigate();
     const project = useSelector(state => state.currentProject.item);
     const isProjectLoading = useSelector(state => state.currentProject.loading);
     const [isPagesLoading, setIsPagesLoading] = useState(false);
     const [lastCreatedPages, setLastCreatedPages] = useState([]);
 
     useEffect(() => {
-        if (!isProjectLoading && project) {
+        if (!isProjectLoading) {
+            if (!project) {
+                return navigate('/project/create');
+            }
             (async function () {
                 setIsPagesLoading(true);
                 const res = await api.get(`pages?project=${project._id}&projection=_id,title,createdAt&limit=5`);

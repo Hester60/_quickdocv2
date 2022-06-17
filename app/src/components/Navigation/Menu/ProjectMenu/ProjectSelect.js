@@ -28,7 +28,7 @@ export default function ProjectSelect() {
                 if (projects.length > 0 ) {
                     projectSelected(selectedProject);
                 } else {
-                    // Redirect to create new project page
+                    navigate('/project/create');
                 }
             })();
         }
