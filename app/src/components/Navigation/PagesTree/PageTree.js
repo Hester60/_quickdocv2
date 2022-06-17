@@ -85,6 +85,7 @@ export default function PageTree({drawerWidth}) {
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
                 display: 'block',
+                padding: '0 15px 0 5px'
             }}
         >
             {!pagesLoading && renderTree()}

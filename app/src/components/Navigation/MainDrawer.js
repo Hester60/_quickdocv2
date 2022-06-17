@@ -44,7 +44,7 @@ export default function MainDrawer() {
                 '& .MuiDrawer-paper': {
                     width: drawerWidth,
                     boxSizing: 'border-box',
-                    overflow: 'hidden'
+                    overflow: 'hidden',
                 },
             }}
             variant="permanent"
