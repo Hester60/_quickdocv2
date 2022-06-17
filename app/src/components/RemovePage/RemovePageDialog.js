@@ -57,7 +57,7 @@ export default function RemovePageDialog({ open, setOpen, page }) {
                 </DialogContent>
                 <DialogActions>
                     <Button disabled={isLoading} onClick={handleClose}>Cancel</Button>
-                    <Button disabled={isLoading} onClick={onSubmitDelete} variant="contained" color="warning">
+                    <Button disabled={isLoading} onClick={onSubmitDelete} variant="contained" disableElevation color="warning">
                         Confirm
                     </Button>
                 </DialogActions>

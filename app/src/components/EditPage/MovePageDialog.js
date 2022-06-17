@@ -126,8 +126,8 @@ export default function MovePageDialog({open, setOpen, page, setPage}) {
                         </Box>
                     </DialogContent>
                     <DialogActions>
-                        <Button variant="contained" color="error" onClick={handleClose}>Cancel</Button>
-                        <Button variant="contained" type="submit" disabled={isLoading}>Validate</Button>
+                        <Button variant="contained" color="error" disableElevation onClick={handleClose}>Cancel</Button>
+                        <Button variant="contained" type="submit" disableElevation disabled={isLoading}>Validate</Button>
                     </DialogActions>
                 </form>
             </Dialog>
