@@ -1,11 +1,12 @@
+import { KeyboardArrowDown } from '@mui/icons-material';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import MovePageMenuItem from '../../../EditPage/MovePageMenuItem';
 import RemovePageMenuItem from './RemovePageMenuItem';
 
-export default function PageMenu({...props}) {
+export default function PageMenu({ ...props }) {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
 
@@ -16,12 +17,19 @@ export default function PageMenu({...props}) {
         setAnchorEl(null);
     };
 
+    useEffect(() => {
+        if (open) {
+            handleClose();
+        }
+    }, [props.page])
+
     return (
         <>
             <Button
                 aria-controls={open ? 'basic-menu' : undefined}
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
+                endIcon={<KeyboardArrowDown />}
                 onClick={handleClick}
                 color="inherit"
             >
