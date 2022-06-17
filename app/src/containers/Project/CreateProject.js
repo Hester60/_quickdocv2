@@ -6,18 +6,21 @@ import {validateProjectName} from '../../form-validations/projetValidation';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import api from '../../api';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
 import {selectCurrentProject} from '../../reducers/currentProjectSlice';
 import ProjectForm from '../../components/Project/ProjectForm/ProjectForm';
 import {NOTIFICATION_SUCCESS_TYPE} from "../../reducers/notificationsSlice";
 import {resetPages} from "../../reducers/pagesSlice";
+import {selectAllProjects} from "../../reducers/projectsSlice";
 
 export default function CreateProject() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState(null);
+  const projects = useSelector(selectAllProjects);
+  const projectsLoading = useSelector(state => state.projects.loading);
 
   const formik = useFormik({
     initialValues: {
@@ -65,6 +68,7 @@ export default function CreateProject() {
       <Box sx={{width: '100%', flexFlow: 'column'}} display='flex' alignItems="center">
         <Box sx={{width: '100%', maxWidth: 1250, mt: 2}}>
           <CardContent>
+            {!projectsLoading && projects.length <= 0 && <Alert sx={{mb: 2}} severity="error">You need to create a first project !</Alert>}
             <ProjectForm formik={formik} isLoading={isLoading} errors={errors}/>
           </CardContent>
         </Box>
