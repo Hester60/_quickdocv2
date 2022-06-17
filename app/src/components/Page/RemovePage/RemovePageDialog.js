@@ -9,7 +9,7 @@ import api from '../../../api';
 import { useDispatch } from 'react-redux';
 import { deletePages } from '../../../reducers/pagesSlice';
 import { useNavigate } from 'react-router-dom';
-import {NOTIFICATION_INFO_TYPE, pushNotification} from "../../../reducers/notificationsSlice";
+import {NOTIFICATION_SUCCESS_TYPE, pushNotification} from "../../../reducers/notificationsSlice";
 
 export default function RemovePageDialog({ open, setOpen, page }) {
     const navigate = useNavigate();
@@ -31,7 +31,7 @@ export default function RemovePageDialog({ open, setOpen, page }) {
 
             const { deletedIds } = res.data;
             dispatch(deletePages(deletedIds));
-            dispatch(pushNotification({text: 'Page has been removed !', type: NOTIFICATION_INFO_TYPE}))
+            dispatch(pushNotification({text: 'Page has been removed !', type: NOTIFICATION_SUCCESS_TYPE}))
             navigate('/dashboard');
         } catch (error) {
             setIsLoading(false);

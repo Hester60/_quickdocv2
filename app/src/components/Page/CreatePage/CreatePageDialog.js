@@ -15,6 +15,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {addPage} from "../../../reducers/pagesSlice";
 import {matchPath, useLocation, useNavigate} from "react-router-dom";
 import {ROOT_SELECTION} from '../../../constants/PageConstants';
+import {NOTIFICATION_SUCCESS_TYPE, pushNotification} from "../../../reducers/notificationsSlice";
 
 export default function CreatePageDialog({open, setOpen}) {
     const dispatch = useDispatch();
@@ -90,6 +91,7 @@ export default function CreatePageDialog({open, setOpen}) {
 
             dispatch(addPage(page));
 
+            dispatch(pushNotification({text: 'Page has been created !', type: NOTIFICATION_SUCCESS_TYPE}));
             navigate(`page/edit/${page._id}`);
             handleClose();
             setIsLoading(false);

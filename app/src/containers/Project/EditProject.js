@@ -10,7 +10,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
 import {selectCurrentProject} from '../../reducers/currentProjectSlice';
 import ProjectForm from '../../components/Project/ProjectForm/ProjectForm';
-import {NOTIFICATION_INFO_TYPE} from "../../reducers/notificationsSlice";
+import {NOTIFICATION_SUCCESS_TYPE} from "../../reducers/notificationsSlice";
 
 export default function EditProject() {
     const dispatch = useDispatch();
@@ -52,7 +52,7 @@ export default function EditProject() {
 
                 formik.resetForm();
                 dispatch(selectCurrentProject(project));
-                dispatch({text: 'Project has been updated !', type: NOTIFICATION_INFO_TYPE});
+                dispatch({text: 'Project has been updated !', type: NOTIFICATION_SUCCESS_TYPE});
             } catch (error) {
                 setIsLoading(false);
                 if (error.response && error.response.status) {

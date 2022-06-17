@@ -10,7 +10,7 @@ import * as Yup from 'yup';
 import {validatePageTitle} from "../../form-validations/pageValidation";
 import {useDispatch} from "react-redux";
 import {editPage} from "../../reducers/pagesSlice";
-import {NOTIFICATION_INFO_TYPE, pushNotification} from "../../reducers/notificationsSlice";
+import {NOTIFICATION_SUCCESS_TYPE, pushNotification} from "../../reducers/notificationsSlice";
 
 export default function EditPage() {
     const dispatch = useDispatch();
@@ -48,7 +48,7 @@ export default function EditPage() {
                 const res = await api.put(`pages/${page._id}`, {title, body});
                 setIsLoading(false);
                 dispatch(editPage(res.data));
-                dispatch(pushNotification({text: 'Page has been updated !', type: NOTIFICATION_INFO_TYPE}))
+                dispatch(pushNotification({text: 'Page has been updated !', type: NOTIFICATION_SUCCESS_TYPE}))
             } catch (error) {
                 setIsLoading(false);
                 if (error.response && error.response.status) {

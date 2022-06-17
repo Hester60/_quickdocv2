@@ -14,7 +14,7 @@ import {validatePageParent} from "../../../form-validations/pageValidation";
 import {ROOT_SELECTION} from '../../../constants/PageConstants';
 import {useDispatch, useSelector} from 'react-redux';
 import {editPage} from "../../../reducers/pagesSlice";
-import {NOTIFICATION_INFO_TYPE, pushNotification} from "../../../reducers/notificationsSlice";
+import {NOTIFICATION_SUCCESS_TYPE, pushNotification} from "../../../reducers/notificationsSlice";
 
 export default function MovePageDialog({open, setOpen, page, setPage}) {
     const dispatch = useDispatch();
@@ -84,7 +84,7 @@ export default function MovePageDialog({open, setOpen, page, setPage}) {
             const updatedPage = res.data;
             dispatch(editPage({...updatedPage, parent: updatedPage.parent ? updatedPage.parent._id : null}));
             setPage(updatedPage)
-            dispatch(pushNotification({text: 'Page has been moved !', type: NOTIFICATION_INFO_TYPE}))
+            dispatch(pushNotification({text: 'Page has been moved !', type: NOTIFICATION_SUCCESS_TYPE}))
             handleClose();
             setIsLoading(false);
         } catch (error) {

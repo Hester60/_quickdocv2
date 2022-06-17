@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { selectCurrentProject } from '../../reducers/currentProjectSlice';
 import ProjectForm from '../../components/Project/ProjectForm/ProjectForm';
-import {NOTIFICATION_INFO_TYPE} from "../../reducers/notificationsSlice";
+import {NOTIFICATION_SUCCESS_TYPE} from "../../reducers/notificationsSlice";
 
 export default function CreateProject() {
     const dispatch = useDispatch();
@@ -43,7 +43,7 @@ export default function CreateProject() {
                 // No need to dispatch into projects because project list is refreshed when user click it
 
                 formik.resetForm();
-                dispatch({text: 'Project has been created !', type: NOTIFICATION_INFO_TYPE});
+                dispatch({text: 'Project has been created !', type: NOTIFICATION_SUCCESS_TYPE});
                 dispatch(selectCurrentProject(project));
                 navigate('/dashboard');
             } catch (error) {
