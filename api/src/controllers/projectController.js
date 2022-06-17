@@ -43,3 +43,15 @@ module.exports.findAllProjects = asyncWrapper(async (req, res) => {
 
    return res.status(200).json(projects);
 });
+
+module.exports.removeProject = asyncWrapper(async (req, res) => {
+   let project = await Project.findById(req.params.projectId);
+
+    if (!project) {
+        throw new NotFoundError(`Project with id ${req.params.projectId} not found`);
+    }
+
+    await projectManager.removeProject(project);
+
+    return res.status(200).json({});
+});

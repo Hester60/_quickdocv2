@@ -36,7 +36,6 @@ export default function CreateProject() {
                 });
 
                 const project = res.data;
-                console.log(project);
 
                 setIsLoading(false);
 
@@ -45,7 +44,7 @@ export default function CreateProject() {
                 formik.resetForm();
                 dispatch({text: 'Project has been created !', type: NOTIFICATION_SUCCESS_TYPE});
                 dispatch(selectCurrentProject(project));
-                navigate('/dashboard');
+                return navigate('/dashboard');
             } catch (error) {
                 setIsLoading(false);
                 if (error.response && error.response.status) {

@@ -16,9 +16,6 @@ export default function RemovePageDialog({ open, setOpen, page }) {
     const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(false);
 
-    useEffect(() => {
-    }, [open]);
-
     const handleClose = () => {
         setOpen(false);
     };
@@ -34,9 +31,9 @@ export default function RemovePageDialog({ open, setOpen, page }) {
             dispatch(pushNotification({text: 'Page has been removed !', type: NOTIFICATION_SUCCESS_TYPE}));
             handleClose();
             if (page.parent) {
-                navigate(`/page/${page.parent._id}`);
+                return navigate(`/page/${page.parent._id}`);
             } else {
-                navigate('/dashboard');
+                return navigate('/dashboard');
             }
         } catch (error) {
             setIsLoading(false);

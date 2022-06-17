@@ -42,10 +42,11 @@ function App() {
       const selectedProject = currentProject ?? projects[0];
       if (projects.length > 0) {
         await dispatch(selectCurrentProject(selectedProject));
+        setIsLoading(false);
       } else {
+        setIsLoading(false);
         return navigate('/project/create');
       }
-      setIsLoading(false);
     })();
   }, [])
 

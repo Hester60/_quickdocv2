@@ -12,7 +12,7 @@ export default function ProjectForm({formik, isLoading, errors}) {
                 </Alert>
 
             )}
-            <TextField
+          <TextField
                 name="name" fullWidth label="Project title" variant="outlined" onChange={formik.handleChange}
                 value={formik.values.name} sx={{ mb: 3 }}
                 disabled={isLoading}

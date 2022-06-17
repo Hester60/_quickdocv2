@@ -14,6 +14,6 @@ router.route('/:pageId')
     .put(authRequired, updatePage);
 
 router.route('/:pageId/remove')
-    .delete(removePage);
+    .delete(authRequired, removePage);
 
 module.exports = router;
