@@ -1,6 +1,6 @@
 import MainDrawer from "./components/Navigation/MainDrawer";
 import {Box, CircularProgress, CssBaseline, Typography} from "@mui/material";
-import {Routes, Route, Navigate} from "react-router-dom";
+import {Routes, Route, Navigate, useNavigate} from "react-router-dom";
 import ShowPage from "./containers/Page/ShowPage";
 import Dashboard from "./containers/Dashboard/Dashboard";
 import EditPage from "./containers/Page/EditPage";
@@ -10,6 +10,7 @@ import {useSelector, useDispatch} from "react-redux";
 import Notification from "./components/Notification/Notification";
 import {useEffect, useState} from "react";
 import {fetchProjects} from "./reducers/projectsSlice";
+import {selectCurrentProject} from "./reducers/currentProjectSlice";
 
 const AppLoader = () => (
   <Box sx={{
@@ -22,7 +23,7 @@ const AppLoader = () => (
   }}>
     <CircularProgress size={75}/>
     <Box component="div" mt={3}>
-      <Typography>Loading. Please wait.</Typography>
+      <Typography>Loading. Please wait ...</Typography>
     </Box>
   </Box>
 )
@@ -31,11 +32,19 @@ function App() {
   const dispatch = useDispatch();
   const notifications = useSelector(state => state.notifications.items);
   const [isLoading, setIsLoading] = useState(true);
+  const currentProject = useSelector(state => state.currentProject.item);
+  const navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
       setIsLoading(true);
-      await dispatch(fetchProjects());
+      const projects = await dispatch(fetchProjects()).unwrap();
+      const selectedProject = currentProject ?? projects[0];
+      if (projects.length > 0) {
+        await dispatch(selectCurrentProject(selectedProject));
+      } else {
+        return navigate('/project/create');
+      }
       setIsLoading(false);
     })();
   }, [])
