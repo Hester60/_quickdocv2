@@ -2,12 +2,12 @@ import {CardContent, TextField, Toolbar, Box, Alert, AlertTitle, Typography} fro
 import {useState, useEffect} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import api from '../../api';
-import MainToolbar from "../../components/Navigation/MainToolbar";
-import {EDIT_PAGE_TOOLBAR} from "../../components/Navigation/MainToolbar";
+import MainToolbar from "../../components/Navigation/MainToolbar/MainToolbar";
+import {EDIT_PAGE_TOOLBAR} from "../../components/Navigation/MainToolbar/MainToolbar";
 import PageContentEditor from "./PageContentEditor";
 import {useFormik} from "formik";
 import * as Yup from 'yup';
-import {validatePageTitle} from "../../formValidations/pageValidation";
+import {validatePageTitle} from "../../form-validations/pageValidation";
 import {useDispatch} from "react-redux";
 import {editPage} from "../../reducers/pagesSlice";
 import Notification from "../../components/Notification/Notification";

@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useEffect, useState } from 'react';
-import MovePageMenuItem from '../../../EditPage/MovePageMenuItem';
+import MovePageMenuItem from './MovePageMenuItem';
 import RemovePageMenuItem from './RemovePageMenuItem';
 
 export default function PageMenu({ ...props }) {

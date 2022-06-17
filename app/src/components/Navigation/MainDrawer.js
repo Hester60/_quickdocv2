@@ -1,14 +1,14 @@
 import Drawer from '@mui/material/Drawer';
 import Divider from '@mui/material/Divider';
 import {Box, Button} from '@mui/material';
-import ProjectSelect from './ProjectMenu/ProjectSelect';
+import ProjectSelect from './Menu/ProjectMenu/ProjectSelect';
 import PageTree from "./PagesTree/PageTree";
 import {useCallback} from "react";
 import {useSelector} from 'react-redux';
 import {useDispatch} from 'react-redux';
 import {modifyWidth} from '../../reducers/drawerWidthSlice';
 import {useNavigate} from 'react-router-dom';
-import NewPageButton from "../NewPageButton/NewPageButton";
+import NewPageButton from "../Page/NewPageButton/NewPageButton";
 
 const minDrawerWidth = 240;
 const maxDrawerWidth = 750;

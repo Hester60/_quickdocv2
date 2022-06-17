@@ -4,7 +4,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import PageMenu from './Menu/PageMenu/PageMenu';
+import PageMenu from '../Menu/PageMenu/PageMenu';
 
 export const DASHBOARD_TOOLBAR = 'DASHBOARD_TOOLBAR';
 export const PAGE_TOOLBAR = 'PAGE_TOOLBAR';

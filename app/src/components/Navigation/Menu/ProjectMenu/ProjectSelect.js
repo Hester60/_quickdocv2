@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import MenuItem from '@mui/material/MenuItem';
-import { fetchProjects, selectAllProjects } from '../../../reducers/projectsSlice';
+import { fetchProjects, selectAllProjects } from '../../../../reducers/projectsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import ProjectSelectSkeleton from './ProjectSelectSkeleton';
 import {Button, Menu, Typography} from '@mui/material';
 import {KeyboardArrowDown} from "@mui/icons-material";
 import Divider from "@mui/material/Divider";
-import {selectCurrentProject} from "../../../reducers/currentProjectSlice";
-import {fetchPages} from "../../../reducers/pagesSlice";
+import {selectCurrentProject} from "../../../../reducers/currentProjectSlice";
+import {fetchPages} from "../../../../reducers/pagesSlice";
 import {useNavigate} from "react-router-dom";
 
 export default function ProjectSelect() {

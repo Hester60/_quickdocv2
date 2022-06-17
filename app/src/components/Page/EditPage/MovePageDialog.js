@@ -5,16 +5,16 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import {useEffect, useState} from "react";
 import Button from '@mui/material/Button';
-import api from '../../api';
+import api from '../../../api';
 import PageAutocompleter from "../PageAutocompleter/PageAutocompleter";
 import {Alert, AlertTitle, Box, Typography} from "@mui/material";
 import {useFormik} from "formik";
 import * as Yup from 'yup';
-import {validatePageParent} from "../../formValidations/pageValidation";
-import {ROOT_SELECTION} from '../../constants/PageConstants';
+import {validatePageParent} from "../../../form-validations/pageValidation";
+import {ROOT_SELECTION} from '../../../constants/PageConstants';
 import {useDispatch, useSelector} from 'react-redux';
-import {editPage} from "../../reducers/pagesSlice";
-import Notification from "../Notification/Notification";
+import {editPage} from "../../../reducers/pagesSlice";
+import Notification from "../../Notification/Notification";
 
 export default function MovePageDialog({open, setOpen, page, setPage}) {
     const dispatch = useDispatch();

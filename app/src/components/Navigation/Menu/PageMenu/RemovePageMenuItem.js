@@ -1,6 +1,6 @@
 import { MenuItem, Typography } from "@mui/material";
 import { useState } from "react";
-import RemovePageDialog from "../../../RemovePage/RemovePageDialog";
+import RemovePageDialog from "../../../Page/RemovePage/RemovePageDialog";
 
 export default function ({page}) {
 

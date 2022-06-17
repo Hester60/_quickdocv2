@@ -5,16 +5,16 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import {useEffect, useState} from "react";
 import Button from '@mui/material/Button';
-import api from '../../api';
+import api from '../../../api';
 import PageAutocompleter from "../PageAutocompleter/PageAutocompleter";
 import {Alert, AlertTitle, TextField, Typography} from "@mui/material";
 import {useFormik} from "formik";
 import * as Yup from 'yup';
-import {validatePageParent, validatePageTitle} from "../../formValidations/pageValidation";
+import {validatePageParent, validatePageTitle} from "../../../form-validations/pageValidation";
 import {useDispatch, useSelector} from "react-redux";
-import {addPage} from "../../reducers/pagesSlice";
+import {addPage} from "../../../reducers/pagesSlice";
 import {matchPath, useLocation, useNavigate} from "react-router-dom";
-import {ROOT_SELECTION} from '../../constants/PageConstants';
+import {ROOT_SELECTION} from '../../../constants/PageConstants';
 
 export default function CreatePageDialog({open, setOpen}) {
     const dispatch = useDispatch();

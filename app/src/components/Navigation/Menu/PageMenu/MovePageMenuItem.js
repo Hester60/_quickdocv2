@@ -1,6 +1,6 @@
 import { MenuItem } from "@mui/material";
 import { useState } from "react";
-import MovePageDialog from "./MovePageDialog";
+import MovePageDialog from "../../../Page/EditPage/MovePageDialog";
 
 export default function MovePageMenuItem({ page, setPage }) {
 

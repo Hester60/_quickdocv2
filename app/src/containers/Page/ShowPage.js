@@ -1,7 +1,7 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import api from '../../api';
-import MainToolbar, {PAGE_TOOLBAR} from "../../components/Navigation/MainToolbar";
+import MainToolbar, {PAGE_TOOLBAR} from "../../components/Navigation/MainToolbar/MainToolbar";
 import {Box, Card, Toolbar, Typography, CardContent} from "@mui/material";
 
 export default function ShowPage() {

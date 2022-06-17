@@ -3,8 +3,8 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText'; import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import MainToolbar from "../../components/Navigation/MainToolbar";
-import { DASHBOARD_TOOLBAR } from "../../components/Navigation/MainToolbar";
+import MainToolbar from "../../components/Navigation/MainToolbar/MainToolbar";
+import { DASHBOARD_TOOLBAR } from "../../components/Navigation/MainToolbar/MainToolbar";
 import api from '../../api'
 import { Link } from "react-router-dom";
 
@@ -36,7 +36,7 @@ export default function Dashboard() {
             return lastCreatedPages.map(page => {
                 return (
                     <ListItem key={page._id}>
-                        <ListItemText 
+                        <ListItemText
                         primary={<Link to={`/page/${page._id}`}>{page.title}</Link>}
                         secondary={`Created on ${new Date(page.createdAt).toLocaleString()}`}
                         />

@@ -5,10 +5,10 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useEffect, useState } from "react";
 import Button from '@mui/material/Button';
-import api from '../../api';
+import api from '../../../api';
 import { useDispatch } from 'react-redux';
-import Notification from "../Notification/Notification";
-import { deletePages } from '../../reducers/pagesSlice';
+import Notification from "../../Notification/Notification";
+import { deletePages } from '../../../reducers/pagesSlice';
 import { useNavigate } from 'react-router-dom';
 
 export default function RemovePageDialog({ open, setOpen, page }) {

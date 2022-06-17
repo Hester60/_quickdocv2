@@ -1,8 +1,8 @@
 import { Box, Toolbar, CardContent, Alert, AlertTitle, Typography, TextField, Button } from '@mui/material';
-import { CREATE_PROJECT_TOOLBAR } from '../../components/Navigation/MainToolbar';
-import MainToolbar from '../../components/Navigation/MainToolbar';
+import { CREATE_PROJECT_TOOLBAR } from '../../components/Navigation/MainToolbar/MainToolbar';
+import MainToolbar from '../../components/Navigation/MainToolbar/MainToolbar';
 import { useState } from 'react';
-import { validateProjectName } from '../../formValidations/projetValidation';
+import { validateProjectName } from '../../form-validations/projetValidation';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Notification from '../../components/Notification/Notification';
@@ -10,7 +10,7 @@ import api from '../../api';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { selectCurrentProject } from '../../reducers/currentProjectSlice';
-import ProjectForm from '../../components/ProjectForm/ProjectForm';
+import ProjectForm from '../../components/Project/ProjectForm/ProjectForm';
 
 export default function CreateProject() {
     const dispatch = useDispatch();
@@ -35,14 +35,14 @@ export default function CreateProject() {
                 const res = await api.post(`projects`, {
                     name
                 });
-                
+
                 const project = res.data;
                 console.log(project);
 
                 setIsLoading(false);
-                
+
                 // No need to dispatch into projects because project list is refreshed when user click it
-                
+
                 formik.resetForm();
                 setOpenNotification(true);
                 dispatch(selectCurrentProject(project));
