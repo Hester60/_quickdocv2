@@ -10,6 +10,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {NOTIFICATION_SUCCESS_TYPE, pushNotification} from "../../../reducers/notificationsSlice";
 import {selectCurrentProject} from "../../../reducers/currentProjectSlice";
+import {resetPages} from "../../../reducers/pagesSlice";
 
 export default function RemoveProjectDialog({ open, setOpen }) {
   const navigate = useNavigate();
@@ -28,6 +29,7 @@ export default function RemoveProjectDialog({ open, setOpen }) {
       await api.delete(`projects/${project._id}/remove`);
       handleClose();
       dispatch(selectCurrentProject(null));
+      dispatch(resetPages());
       dispatch(pushNotification({text: 'Project has been removed !', type: NOTIFICATION_SUCCESS_TYPE}));
       return navigate('/project/create');
     } catch (error) {

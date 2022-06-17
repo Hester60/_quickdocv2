@@ -31,6 +31,9 @@ const pagesSlice = createSlice({
                 }
             });
             state.items = copy;
+        },
+        resetPages(state, action) {
+            state.items = [];
         }
     },
     extraReducers(build) {
@@ -55,6 +58,6 @@ export const fetchPages = createAsyncThunk('pages/fetchPages', async (query = ''
     return response.data;
 });
 
-export const { addPage, editPage, deletePages } = pagesSlice.actions;
+export const { addPage, editPage, deletePages, resetPages } = pagesSlice.actions;
 export const selectAllPage = state => state.pages.items;
 export default pagesSlice.reducer;
