@@ -1,16 +1,16 @@
-import { Box, Toolbar, CardContent, Alert, AlertTitle, Typography, TextField, Button } from '@mui/material';
-import { EDIT_PROJECT_TOOLBAR } from '../../components/Navigation/MainToolbar/MainToolbar';
+import {Box, Toolbar, CardContent, Alert, AlertTitle, Typography, TextField, Button} from '@mui/material';
+import {EDIT_PROJECT_TOOLBAR} from '../../components/Navigation/MainToolbar/MainToolbar';
 import MainToolbar from '../../components/Navigation/MainToolbar/MainToolbar';
-import { useEffect, useState } from 'react';
-import { validateProjectName } from '../../form-validations/projetValidation';
-import { useFormik } from 'formik';
+import {useEffect, useState} from 'react';
+import {validateProjectName} from '../../form-validations/projetValidation';
+import {useFormik} from 'formik';
 import * as Yup from 'yup';
-import Notification from '../../components/Notification/Notification';
 import api from '../../api';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { selectCurrentProject } from '../../reducers/currentProjectSlice';
+import {useDispatch, useSelector} from 'react-redux';
+import {useNavigate} from 'react-router-dom';
+import {selectCurrentProject} from '../../reducers/currentProjectSlice';
 import ProjectForm from '../../components/Project/ProjectForm/ProjectForm';
+import {NOTIFICATION_INFO_TYPE} from "../../reducers/notificationsSlice";
 
 export default function EditProject() {
     const dispatch = useDispatch();
@@ -18,7 +18,6 @@ export default function EditProject() {
     const selectedProject = useSelector(state => state.currentProject.item);
     const [isLoading, setIsLoading] = useState(false);
     const [errors, setErrors] = useState(null);
-    const [openNotification, setOpenNotification] = useState(false);
 
     useEffect(() => {
         if (!selectedProject) {
@@ -53,7 +52,7 @@ export default function EditProject() {
 
                 formik.resetForm();
                 dispatch(selectCurrentProject(project));
-                setOpenNotification(true);
+                dispatch({text: 'Project has been updated !', type: NOTIFICATION_INFO_TYPE});
             } catch (error) {
                 setIsLoading(false);
                 if (error.response && error.response.status) {
@@ -65,18 +64,17 @@ export default function EditProject() {
 
     return (
         <>
-            <Box sx={{ display: 'flex', flexFlow: 'column' }}>
-                <MainToolbar toolbarType={EDIT_PROJECT_TOOLBAR} />
-                <Toolbar />
+            <Box sx={{display: 'flex', flexFlow: 'column'}}>
+                <MainToolbar toolbarType={EDIT_PROJECT_TOOLBAR}/>
+                <Toolbar/>
             </Box>
-            <Box sx={{ width: '100%', flexFlow: 'column' }} display='flex' alignItems="center">
-                <Box sx={{ width: '100%', maxWidth: 1250, mt: 2 }}>
+            <Box sx={{width: '100%', flexFlow: 'column'}} display='flex' alignItems="center">
+                <Box sx={{width: '100%', maxWidth: 1250, mt: 2}}>
                     <CardContent>
-                        <ProjectForm formik={formik} isLoading={isLoading} errors={errors} />
+                        <ProjectForm formik={formik} isLoading={isLoading} errors={errors}/>
                     </CardContent>
                 </Box>
             </Box>
-            <Notification open={openNotification} setOpen={setOpenNotification} message="Project has been updated !"/>
         </>
     )
 }

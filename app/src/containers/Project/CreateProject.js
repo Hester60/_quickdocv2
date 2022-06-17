@@ -5,19 +5,18 @@ import { useState } from 'react';
 import { validateProjectName } from '../../form-validations/projetValidation';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import Notification from '../../components/Notification/Notification';
 import api from '../../api';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { selectCurrentProject } from '../../reducers/currentProjectSlice';
 import ProjectForm from '../../components/Project/ProjectForm/ProjectForm';
+import {NOTIFICATION_INFO_TYPE} from "../../reducers/notificationsSlice";
 
 export default function CreateProject() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const [errors, setErrors] = useState(null);
-    const [openNotification, setOpenNotification] = useState(false);
 
     const formik = useFormik({
         initialValues: {
@@ -44,7 +43,7 @@ export default function CreateProject() {
                 // No need to dispatch into projects because project list is refreshed when user click it
 
                 formik.resetForm();
-                setOpenNotification(true);
+                dispatch({text: 'Project has been created !', type: NOTIFICATION_INFO_TYPE});
                 dispatch(selectCurrentProject(project));
                 navigate('/dashboard');
             } catch (error) {
@@ -69,7 +68,6 @@ export default function CreateProject() {
                     </CardContent>
                 </Box>
             </Box>
-            <Notification open={openNotification} setOpen={setOpenNotification} message="Project has been created !"/>
         </>
     )
 }

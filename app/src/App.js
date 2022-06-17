@@ -6,8 +6,12 @@ import Dashboard from "./containers/Dashboard/Dashboard";
 import EditPage from "./containers/Page/EditPage";
 import CreateProject from "./containers/Project/CreateProject";
 import EditProject from "./containers/Project/EditProject";
+import {useSelector} from "react-redux";
+import Notification from "./components/Notification/Notification";
 
 function App() {
+    const notifications = useSelector(state => state.notifications.items);
+
     return (
         <>
             <CssBaseline />
@@ -24,6 +28,7 @@ function App() {
                     </Routes>
                 </Box>
             </Box>
+            {notifications.map(notification => <Notification type={notification.type} id={notification.id} text={notification.text} key={notification.id} />)}
         </>
     );
 }

@@ -14,7 +14,7 @@ import {validatePageParent} from "../../../form-validations/pageValidation";
 import {ROOT_SELECTION} from '../../../constants/PageConstants';
 import {useDispatch, useSelector} from 'react-redux';
 import {editPage} from "../../../reducers/pagesSlice";
-import Notification from "../../Notification/Notification";
+import {NOTIFICATION_INFO_TYPE, pushNotification} from "../../../reducers/notificationsSlice";
 
 export default function MovePageDialog({open, setOpen, page, setPage}) {
     const dispatch = useDispatch();
@@ -23,7 +23,6 @@ export default function MovePageDialog({open, setOpen, page, setPage}) {
     const currentProject = useSelector(state => state.currentProject.item);
     const [errors, setErrors] = useState(null);
     const [defaultSelection, setDefaultSelection] = useState(null);
-    const [openNotification, setOpenNotification] = useState(false);
 
     useEffect(() => {
         if (open === true) {
@@ -85,8 +84,8 @@ export default function MovePageDialog({open, setOpen, page, setPage}) {
             const updatedPage = res.data;
             dispatch(editPage({...updatedPage, parent: updatedPage.parent ? updatedPage.parent._id : null}));
             setPage(updatedPage)
+            dispatch(pushNotification({text: 'Page has been moved !', type: NOTIFICATION_INFO_TYPE}))
             handleClose();
-            setOpenNotification(true);
             setIsLoading(false);
         } catch (error) {
             setIsLoading(false);
@@ -131,7 +130,6 @@ export default function MovePageDialog({open, setOpen, page, setPage}) {
                     </DialogActions>
                 </form>
             </Dialog>
-            <Notification open={openNotification} setOpen={setOpenNotification} message="Page has been moved !"/>
         </>
     )
 }

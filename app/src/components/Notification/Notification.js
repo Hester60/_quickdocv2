@@ -3,14 +3,18 @@ import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import {Alert} from "@mui/lab";
+import {useDispatch} from "react-redux";
+import {removeNotification} from "../../reducers/notificationsSlice";
 
-export default function Notification({open, setOpen, message}) {
+export default function Notification({type, id, text}) {
+    const dispatch = useDispatch();
+    const TTL = 3000;
+
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
             return;
         }
-
-        setOpen(false);
+        dispatch(removeNotification(id));
     };
 
     const action = (
@@ -28,16 +32,16 @@ export default function Notification({open, setOpen, message}) {
 
     return (
         <Snackbar
-            open={open}
-            autoHideDuration={3000}
+            open={true}
+            autoHideDuration={TTL}
             onClose={handleClose}
             anchorOrigin={{
                 vertical: 'bottom',
                 horizontal: 'right'
             }}
             action={action}>
-            <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-                {message}
+            <Alert onClose={handleClose} severity={type} sx={{ width: '100%' }}>
+                {text}
             </Alert>
         </Snackbar>
     );

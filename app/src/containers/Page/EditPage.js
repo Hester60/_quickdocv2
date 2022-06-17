@@ -10,7 +10,7 @@ import * as Yup from 'yup';
 import {validatePageTitle} from "../../form-validations/pageValidation";
 import {useDispatch} from "react-redux";
 import {editPage} from "../../reducers/pagesSlice";
-import Notification from "../../components/Notification/Notification";
+import {NOTIFICATION_INFO_TYPE, pushNotification} from "../../reducers/notificationsSlice";
 
 export default function EditPage() {
     const dispatch = useDispatch();
@@ -18,7 +18,6 @@ export default function EditPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [errors, setErrors] = useState(null);
     const [page, setPage] = useState(null);
-    const [openNotification, setOpenNotification] = useState(false);
     let {pageId} = useParams();
 
     useEffect(() => {
@@ -49,7 +48,7 @@ export default function EditPage() {
                 const res = await api.put(`pages/${page._id}`, {title, body});
                 setIsLoading(false);
                 dispatch(editPage(res.data));
-                setOpenNotification(true);
+                dispatch(pushNotification({text: 'Page has been updated !', type: NOTIFICATION_INFO_TYPE}))
             } catch (error) {
                 setIsLoading(false);
                 if (error.response && error.response.status) {
@@ -98,7 +97,6 @@ export default function EditPage() {
                     </CardContent>
                 </Box>
             </Box>
-            <Notification open={openNotification} setOpen={setOpenNotification} message="Changes has been saved !"/>
         </>
     )
 }

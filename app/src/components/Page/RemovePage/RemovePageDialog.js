@@ -7,15 +7,14 @@ import { useEffect, useState } from "react";
 import Button from '@mui/material/Button';
 import api from '../../../api';
 import { useDispatch } from 'react-redux';
-import Notification from "../../Notification/Notification";
 import { deletePages } from '../../../reducers/pagesSlice';
 import { useNavigate } from 'react-router-dom';
+import {NOTIFICATION_INFO_TYPE, pushNotification} from "../../../reducers/notificationsSlice";
 
 export default function RemovePageDialog({ open, setOpen, page }) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(false);
-    const [openNotification, setOpenNotification] = useState(false);
 
     useEffect(() => {
     }, [open]);
@@ -32,7 +31,7 @@ export default function RemovePageDialog({ open, setOpen, page }) {
 
             const { deletedIds } = res.data;
             dispatch(deletePages(deletedIds));
-            setOpenNotification(true);
+            dispatch(pushNotification({text: 'Page has been removed !', type: NOTIFICATION_INFO_TYPE}))
             navigate('/dashboard');
         } catch (error) {
             setIsLoading(false);
@@ -62,7 +61,6 @@ export default function RemovePageDialog({ open, setOpen, page }) {
                     </Button>
                 </DialogActions>
             </Dialog>
-            <Notification open={openNotification} setOpen={setOpenNotification} message="Page has been removed !" />
         </>
     )
 }
