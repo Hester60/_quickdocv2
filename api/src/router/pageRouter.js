@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const {createPage, findAllPages, findPageById, updatePage, movePage} = require('../controllers/pageController');
+const { createPage, findAllPages, findPageById, updatePage, movePage, removePage } = require('../controllers/pageController');
 const authRequired = require('../middlewares/authRequired')
 
 router.route('/')
@@ -12,5 +12,8 @@ router.route('/:pageId/move')
 router.route('/:pageId')
     .get(authRequired, findPageById)
     .put(authRequired, updatePage);
+
+router.route('/:pageId/remove')
+    .delete(removePage);
 
 module.exports = router;

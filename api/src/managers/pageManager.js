@@ -1,4 +1,5 @@
-const {Page} = require('../database/models');
+const { Page } = require('../database/models');
+const db = require('../database/db');
 
 /**
  * Update project object if newData contains change.
@@ -8,7 +9,7 @@ const {Page} = require('../database/models');
  * @returns {*}
  */
 module.exports.update = (page, newData) => {
-    const {title, body} = newData;
+    const { title, body } = newData;
 
     page.title = title !== undefined ? title : page.title;
     page.body = body !== undefined ? body : page.body;
@@ -34,8 +35,8 @@ module.exports.move = (page, parent) => {
  */
 module.exports.getPageChildrenFlat = async (page) => {
     const aggregate = Page.aggregate([
-        {$match: {_id: page._id}},
-        {$graphLookup: {from: 'pages', startWith: '$_id', connectFromField: '_id', connectToField: 'parent', as: 'children', depthField: 'generation'}}
+        { $match: { _id: page._id } },
+        { $graphLookup: { from: 'pages', startWith: '$_id', connectFromField: '_id', connectToField: 'parent', as: 'children', depthField: 'generation' } }
     ]);
 
     return await aggregate.exec();
@@ -68,9 +69,37 @@ module.exports.canUpdateParent = async (page, newParent) => {
         return false;
     }
 
-    const aggrationResult = await this.getPageChildrenFlat(page);
+    const aggretionResult = await this.getPageChildrenFlat(page);
 
-    const child = aggrationResult[0].children.find(e => e._id.equals(newParent._id));
+    const child = aggretionResult[0].children.find(e => e._id.equals(newParent._id));
 
     return !child;
+}
+
+module.exports.removePage = async (page, next) => {
+    const session = await db.conn.startSession();
+
+    try {
+        session.startTransaction();
+
+        const aggregationResult = await this.getPageChildrenFlat(page);
+        const children = aggregationResult[0].children;
+        let deletedIds = [page._id];
+
+        if (children.length > 0) {
+            const ids = children.map(child => child._id);
+            deletedIds = [...deletedIds, ...ids];
+            await Page.deleteMany({ _id: { $in: ids } });
+        }
+
+        await session.commitTransaction();
+
+        return deletedIds;
+    } catch (error) {
+        await session.abortTransaction();
+        session.endSession();
+        throw new Error(error);
+    }
+
+    session.endSession();
 }

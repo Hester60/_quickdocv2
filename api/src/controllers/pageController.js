@@ -113,3 +113,18 @@ module.exports.findAllPages = asyncWrapper(async (req, res) => {
 
     return res.status(200).json({pages, pagination});
 })
+
+/**
+ * Return ids array of deleted pages
+ */
+module.exports.removePage = asyncWrapper(async (req, res) => {
+    let page = await Page.findById(req.params.pageId);
+
+    if (!page) {
+        throw new NotFoundError(`Page with id ${req.params.pageId} not found`)
+    }
+
+    const deletedIds = await pageManager.removePage(page);
+
+    return res.status(200).json({deletedIds});
+});
