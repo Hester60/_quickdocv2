@@ -6,13 +6,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useEffect, useState } from "react";
 import Button from '@mui/material/Button';
 import api from '../../api';
-import PageAutocompleter from "../PageAutocompleter/PageAutocompleter";
-import { Alert, AlertTitle, Box, Typography } from "@mui/material";
-import { useFormik } from "formik";
-import * as Yup from 'yup';
-import { validatePageParent } from "../../formValidations/pageValidation";
-import { ROOT_SELECTION } from '../../constants/PageConstants';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Notification from "../Notification/Notification";
 import { deletePages } from '../../reducers/pagesSlice';
 import { useNavigate } from 'react-router-dom';
@@ -31,7 +25,6 @@ export default function RemovePageDialog({ open, setOpen, page }) {
     };
 
     async function onSubmitDelete() {
-        console.log(page);
         try {
             setIsLoading(true);
 

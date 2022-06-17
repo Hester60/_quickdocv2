@@ -26,7 +26,7 @@ const pagesSlice = createSlice({
             let copy = [...state.items];
             deletedIds.forEach(id => {
                 const index = copy.findIndex(e => e._id === id);
-                if (index) {
+                if (index >= 0) {
                     copy.splice(index, 1);
                 }
             });
