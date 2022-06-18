@@ -16,3 +16,8 @@ code {
 .ql-editor{
   min-height:200px;
 }
+
+.img-fluid {
+  max-width: 100%;
+  height: auto;
+}
