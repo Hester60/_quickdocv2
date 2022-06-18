@@ -6,10 +6,10 @@ export default function PageContentEditor({formik}) {
             container: [
                 [{'header': [1, 2, 3, 4, 5, 6, false]}, {'font': []}],
                 [{size: []}],
-                ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                ['bold', 'italic', 'underline', 'blockquote'],
                 [{'list': 'ordered'}, {'list': 'bullet'},
                     {'indent': '-1'}, {'indent': '+1'}],
-                ['link', 'image'],
+                ['link', 'image', 'code-block'],
             ],
         }
     }
