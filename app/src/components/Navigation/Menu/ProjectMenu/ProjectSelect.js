@@ -89,7 +89,6 @@ export default function ProjectSelect() {
         }}
         aria-label={getButtonLabel()}
         title={getButtonLabel()}
-        disabled={!currentProject}
       >
         <div>{getButtonLabel()}</div>
       </Button>
