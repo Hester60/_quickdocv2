@@ -17,6 +17,5 @@ export default function PageContentEditor({formik}) {
     return (
         <ReactQuill name="body" theme="snow" onChange={value => formik.setFieldValue('body', value)}
                     value={formik.values.body} modules={modules} placeholder="Your page content ..."/>
-
     )
 }

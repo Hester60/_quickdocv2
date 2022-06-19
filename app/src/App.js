@@ -61,7 +61,6 @@ function App() {
             {!isLoading ? (
                     <ThemeProvider theme={darkTheme}>
                         <CssBaseline/>
-
                         <Box display="flex">
                             <MainDrawer/>
                             <Box p={3} sx={{flexGrow: 1}}>

@@ -17,7 +17,21 @@ code {
   min-height:200px;
 }
 
+.quill > .ql-container > .ql-editor.ql-blank::before{
+  color: gray;
+}
+
 .img-fluid {
   max-width: 100%;
   height: auto;
+}
+
+pre.ql-syntax {
+  overflow-x: hidden;
+  display: flex;
+  white-space: pre-wrap;
+  box-sizing: border-box;
+  background-color: #16132d !important;
+  padding: 1em;
+  border-radius: 20px;
 }

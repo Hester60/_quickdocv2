@@ -6,9 +6,6 @@ import {
     Alert,
     AlertTitle,
     Typography,
-    InputLabel,
-    Select,
-    MenuItem, FormControl
 } from "@mui/material";
 import {useState, useEffect} from "react";
 import {useNavigate, useParams} from "react-router-dom";
@@ -25,6 +22,7 @@ import {NOTIFICATION_SUCCESS_TYPE, pushNotification} from "../../reducers/notifi
 import {selectCurrentProject} from "../../reducers/currentProjectSlice";
 import {selectAllProjects} from "../../reducers/projectsSlice";
 import SelectTag from "../../components/Page/Form/SelectTag";
+import 'highlight.js/styles/monokai-sublime.css'
 
 export default function EditPage() {
     const dispatch = useDispatch();
