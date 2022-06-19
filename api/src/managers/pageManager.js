@@ -9,10 +9,11 @@ const db = require('../database/db');
  * @returns {*}
  */
 module.exports.update = (page, newData) => {
-    const { title, body } = newData;
+    const { title, body, tag } = newData;
 
     page.title = title !== undefined ? title : page.title;
     page.body = body !== undefined ? body : page.body;
+    page.tag = tag !== undefined ? tag : page.tag;
 
     return page;
 }

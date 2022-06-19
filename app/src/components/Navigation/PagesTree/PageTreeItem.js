@@ -13,10 +13,6 @@ export default function PageTreeItem({page, selectedPageId, pages, onIconClick})
       )}
       <Typography
         noWrap
-        onClick={(e) => {
-          e.stopPropagation();
-          navigate(`/page/${page._id}`)
-        }}
       >{page.title}</Typography>
     </Box>
   );
@@ -27,12 +23,22 @@ export default function PageTreeItem({page, selectedPageId, pages, onIconClick})
     return (
       <TreeItem nodeId={page._id}
                 key={page._id}
-                expandIcon={<ChevronRight onClick={() => onIconClick(page._id)}/>}
-                collapseIcon={<ExpandMore onClick={() => onIconClick(page._id)}/>}
+                expandIcon={<ChevronRight onClick={(e) => {
+                    e.stopPropagation();
+                    onIconClick(page._id)
+                }}/>}
+                collapseIcon={<ExpandMore onClick={(e) => {
+                    e.stopPropagation();
+                    onIconClick(page._id)
+                }}/>}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    navigate(`/page/${page._id}`)
+                }}
                 sx={{
                   '& .MuiTreeItem-content': {
                     margin: '2px 0 2px 0',
-                    padding: '3px 4px 3px 4px',
+                    padding: '6px 4px 6px 4px',
                     borderRadius: '5px',
                     backgroundColor: 'white'
                   },

@@ -1,4 +1,15 @@
-import {CardContent, TextField, Toolbar, Box, Alert, AlertTitle, Typography} from "@mui/material";
+import {
+    CardContent,
+    TextField,
+    Toolbar,
+    Box,
+    Alert,
+    AlertTitle,
+    Typography,
+    InputLabel,
+    Select,
+    MenuItem, FormControl
+} from "@mui/material";
 import {useState, useEffect} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import api from '../../api';
@@ -18,6 +29,7 @@ export default function EditPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [errors, setErrors] = useState(null);
     const [page, setPage] = useState(null);
+    const [tags, setTags] = useState([]);
     let {pageId} = useParams();
 
     useEffect(() => {
@@ -25,8 +37,11 @@ export default function EditPage() {
             setIsLoading(true);
             const res = await api.get(`pages/${pageId}`);
             setPage(res.data);
+            const resTags = await api.get('tags');
+            setTags(resTags.data);
             await formik.setFieldValue('title', res.data.title);
             await formik.setFieldValue('body', res.data.body);
+            await formik.setFieldValue('tag', res.data.tag._id);
             setIsLoading(false);
         })();
     }, [pageId]);
@@ -34,7 +49,8 @@ export default function EditPage() {
     const formik = useFormik({
         initialValues: {
             title: '',
-            body: ''
+            body: '',
+            tag: ''
         },
         validationSchema: Yup.object({
             title: validatePageTitle
@@ -44,8 +60,8 @@ export default function EditPage() {
                 setErrors(null);
                 setIsLoading(true);
 
-                const {title, body} = values;
-                const res = await api.put(`pages/${page._id}`, {title, body});
+                const {title, body, tag} = values;
+                const res = await api.put(`pages/${page._id}`, {title, body, tag});
                 setIsLoading(false);
                 dispatch(editPage(res.data));
                 dispatch(pushNotification({text: 'Page has been updated !', type: NOTIFICATION_SUCCESS_TYPE}))
@@ -70,7 +86,6 @@ export default function EditPage() {
                     </Alert>
 
                 )}
-
                 <TextField
                     name="title" fullWidth label="Page title" variant="outlined" onChange={formik.handleChange}
                     value={formik.values.title} sx={{mb: 3}}
@@ -79,6 +94,20 @@ export default function EditPage() {
                         formik.errors.title
                     ) : null}
                 />
+                <FormControl fullWidth>
+                    <InputLabel>Select a tag (not required)</InputLabel>
+                    <Select
+                        name="tag"
+                        value={formik.values.tag}
+                        label="Select a tag (not required)"
+                        disabled={isLoading}
+                        onChange={formik.handleChange}
+                        sx={{mb: 3}}
+                        fullWidth
+                    >
+                        {tags.map(tag => <MenuItem key={tag._id} value={tag._id}>{tag.name}</MenuItem>)}
+                    </Select>
+                </FormControl>
                 <PageContentEditor formik={formik}/>
             </form>
         </>

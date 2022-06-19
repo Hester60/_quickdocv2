@@ -59,6 +59,7 @@ const pageSchema = new Schema({
     validate: {
       validator: async function (value) {
         if (value) {
+          console.log(value);
           const tag = await model('Tag').findById(value);
 
           return !!tag;
