@@ -58,7 +58,6 @@ const pageSchema = new Schema({
     autopopulate: true,
     validate: {
       validator: async function (value) {
-        console.log(value);
         if (value) {
           const tag = await model('Tag').findById(value);
 
