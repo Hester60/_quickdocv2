@@ -10,10 +10,18 @@ import {modifyWidth} from '../../reducers/drawerWidthSlice';
 import {useNavigate} from 'react-router-dom';
 import NewPageButton from "../Page/NewPageButton/NewPageButton";
 import {minDrawerWidth} from "../../reducers/drawerWidthSlice";
+import {makeStyles} from "@mui/styles";
 
 const maxDrawerWidth = 750;
 
+const useStyles = makeStyles((theme) => ({
+  line: {
+    backgroundColor: theme.palette.background.default,
+  },
+}));
+
 export default function MainDrawer() {
+  const classes = useStyles();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const project = useSelector(state => state.currentProject.item);
@@ -48,6 +56,10 @@ export default function MainDrawer() {
           overflow: 'hidden',
         },
       }}
+      classes={{
+        paper: classes.drawerPaper,
+      }}
+      className={classes.drawer}
       variant="permanent"
       anchor="left"
     >
@@ -88,8 +100,7 @@ export default function MainDrawer() {
           right: 0,
           bottom: 0,
           zIndex: 100,
-          backgroundColor: "#f4f7f9"
-        }}/>
+        }} className={classes.line}/>
         <PageTree drawerWidth={drawerWidth}/>
       </Box>
     </Drawer>

@@ -40,7 +40,6 @@ export default function PageTreeItem({page, selectedPageId, pages, onIconClick})
                               margin: '2px 0 2px 0',
                               padding: '6px 4px 6px 4px',
                               borderRadius: '5px',
-                              backgroundColor: 'white'
                           },
                       }}
                       label={label}>
