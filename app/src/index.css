@@ -31,7 +31,8 @@ pre.ql-syntax {
   display: flex;
   white-space: pre-wrap;
   box-sizing: border-box;
-  background-color: #16132d !important;
+  background-color: #04030c !important;
   padding: 1em;
   border-radius: 20px;
 }
+

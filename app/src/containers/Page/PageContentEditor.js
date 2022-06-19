@@ -4,8 +4,7 @@ export default function PageContentEditor({formik}) {
     const modules = {
         toolbar: {
             container: [
-                [{'header': [1, 2, 3, 4, 5, 6, false]}, {'font': []}],
-                [{size: []}],
+                [{'header': [1, 2, 3, 4, 5, 6, false]}],
                 ['bold', 'italic', 'underline', 'blockquote'],
                 [{'list': 'ordered'}, {'list': 'bullet'},
                     {'indent': '-1'}, {'indent': '+1'}],
