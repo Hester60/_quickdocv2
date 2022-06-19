@@ -87,7 +87,7 @@ export default function MainToolbar({toolbarType, ...props}) {
                 Edit page
             </Typography>
             <Button color="inherit" onClick={props.backToPage} sx={{ml: 2}}>Back to page</Button>
-            <Button color="secondary" type="button" variant="contained" disableElevation sx={{ml: 2}}
+            <Button type="button" variant="contained" disableElevation sx={{ml: 2}}
                     onClick={props.onSave}>Save
                 changes</Button>
         </Toolbar>
