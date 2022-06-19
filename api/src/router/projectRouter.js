@@ -10,7 +10,7 @@ router.route('/:projectId')
     .put(authRequired,updateProject)
     .get(authRequired,findProjectById);
 
-router.route(`/:projectId/remove`)
+router.route(`/:projectId`)
   .delete(authRequired, removeProject);
 
 module.exports = router;

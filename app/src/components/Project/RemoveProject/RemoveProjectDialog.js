@@ -26,7 +26,7 @@ export default function RemoveProjectDialog({ open, setOpen }) {
     try {
       setIsLoading(true);
 
-      await api.delete(`projects/${project._id}/remove`);
+      await api.delete(`projects/${project._id}`);
       handleClose();
       dispatch(selectCurrentProject(null));
       dispatch(resetPages());

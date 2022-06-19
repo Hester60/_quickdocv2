@@ -6,7 +6,7 @@ connect-api: ## Connect to api container
 connect-app: ## Connect to app container
 	docker exec -it ${DOCKER_APP_CONTAINER_NAME} bash
 
-init: up exec-setup
+init: up exec-setup seed-tags
 
 exec-setup:
 	docker exec -it quickdoc_database_1 ./scripts/cluster-setup.sh
@@ -22,3 +22,6 @@ npm-install-app:
 
 npm-install-api:
 	docker exec -it ${DOCKER_API_CONTAINER_NAME} npm install
+
+seed-tags:
+    docker exec -it ${DOCKER_API_CONTAINER_NAME} npm seed-tags

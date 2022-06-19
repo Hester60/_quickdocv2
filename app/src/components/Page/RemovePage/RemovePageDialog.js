@@ -24,7 +24,7 @@ export default function RemovePageDialog({ open, setOpen, page }) {
         try {
             setIsLoading(true);
 
-            const res = await api.delete(`pages/${page._id}/remove`);
+            const res = await api.delete(`pages/${page._id}`);
 
             const { deletedIds } = res.data;
             dispatch(deletePages(deletedIds));

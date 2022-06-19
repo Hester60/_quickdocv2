@@ -13,7 +13,7 @@ router.route('/:pageId')
     .get(authRequired, findPageById)
     .put(authRequired, updatePage);
 
-router.route('/:pageId/remove')
+router.route('/:pageId')
     .delete(authRequired, removePage);
 
 module.exports = router;
