@@ -24,4 +24,4 @@ npm-install-api:
 	docker exec -it ${DOCKER_API_CONTAINER_NAME} npm install
 
 seed-tags:
-    docker exec -it ${DOCKER_API_CONTAINER_NAME} npm seed-tags
+	docker exec -it ${DOCKER_API_CONTAINER_NAME} npm run seed-tags
