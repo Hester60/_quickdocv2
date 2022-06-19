@@ -2,7 +2,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import api from '../../api';
 import MainToolbar, {PAGE_TOOLBAR} from "../../components/Navigation/MainToolbar/MainToolbar";
-import {Box, Card, Toolbar, Typography, CardContent} from "@mui/material";
+import {Box, Card, Toolbar, Typography, CardContent, Chip} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {selectAllProjects} from "../../reducers/projectsSlice";
 import {selectCurrentProject} from "../../reducers/currentProjectSlice";
@@ -51,6 +51,12 @@ export default function ShowPage() {
                                 {page.title}
                             </Typography>
                         </Box>
+                        {page.tag && (
+                            <Box sx={{width: '100%', maxWidth: 1250, mt: 2}}>
+                                <Chip size="small" label={page.tag.name} color={page.tag.color}
+                                      sx={{mr: 1, cursor: 'pointer'}}/>
+                            </Box>
+                        )}
                         <Card variant="outlined" sx={{width: '100%', maxWidth: 1250, mt: 2}}>
                             <CardContent>
                                 {pageContent()}
