@@ -1,5 +1,5 @@
 import TextField from "@mui/material/TextField";
-import {Autocomplete, createFilterOptions} from "@mui/material";
+import {Autocomplete, Box, Chip, createFilterOptions, Typography} from "@mui/material";
 
 export default function PageAutocompleter({defaultSelection, pages, formik, disabled}) {
     const OPTIONS_LIMIT = 5;
@@ -30,7 +30,14 @@ export default function PageAutocompleter({defaultSelection, pages, formik, disa
             renderOption={(props, option) => {
                 return (
                     <li {...props} key={option._id}>
-                        {option.title}
+                        <Box sx={{display: 'flex', alignItems: 'center'}}>
+                            {option.tag && (
+                                <Chip size="small" label={option.tag.name} color={option.tag.color} sx={{mr: 1, cursor: 'pointer'}}/>
+                            )}
+                            <Typography
+                                noWrap
+                            >{option.title}</Typography>
+                        </Box>
                     </li>
                 );
             }}

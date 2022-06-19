@@ -1,6 +1,6 @@
 import {Alert, AlertTitle, Typography, TextField, Button} from "@mui/material"
 
-export default function ProjectForm({formik, isLoading, errors}) {
+export default function ProjectForm({formik, isLoading, errors, buttonLabel}) {
   return (
     <form onSubmit={formik.handleSubmit}>
       {errors && (
@@ -20,7 +20,7 @@ export default function ProjectForm({formik, isLoading, errors}) {
           formik.errors.name
         ) : null}
       />
-      <Button disableElevation disabled={isLoading} type="submit" variant="contained">Create</Button>
+      <Button disableElevation disabled={isLoading} type="submit" variant="contained">{buttonLabel}</Button>
     </form>
   )
 }

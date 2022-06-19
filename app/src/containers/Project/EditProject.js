@@ -71,7 +71,7 @@ export default function EditProject() {
             <Box sx={{width: '100%', flexFlow: 'column'}} display='flex' alignItems="center">
                 <Box sx={{width: '100%', maxWidth: 1250, mt: 2}}>
                     <CardContent>
-                        <ProjectForm formik={formik} isLoading={isLoading} errors={errors}/>
+                        <ProjectForm formik={formik} isLoading={isLoading} errors={errors} buttonLabel="Update"/>
                     </CardContent>
                 </Box>
             </Box>

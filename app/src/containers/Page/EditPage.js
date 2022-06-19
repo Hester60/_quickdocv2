@@ -24,6 +24,7 @@ import {editPage} from "../../reducers/pagesSlice";
 import {NOTIFICATION_SUCCESS_TYPE, pushNotification} from "../../reducers/notificationsSlice";
 import {selectCurrentProject} from "../../reducers/currentProjectSlice";
 import {selectAllProjects} from "../../reducers/projectsSlice";
+import SelectTag from "../../components/Page/Form/SelectTag";
 
 export default function EditPage() {
     const dispatch = useDispatch();
@@ -75,7 +76,7 @@ export default function EditPage() {
                 setIsLoading(true);
 
                 const {title, body, tag} = values;
-                const res = await api.put(`pages/${page._id}`, {title, body, tag});
+                const res = await api.put(`pages/${page._id}`, {title, body, tag: tag === '' ? null : tag});
                 setIsLoading(false);
                 dispatch(editPage(res.data));
                 dispatch(pushNotification({text: 'Page has been updated !', type: NOTIFICATION_SUCCESS_TYPE}))
@@ -108,20 +109,7 @@ export default function EditPage() {
                         formik.errors.title
                     ) : null}
                 />
-                <FormControl fullWidth>
-                    <InputLabel>Select a tag (not required)</InputLabel>
-                    <Select
-                        name="tag"
-                        value={formik.values.tag}
-                        label="Select a tag (not required)"
-                        disabled={isLoading}
-                        onChange={formik.handleChange}
-                        sx={{mb: 3}}
-                        fullWidth
-                    >
-                        {tags.map(tag => <MenuItem key={tag._id} value={tag._id}>{tag.name}</MenuItem>)}
-                    </Select>
-                </FormControl>
+                <SelectTag formik={formik} isLoading={isLoading} tags={tags} />
                 <PageContentEditor formik={formik}/>
             </form>
         </>

@@ -69,7 +69,7 @@ export default function CreateProject() {
         <Box sx={{width: '100%', maxWidth: 1250, mt: 2}}>
           <CardContent>
             {!projectsLoading && projects.length <= 0 && <Alert sx={{mb: 2}} severity="error">You need to create a first project !</Alert>}
-            <ProjectForm formik={formik} isLoading={isLoading} errors={errors}/>
+            <ProjectForm formik={formik} isLoading={isLoading} errors={errors} buttonLabel="Create"/>
           </CardContent>
         </Box>
       </Box>

@@ -17,6 +17,7 @@ import {matchPath, useLocation, useNavigate} from "react-router-dom";
 import {ROOT_SELECTION} from '../../../constants/PageConstants';
 import {NOTIFICATION_SUCCESS_TYPE, pushNotification} from "../../../reducers/notificationsSlice";
 import axios from 'axios';
+import SelectTag from "../Form/SelectTag";
 
 export default function CreatePageDialog({open, setOpen}) {
   const dispatch = useDispatch();
@@ -149,20 +150,7 @@ export default function CreatePageDialog({open, setOpen}) {
               formik.errors.title
             ) : null}
           />
-          <FormControl fullWidth>
-            <InputLabel>Select a tag (not required)</InputLabel>
-            <Select
-              name="tag"
-              value={formik.values.tag}
-              label="Select a tag (not required)"
-              disabled={isLoading}
-              onChange={formik.handleChange}
-              sx={{mb: 3}}
-              fullWidth
-            >
-              {tags.map(tag => <MenuItem key={tag._id} value={tag._id}>{tag.name}</MenuItem>)}
-            </Select>
-          </FormControl>
+          <SelectTag formik={formik} isLoading={isLoading} tags={tags} />
           <PageAutocompleter pages={pages}
                              defaultSelection={selectedPage} formik={formik} disabled={isLoading}/>
         </DialogContent>
