@@ -19,9 +19,11 @@ import PageContentEditor from "./PageContentEditor";
 import {useFormik} from "formik";
 import * as Yup from 'yup';
 import {validatePageTitle} from "../../form-validations/pageValidation";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {editPage} from "../../reducers/pagesSlice";
 import {NOTIFICATION_SUCCESS_TYPE, pushNotification} from "../../reducers/notificationsSlice";
+import {selectCurrentProject} from "../../reducers/currentProjectSlice";
+import {selectAllProjects} from "../../reducers/projectsSlice";
 
 export default function EditPage() {
     const dispatch = useDispatch();
@@ -30,6 +32,8 @@ export default function EditPage() {
     const [errors, setErrors] = useState(null);
     const [page, setPage] = useState(null);
     const [tags, setTags] = useState([]);
+    const currentProject = useSelector(state => state.currentProject.item);
+    const projects = useSelector(selectAllProjects);
     let {pageId} = useParams();
 
     useEffect(() => {
@@ -37,11 +41,21 @@ export default function EditPage() {
             setIsLoading(true);
             const res = await api.get(`pages/${pageId}`);
             setPage(res.data);
+
+            if (currentProject._id !== res.data.project._id) {
+                const projectIndex = projects.findIndex(e => e._id === res.data.project._id);
+                if (projectIndex < 0) {
+                    return navigate('/dashboard');
+                }
+
+                dispatch(selectCurrentProject(res.data.project));
+            }
+
             const resTags = await api.get('tags');
             setTags(resTags.data);
             await formik.setFieldValue('title', res.data.title);
             await formik.setFieldValue('body', res.data.body);
-            await formik.setFieldValue('tag', res.data.tag._id);
+            await formik.setFieldValue('tag', res.data.tag ? res.data.tag._id : '');
             setIsLoading(false);
         })();
     }, [pageId]);
