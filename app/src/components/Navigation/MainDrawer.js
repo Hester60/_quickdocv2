@@ -9,8 +9,8 @@ import {useDispatch} from 'react-redux';
 import {modifyWidth} from '../../reducers/drawerWidthSlice';
 import {useNavigate} from 'react-router-dom';
 import NewPageButton from "../Page/NewPageButton/NewPageButton";
+import {minDrawerWidth} from "../../reducers/drawerWidthSlice";
 
-const minDrawerWidth = 240;
 const maxDrawerWidth = 750;
 
 export default function MainDrawer() {

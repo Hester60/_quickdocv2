@@ -1,7 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+export const minDrawerWidth = 300;
+
 const initialState = {
-    width: 300
+    width: minDrawerWidth
 }
 
 const drawerWidthSlice = createSlice({

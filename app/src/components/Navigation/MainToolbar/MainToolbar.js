@@ -2,10 +2,14 @@ import {Button, Skeleton} from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
 import PageMenu from '../Menu/PageMenu/PageMenu';
 import ProjectMenu from "../Menu/ProjectMenu/ProjectMenu";
+import IconButton from "@mui/material/IconButton";
+import {MenuOpen, Menu} from "@mui/icons-material";
+import {modifyWidth} from "../../../reducers/drawerWidthSlice";
+import {minDrawerWidth} from "../../../reducers/drawerWidthSlice";
 
 export const DASHBOARD_TOOLBAR = 'DASHBOARD_TOOLBAR';
 export const PAGE_TOOLBAR = 'PAGE_TOOLBAR';
@@ -15,12 +19,43 @@ export const EDIT_PROJECT_TOOLBAR = 'EDIT_PROJECT_TOOLBAR';
 
 export default function MainToolbar({toolbarType, ...props}) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const drawerWidth = useSelector(state => state.drawerWidth.width);
   const project = useSelector(state => state.currentProject.item);
 
+  const closeDrawer = (e) => {
+        e.stopPropagation()
+        dispatch(modifyWidth(0));
+  }
+
+  const openDrawer = (e) => {
+      e.stopPropagation();
+      dispatch(modifyWidth(minDrawerWidth));
+  }
+
+  const drawerButtons = () => {
+      return (
+          <>
+              {drawerWidth > 0 && (
+                  <IconButton aria-label="close" color="inherit" onClick={closeDrawer}>
+                      <MenuOpen />
+                  </IconButton>
+              )}
+              {
+                  drawerWidth <= 0 && (
+                      <IconButton aria-label="open" color="inherit" onClick={openDrawer}>
+                          <Menu />
+                      </IconButton>
+                  )
+              }
+          </>
+      )
+  }
+
   const dashboardToolbar = (
     <Toolbar>
-      <Typography variant="h6" noWrap component="div" sx={{flexGrow: 1}}>
+        {drawerButtons()}
+      <Typography variant="h6" noWrap component="div" sx={{flexGrow: 1, ml: 1}}>
         {!props.isLoading && props.project ? props.project.name : <Skeleton width={200}/>}
       </Typography>
       <ProjectMenu/>
@@ -29,6 +64,7 @@ export default function MainToolbar({toolbarType, ...props}) {
 
   const pageToolbar = (
     <Toolbar>
+        {drawerButtons()}
       <Typography variant="h6" noWrap component="div" sx={{flexGrow: 1}}>
         Show page
       </Typography>
@@ -38,6 +74,7 @@ export default function MainToolbar({toolbarType, ...props}) {
 
   const editPageToolbar = (
     <Toolbar>
+        {drawerButtons()}
       <Typography variant="h6" noWrap component="div" sx={{flexGrow: 1}}>
         Edit page
       </Typography>
@@ -49,6 +86,7 @@ export default function MainToolbar({toolbarType, ...props}) {
 
   const createProjectToolbar = (
     <Toolbar>
+        {drawerButtons()}
       <Typography variant="h6" noWrap component="div" sx={{flexGrow: 1}}>
         Create project
       </Typography>
@@ -58,6 +96,7 @@ export default function MainToolbar({toolbarType, ...props}) {
 
   const editProjectToolbar = (
     <Toolbar>
+        {drawerButtons()}
       <Typography variant="h6" noWrap component="div" sx={{flexGrow: 1}}>
         Edit project
       </Typography>
