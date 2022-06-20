@@ -24,6 +24,13 @@ code {
 .img-fluid {
   max-width: 100%;
   height: auto;
+  cursor: pointer;
+  border-radius: 12px;
+}
+
+.img-fluid:hover {
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  box-sizing: border-box;
 }
 
 pre.ql-syntax {

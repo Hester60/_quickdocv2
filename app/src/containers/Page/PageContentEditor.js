@@ -5,6 +5,9 @@ import api, { API_BASE_URL } from '../../api';
 import { useMemo } from "react";
 
 export default function PageContentEditor({ formik }) {
+    const Image = Quill.import('formats/image');
+    Image.className = 'img-fluid';
+    Quill.register(Image, true);
     Quill.register("modules/imageUploader", ImageUploader);
 
     const modules = useMemo(() => ({

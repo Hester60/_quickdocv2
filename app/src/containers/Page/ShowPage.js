@@ -35,8 +35,18 @@ export default function ShowPage() {
         })();
     }, [pageId])
 
+    function parseBody() {
+        let htmlObject = document.createElement('div');
+        htmlObject.innerHTML = page.body;
+        const images = htmlObject.getElementsByTagName('img');
+        [...images].forEach(image => {
+            image.setAttribute("onclick", `window.open('${image.src}', '_blank')` );
+        });
+        return htmlObject.outerHTML;
+    }
+
     const pageContent = () => !page.body || page.body.replace(/(<([^>]+)>)/ig, '') === '' ?
-        <Typography>Cette page est vide.</Typography> : <div dangerouslySetInnerHTML={{__html: page.body}}/>;
+        <Typography>Cette page est vide.</Typography> : <div dangerouslySetInnerHTML={{__html: parseBody()}}/>;
 
     return (
         <>
