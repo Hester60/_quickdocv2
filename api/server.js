@@ -15,7 +15,7 @@ app.use(cors());
 
 // middlewares
 app.use(express.json());
-app.use(process.env.API_BASE_PATH, express.static('./src/public'));
+app.use(process.env.API_BASE_PATH + '/static', express.static('./src/public'));
 app.use(process.env.API_BASE_PATH, router);
 
 const PORT = process.env.API_PORT; 

@@ -26,7 +26,7 @@ export default function PageContentEditor({ formik }) {
                     api.post(`upload`, formData)
                         .then(result => {
                             const filename = result.data.filename;
-                            resolve(`${API_BASE_URL}uploads/${filename}`);
+                            resolve(`${API_BASE_URL}static/uploads/${filename}`);
                         })
                         .catch(error => {
                             reject("Upload failed");

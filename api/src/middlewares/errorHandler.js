@@ -31,7 +31,7 @@ module.exports = (error, req, res, next) => {
     if (error.constructor === TokenExpiredError) {
         return res.status(401).json({error: 'Expired token. Please authenticate.', status: 401});
     }
-
+ 
     // JWT error (invalid, erroned ...)
     if (error.constructor === JsonWebTokenError) {
         return res.status(401).json({error: 'Invalid token. Please authenticate.', status: 401});
