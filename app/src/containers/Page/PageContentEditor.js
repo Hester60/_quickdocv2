@@ -30,7 +30,6 @@ export default function PageContentEditor({ formik }) {
                         })
                         .catch(error => {
                             reject("Upload failed");
-                            console.error("Error:", error);
                         });
                 });
             },
