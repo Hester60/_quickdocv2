@@ -1,6 +1,6 @@
 import MainDrawer from "./components/Navigation/MainDrawer";
 import { Box, CircularProgress, createTheme, CssBaseline, ThemeProvider, Typography } from "@mui/material";
-import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { Routes, Route, Navigate, useNavigate, useLocation } from "react-router-dom";
 import ShowPage from "./containers/Page/ShowPage";
 import Dashboard from "./containers/Dashboard/Dashboard";
 import EditPage from "./containers/Page/EditPage";
@@ -14,6 +14,9 @@ import { selectCurrentProject } from "./reducers/currentProjectSlice";
 import api from './api';
 import { addHttpError, clearHttpError } from "./reducers/httpErrorSlice";
 import HttpErrorDialog from './components/HttpError/HttpErrorDialog';
+import ProtectedRoute from "./components/Routes/ProtectedRoute";
+import Login from "./containers/Auth/Login";
+import { logout } from "./reducers/authSlice";
 
 const AppLoader = () => (
     <Box sx={{
@@ -38,6 +41,7 @@ const darkTheme = createTheme({
 });
 
 function App() {
+    const location = useLocation();
     const dispatch = useDispatch();
     const notifications = useSelector(state => state.notifications.items);
     const [isLoading, setIsLoading] = useState(true);
@@ -45,31 +49,47 @@ function App() {
     const navigate = useNavigate();
 
     useEffect(() => {
+        api.interceptors.request.use(
+            (req) => {
+               req.headers.authorization = `Bearer ${localStorage.getItem('token')}`
+               return req;
+            },
+            (err) => {
+               return Promise.reject(err);
+            }
+         );
+
         // Response interceptor
         api.interceptors.response.use(
             response => response,
-            error => {
+            async (error) => {
                 dispatch(clearHttpError())
                 if (error.response.status !== 422) {
                     dispatch(addHttpError(error.response.data.error ?? error.response.data.message));
+                } 
+                if (error.response.status === 401) {
+                    localStorage.removeItem('token');
+                    navigate('/login');
                 }
                 return Promise.reject(error);
             });
-    }, []);
 
-    useEffect(() => {
-        (async () => {
-            setIsLoading(true);
-            const projects = await dispatch(fetchProjects()).unwrap();
-            const selectedProject = currentProject ?? projects[0];
-            if (projects.length > 0) {
-                await dispatch(selectCurrentProject(selectedProject));
-                setIsLoading(false);
-            } else {
-                setIsLoading(false);
-                return navigate('/project/create');
-            }
-        })();
+        if (location.pathname !== '/login') {
+            (async () => {
+                setIsLoading(true);
+                const projects = await dispatch(fetchProjects()).unwrap();
+                const selectedProject = currentProject ?? projects[0];
+                if (projects.length > 0) {
+                    await dispatch(selectCurrentProject(selectedProject));
+                    setIsLoading(false);
+                } else {
+                    setIsLoading(false);
+                    return navigate('/project/create');
+                }
+            })();
+        } else {
+            setIsLoading(false);
+        }
     }, [])
 
     return (
@@ -78,14 +98,15 @@ function App() {
                 <ThemeProvider theme={darkTheme}>
                     <CssBaseline />
                     <Box display="flex">
-                        <MainDrawer />
+                        {location.pathname !== '/login' && (<MainDrawer />)}
                         <Box p={3} sx={{ flexGrow: 1 }}>
                             <Routes>
-                                <Route path="/dashboard" element={<Dashboard />} />
-                                <Route path="/project/create" element={<CreateProject />} />
-                                <Route path="/project/edit" element={<EditProject />} />
-                                <Route path="/page/:pageId" element={<ShowPage />} />
-                                <Route path="/page/edit/:pageId" element={<EditPage />} />
+                                <Route path="/dashboard" element={<ProtectedRoute ><Dashboard /></ProtectedRoute>} />
+                                <Route path="/project/create" element={<ProtectedRoute><CreateProject /></ProtectedRoute>} />
+                                <Route path="/project/edit" element={<ProtectedRoute><EditProject /></ProtectedRoute>} />
+                                <Route path="/page/:pageId" element={<ProtectedRoute><ShowPage /></ProtectedRoute>} />
+                                <Route path="/page/edit/:pageId" element={<ProtectedRoute><EditPage /></ProtectedRoute>} />
+                                <Route path="/login" element={<Login />} />
                                 <Route path="/" element={<Navigate replace to="/dashboard" />} />
                             </Routes>
                         </Box>

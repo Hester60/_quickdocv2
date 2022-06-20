@@ -5,6 +5,7 @@ import pagesSlice from "./reducers/pagesSlice";
 import drawerWidthSlice from './reducers/drawerWidthSlice';
 import notificationsSlice from './reducers/notificationsSlice';
 import httpErrorSlice from './reducers/httpErrorSlice';
+import authSlice from './reducers/authSlice';
 
 export default configureStore({
     reducer: {
@@ -13,6 +14,7 @@ export default configureStore({
         'pages': pagesSlice,
         'drawerWidth': drawerWidthSlice,
         'notifications':notificationsSlice,
-        'httpError': httpErrorSlice
+        'httpError': httpErrorSlice,
+        'auth': authSlice
     }
 })

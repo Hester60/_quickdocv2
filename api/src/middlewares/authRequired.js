@@ -4,7 +4,6 @@ const {AuthenticationError} = require("../utils/GeneralError");
 const {PRODUCTION} = require("../constants/environment");
 
 const authRequired = asyncWrapper(async (req, res, next) => {
-    if (process.env.NODE_ENV === PRODUCTION) {
         const header = req.headers.authorization || null;
 
         if (!header) {
@@ -18,7 +17,6 @@ const authRequired = asyncWrapper(async (req, res, next) => {
         }
 
         jwt.verify(token, process.env.JWT_SECRET); // throw error if invalid
-    }
 
     next();
 });
