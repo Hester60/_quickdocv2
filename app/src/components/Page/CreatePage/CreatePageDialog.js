@@ -111,7 +111,6 @@ export default function CreatePageDialog({open, setOpen}) {
     } catch (error) {
       setIsLoading(false);
       if (error.response && error.response.status === 422) {
-        console.log(error.response.data.errors);
         setErrors(error.response.data.errors);
       }
     }
