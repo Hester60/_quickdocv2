@@ -92,6 +92,7 @@ function App() {
                 }
             })();
         }
+        setIsLoading(false);
     }, [])
 
     return (
