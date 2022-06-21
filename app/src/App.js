@@ -64,10 +64,11 @@ function App() {
             response => response,
             async (error) => {
                 dispatch(clearHttpError())
-                if (error.response.status !== 422) {
+                console.log(error);
+                if (error.response && error.response.status !== 422) {
                     dispatch(addHttpError(error.response.data.error ?? error.response.data.message));
-                } 
-                if (error.response.status === 401) {
+                }
+                if (error.response && error.response.status === 401) {
                     localStorage.removeItem('token');
                     navigate('/login');
                 }
