@@ -72,6 +72,7 @@ function App() {
                     localStorage.removeItem('token');
                     navigate('/login');
                 }
+                setIsLoading(false);
                 return Promise.reject(error);
             });
 
@@ -88,8 +89,6 @@ function App() {
                     return navigate('/project/create');
                 }
             })();
-        } else {
-            setIsLoading(false);
         }
     }, [])
 
