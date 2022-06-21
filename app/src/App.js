@@ -52,9 +52,11 @@ function App() {
         api.interceptors.request.use(
             (req) => {
                req.headers.authorization = `Bearer ${localStorage.getItem('token')}`
+                setIsLoading(false);
                return req;
             },
             (err) => {
+                setIsLoading(false);
                return Promise.reject(err);
             }
          );
