@@ -6,7 +6,8 @@
   "scripts": {
     "seed-tags": "node src/database/seeders/tagSeeder.js",
     "development": "nodemon -r dotenv/config server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "production" : "node server.js"
   },
   "keywords": [],
   "author": "CARBUCCIA Thomas",
