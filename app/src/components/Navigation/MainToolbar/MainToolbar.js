@@ -1,4 +1,4 @@
-import {Button, Skeleton} from '@mui/material';
+import {Button, Skeleton, Tooltip} from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -11,6 +11,7 @@ import {MenuOpen, Menu} from "@mui/icons-material";
 import {modifyWidth} from "../../../reducers/drawerWidthSlice";
 import {minDrawerWidth} from "../../../reducers/drawerWidthSlice";
 import {makeStyles} from "@mui/styles";
+import {SAVE_KEYBOARD_SHORTCUT} from "../../../containers/Page/PageContentEditor";
 
 export const DASHBOARD_TOOLBAR = 'DASHBOARD_TOOLBAR';
 export const PAGE_TOOLBAR = 'PAGE_TOOLBAR';
@@ -86,9 +87,11 @@ export default function MainToolbar({toolbarType, ...props}) {
                 Edit page
             </Typography>
             <Button color="inherit" onClick={props.backToPage} sx={{ml: 2}}>Back to page</Button>
-            <Button type="button" variant="contained" disableElevation sx={{ml: 2}}
-                    onClick={props.onSave}>Save
-                changes</Button>
+            <Tooltip title={`Shortcut : ${SAVE_KEYBOARD_SHORTCUT}`}>
+                <Button type="button" variant="contained" disableElevation sx={{ml: 2}}
+                        onClick={props.onSave}>Save
+                    changes</Button>
+            </Tooltip>
         </Toolbar>
     );
 
@@ -134,7 +137,7 @@ export default function MainToolbar({toolbarType, ...props}) {
             position="fixed"
             color="default"
             sx={{zIndex: 1201}}
-            >
+        >
             {getToolbar()}
         </AppBar>
     )

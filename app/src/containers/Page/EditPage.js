@@ -18,7 +18,7 @@ import * as Yup from 'yup';
 import {validatePageTitle} from "../../form-validations/pageValidation";
 import {useDispatch, useSelector} from "react-redux";
 import {editPage} from "../../reducers/pagesSlice";
-import {NOTIFICATION_INFO_TYPE, NOTIFICATION_SUCCESS_TYPE, pushNotification} from "../../reducers/notificationsSlice";
+import {NOTIFICATION_SUCCESS_TYPE, pushNotification} from "../../reducers/notificationsSlice";
 import {selectCurrentProject} from "../../reducers/currentProjectSlice";
 import {selectAllProjects} from "../../reducers/projectsSlice";
 import SelectTag from "../../components/Page/Form/SelectTag";
