@@ -10,6 +10,15 @@ export default function PageContentEditor({ formik }) {
     Quill.register(Image, true);
     Quill.register("modules/imageUploader", ImageUploader);
 
+    const handleKeydown = (e) => {
+        let charCode = String.fromCharCode(e.which).toLowerCase();
+
+        if (e.ctrlKey && charCode === 's') {
+            e.preventDefault();
+            formik.handleSubmit();
+        }
+    }
+
     const modules = useMemo(() => ({
         toolbar: {
             container: [
@@ -40,7 +49,7 @@ export default function PageContentEditor({ formik }) {
     }), []);
 
     return (
-        <ReactQuill name="body" theme="snow" onChange={value => formik.setFieldValue('body', value)}
+        <ReactQuill name="body" theme="snow" onChange={value => formik.setFieldValue('body', value)} onKeyDown={handleKeydown}
             value={formik.values.body} modules={modules} placeholder="Your page content ..." />
     )
 }

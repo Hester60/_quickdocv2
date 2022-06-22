@@ -68,23 +68,27 @@ export default function EditPage() {
             title: validatePageTitle
         }),
         onSubmit: async (values) => {
-            try {
-                setErrors(null);
-                setIsLoading(true);
-
-                const {title, body, tag} = values;
-                const res = await api.put(`pages/${page._id}`, {title, body, tag: tag === '' ? null : tag});
-                setIsLoading(false);
-                dispatch(editPage(res.data));
-                dispatch(pushNotification({text: 'Page has been updated !', type: NOTIFICATION_SUCCESS_TYPE}))
-            } catch (error) {
-                setIsLoading(false);
-                if (error.response && error.response.status) {
-                    setErrors(error.response.data.errors);
-                }
-            }
+            await save(values);
         }
     });
+
+    async function save(values) {
+        try {
+            setErrors(null);
+            setIsLoading(true);
+
+            const {title, body, tag} = values;
+            const res = await api.put(`pages/${page._id}`, {title, body, tag: tag === '' ? null : tag});
+            setIsLoading(false);
+            dispatch(editPage(res.data));
+            dispatch(pushNotification({text: 'Page has been updated !', type: NOTIFICATION_SUCCESS_TYPE}));
+        } catch (error) {
+            setIsLoading(false);
+            if (error.response && error.response.status) {
+                setErrors(error.response.data.errors);
+            }
+        }
+    }
 
     const form = () => (
         <>
