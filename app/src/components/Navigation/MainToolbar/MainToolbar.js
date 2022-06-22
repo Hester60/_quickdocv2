@@ -25,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function MainToolbar({toolbarType, ...props}) {
-    const classes = useStyles();
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const drawerWidth = useSelector(state => state.drawerWidth.width);

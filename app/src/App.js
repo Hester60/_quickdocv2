@@ -16,7 +16,7 @@ import { addHttpError, clearHttpError } from "./reducers/httpErrorSlice";
 import HttpErrorDialog from './components/HttpError/HttpErrorDialog';
 import ProtectedRoute from "./components/Routes/ProtectedRoute";
 import Login from "./containers/Auth/Login";
-import { logout } from "./reducers/authSlice";
+import {fetchPages} from "./reducers/pagesSlice";
 
 const AppLoader = () => (
     <Box sx={{
@@ -90,6 +90,9 @@ function App() {
                     setIsLoading(false);
                     return navigate('/project/create');
                 }
+
+                const query = `?project=${selectedProject._id}&projection=_id,title,parent`;
+                dispatch(fetchPages(query));
             })();
         }
         setIsLoading(false);

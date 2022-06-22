@@ -2,6 +2,7 @@ import { createSlice} from "@reduxjs/toolkit";
 import { v4 as uuid } from 'uuid';
 
 export const NOTIFICATION_SUCCESS_TYPE = 'success';
+export const NOTIFICATION_INFO_TYPE = 'info';
 
 const initialState = {
     items: []
