@@ -134,10 +134,8 @@ export default function MainToolbar({toolbarType, ...props}) {
         <AppBar
             position="fixed"
             color="default"
-            sx={{
-                width: {sm: `calc(100% - ${drawerWidth}px)`},
-                ml: {sm: `${drawerWidth}px`},
-            }}>
+            sx={{zIndex: 1201}}
+            >
             {getToolbar()}
         </AppBar>
     )
