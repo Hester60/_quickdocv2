@@ -4,19 +4,21 @@ const {AuthenticationError} = require("../utils/GeneralError");
 const {PRODUCTION} = require("../constants/environment");
 
 const authRequired = asyncWrapper(async (req, res, next) => {
-        const header = req.headers.authorization || null;
+        if (process.env.NODE_ENV === PRODUCTION) {
+            const header = req.headers.authorization || null;
 
-        if (!header) {
-            throw new AuthenticationError("Authentication required");
+            if (!header) {
+                throw new AuthenticationError("Authentication required");
+            }
+
+            const token = header.split(' ')[1];
+
+            if (!token) {
+                throw new AuthenticationError("Authentication required");
+            }
+
+            jwt.verify(token, process.env.JWT_SECRET); // throw error if invalid
         }
-
-        const token = header.split(' ')[1];
-
-        if (!token) {
-            throw new AuthenticationError("Authentication required");
-        }
-
-        jwt.verify(token, process.env.JWT_SECRET); // throw error if invalid
 
     next();
 });
