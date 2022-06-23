@@ -1,18 +1,16 @@
 import {
     CardContent,
     TextField,
-    Toolbar,
     Box,
     Alert,
     AlertTitle,
-    Typography,
+    Typography, Button, Tooltip, Toolbar,
 } from "@mui/material";
 import {useState, useEffect} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import api from '../../api';
 import MainToolbar from "../../components/Navigation/MainToolbar/MainToolbar";
-import {EDIT_PAGE_TOOLBAR} from "../../components/Navigation/MainToolbar/MainToolbar";
-import PageContentEditor from "./PageContentEditor";
+import PageContentEditor, {SAVE_KEYBOARD_SHORTCUT} from "./PageContentEditor";
 import {useFormik} from "formik";
 import * as Yup from 'yup';
 import {validatePageTitle} from "../../form-validations/pageValidation";
@@ -135,9 +133,16 @@ export default function EditPage() {
     return (
         <>
             <Box sx={{display: 'flex', flexFlow: 'column'}}>
-                <MainToolbar toolbarType={EDIT_PAGE_TOOLBAR} onSave={submitAndRedirect}
-                             backToPage={() => navigate(`/page/${page._id}`)}/>
-                <Toolbar/>
+                <MainToolbar title="Edit Page">
+                    <Button color="inherit" onClick={() => navigate(`/page/${page._id}`)} sx={{ml: 2}}>Back to
+                        page</Button>
+                    <Tooltip title={`Shortcut : ${SAVE_KEYBOARD_SHORTCUT}`}>
+                        <Button type="button" variant="contained" disableElevation sx={{ml: 2}}
+                                onClick={submitAndRedirect}>Save
+                            changes</Button>
+                    </Tooltip>
+                </MainToolbar>
+                <Toolbar />
             </Box>
             <Box sx={{width: '100%', flexFlow: 'column'}} display='flex' alignItems="center">
                 <Box sx={{width: '100%', maxWidth: 1250, mt: 2}}>

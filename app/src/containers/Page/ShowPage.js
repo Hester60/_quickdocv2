@@ -6,6 +6,7 @@ import {Box, Card, Toolbar, Typography, CardContent, Chip} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {selectAllProjects} from "../../reducers/projectsSlice";
 import {selectCurrentProject} from "../../reducers/currentProjectSlice";
+import PageMenu from "../../components/Navigation/Menu/PageMenu/PageMenu";
 
 export default function ShowPage() {
     const dispatch = useDispatch();
@@ -51,8 +52,9 @@ export default function ShowPage() {
     return (
         <>
             <Box sx={{display: 'flex', flexFlow: 'column'}}>
-                <MainToolbar page={page} toolbarType={PAGE_TOOLBAR} isLoading={isLoading} setPage={setPage}
-                             goToEdit={() => navigate(`/page/edit/${page._id}`)}/>
+                <MainToolbar title="Show Page">
+                    <PageMenu page={page} setPage={setPage} goToEdit={() => navigate(`/page/edit/${page._id}`)} isLoading={isLoading}/>
+                </MainToolbar>
                 <Toolbar/>
                 {!isLoading && (
                     <Box sx={{width: '100%', flexFlow: 'column'}} display='flex' alignItems="center">

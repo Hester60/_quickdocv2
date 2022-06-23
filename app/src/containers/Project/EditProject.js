@@ -65,7 +65,9 @@ export default function EditProject() {
     return (
         <>
             <Box sx={{display: 'flex', flexFlow: 'column'}}>
-                <MainToolbar toolbarType={EDIT_PROJECT_TOOLBAR}/>
+                <MainToolbar title="Edit Project">
+                    <Button color="inherit" onClick={() => navigate('/dashboard')}>Back to dashboard</Button>
+                </MainToolbar>
                 <Toolbar/>
             </Box>
             <Box sx={{width: '100%', flexFlow: 'column'}} display='flex' alignItems="center">
