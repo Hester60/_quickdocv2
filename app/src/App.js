@@ -16,7 +16,6 @@ import { addHttpError, clearHttpError } from "./reducers/httpErrorSlice";
 import HttpErrorDialog from './components/HttpError/HttpErrorDialog';
 import ProtectedRoute from "./components/Routes/ProtectedRoute";
 import Login from "./containers/Auth/Login";
-import { logout } from "./reducers/authSlice";
 
 const AppLoader = () => (
     <Box sx={{
@@ -72,7 +71,7 @@ function App() {
                 }
                 if (error.response && error.response.status === 401) {
                     localStorage.removeItem('token');
-                    navigate('/login');
+                    return navigate('/login');
                 }
                 setIsLoading(false);
                 return Promise.reject(error);

@@ -13,7 +13,6 @@ import {useFormik} from 'formik';
 import {useDispatch, useSelector} from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { NOTIFICATION_SUCCESS_TYPE } from '../../reducers/notificationsSlice';
-import { login } from '../../reducers/authSlice';
 
 function Copyright(props) {
     return (
@@ -37,13 +36,12 @@ export default function Login() {
     const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const token = useSelector(state => state.auth.token);
 
     useEffect(() => {
-        if (token) {
+        if (localStorage.getItem('token')) {
             return navigate('/dashboard');
         }
-    }, [token])
+    }, [])
 
     const formik = useFormik({
         initialValues: {
@@ -58,7 +56,7 @@ export default function Login() {
                     email: values.email,
                     password: values.password
                 });
-                
+
                 localStorage.setItem('token', res.data.token);
                 formik.resetForm();
                 dispatch({ text: "You are now logged in", type: NOTIFICATION_SUCCESS_TYPE });
