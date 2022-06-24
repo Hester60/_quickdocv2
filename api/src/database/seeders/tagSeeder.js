@@ -17,6 +17,14 @@ const tags = [
     new Tag({
         name: 'Daily',
         color: 'info'
+    }),
+    new Tag({
+        name: 'Done',
+        color: 'success'
+    }),
+    new Tag({
+        name: 'Bug',
+        color: 'error'
     })
 ];
 
