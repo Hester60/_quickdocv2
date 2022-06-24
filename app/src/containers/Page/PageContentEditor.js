@@ -8,7 +8,7 @@ export default function PageContentEditor({ formik }) {
     const Image = Quill.import('formats/image');
     Image.className = 'img-fluid';
     Quill.register(Image, true);
-    Quill.register("modules/imageUploader", ImageUploader);
+    Quill.register("modules/imageUploader", ImageUploader, true);
 
     const handleKeydown = (e) => {
         let charCode = String.fromCharCode(e.which).toLowerCase();
