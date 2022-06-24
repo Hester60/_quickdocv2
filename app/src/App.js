@@ -16,6 +16,7 @@ import {addHttpError, clearHttpError} from "./reducers/httpErrorSlice";
 import HttpErrorDialog from './components/HttpError/HttpErrorDialog';
 import ProtectedRoute from "./components/Routes/ProtectedRoute";
 import Login from "./containers/Auth/Login";
+import {fetchPages} from "./reducers/pagesSlice";
 
 const AppLoader = () => (
     <Box sx={{
@@ -84,6 +85,8 @@ function App() {
                     const selectedProject = currentProject ?? projects[0];
                     if (projects.length > 0) {
                         dispatch(selectCurrentProject(selectedProject));
+                        const query = `?project=${selectedProject._id}&projection=_id,title,parent`;
+                        dispatch(fetchPages(query)).unwrap();
                         setIsLoading(false);
                     } else {
                         setIsLoading(false);
