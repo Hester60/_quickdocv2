@@ -75,9 +75,12 @@ export default function EditPage() {
     });
 
     async function submitAndRedirect() {
-        await formik.handleSubmit();
+        await formik.validateForm();
         if (Object.keys(formik.errors).length === 0) {
+            await save(formik.values);
             return navigate(`/page/${page._id}`);
+        } else {
+            formik.handleSubmit();
         }
     }
 
@@ -90,6 +93,7 @@ export default function EditPage() {
             const res = await api.put(`pages/${page._id}`, {title, body, tag: tag === '' ? null : tag});
             setIsLoading(false);
             dispatch(editPage(res.data));
+            console.log('ok');
             dispatch(pushNotification({text: 'Page has been updated !', type: NOTIFICATION_SUCCESS_TYPE}));
         } catch (error) {
             setIsLoading(false);

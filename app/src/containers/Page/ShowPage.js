@@ -21,7 +21,6 @@ export default function ShowPage() {
         (async () => {
             setIsLoading(true);
             const res = await api.get(`pages/${pageId}`);
-
             if (currentProject._id !== res.data.project._id) {
                 const projectIndex = projects.findIndex(e => e._id === res.data.project._id);
                 if (projectIndex < 0) {
@@ -32,6 +31,7 @@ export default function ShowPage() {
             }
 
             setPage(res.data);
+            console.log(res.data);
             setIsLoading(false);
         })();
     }, [pageId])
