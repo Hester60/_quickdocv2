@@ -1,18 +1,16 @@
 import {
     CardContent,
     TextField,
-    Toolbar,
     Box,
     Alert,
     AlertTitle,
-    Typography,
+    Typography, Button, Tooltip, Toolbar,
 } from "@mui/material";
 import {useState, useEffect} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import api from '../../api';
 import MainToolbar from "../../components/Navigation/MainToolbar/MainToolbar";
-import {EDIT_PAGE_TOOLBAR} from "../../components/Navigation/MainToolbar/MainToolbar";
-import PageContentEditor from "./PageContentEditor";
+import PageContentEditor, {SAVE_KEYBOARD_SHORTCUT} from "./PageContentEditor";
 import {useFormik} from "formik";
 import * as Yup from 'yup';
 import {validatePageTitle} from "../../form-validations/pageValidation";
@@ -56,6 +54,10 @@ export default function EditPage() {
             await formik.setFieldValue('tag', res.data.tag ? res.data.tag._id : '');
             setIsLoading(false);
         })();
+
+        return () => {
+            setIsLoading(false);
+        }
     }, [pageId]);
 
     const formik = useFormik({
@@ -71,6 +73,13 @@ export default function EditPage() {
             await save(values);
         }
     });
+
+    async function submitAndRedirect() {
+        await formik.handleSubmit();
+        if (Object.keys(formik.errors).length === 0) {
+            return navigate(`/page/${page._id}`);
+        }
+    }
 
     async function save(values) {
         try {
@@ -103,14 +112,19 @@ export default function EditPage() {
 
                 )}
                 <TextField
-                    name="title" fullWidth label="Page title" variant="outlined" onChange={formik.handleChange}
+                    name="title"
+                    fullWidth
+                    label="Page title"
+                    variant="outlined"
+                    onChange={formik.handleChange}
+                    disabled={isLoading}
                     value={formik.values.title} sx={{mb: 3}}
                     error={(!!(formik.touched.title && formik.errors.title))}
                     helperText={formik.touched.title && formik.errors.title ? (
                         formik.errors.title
                     ) : null}
                 />
-                <SelectTag formik={formik} isLoading={isLoading} tags={tags} />
+                <SelectTag formik={formik} isLoading={isLoading} tags={tags}/>
                 <PageContentEditor formik={formik}/>
             </form>
         </>
@@ -119,13 +133,21 @@ export default function EditPage() {
     return (
         <>
             <Box sx={{display: 'flex', flexFlow: 'column'}}>
-                <MainToolbar toolbarType={EDIT_PAGE_TOOLBAR} onSave={() => formik.handleSubmit()} backToPage={() => navigate(`/page/${page._id}`)}/>
-                <Toolbar/>
+                <MainToolbar title="Edit Page">
+                    <Button color="inherit" onClick={() => navigate(`/page/${page._id}`)} sx={{ml: 2}}>Back to
+                        page</Button>
+                    <Tooltip title={`Shortcut : ${SAVE_KEYBOARD_SHORTCUT}`}>
+                        <Button type="button" variant="contained" disableElevation sx={{ml: 2}}
+                                onClick={submitAndRedirect}>Save
+                            changes</Button>
+                    </Tooltip>
+                </MainToolbar>
+                <Toolbar />
             </Box>
             <Box sx={{width: '100%', flexFlow: 'column'}} display='flex' alignItems="center">
                 <Box sx={{width: '100%', maxWidth: 1250, mt: 2}}>
                     <CardContent>
-                        {!isLoading && page && form()}
+                        {page && form()}
                     </CardContent>
                 </Box>
             </Box>

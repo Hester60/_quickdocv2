@@ -1,16 +1,16 @@
 import Drawer from '@mui/material/Drawer';
 import Divider from '@mui/material/Divider';
-import {Box, Button} from '@mui/material';
+import { Box, Button, Toolbar } from '@mui/material';
 import ProjectSelect from './Menu/ProjectMenu/ProjectSelect';
 import PageTree from "./PagesTree/PageTree";
-import {useCallback} from "react";
-import {useSelector} from 'react-redux';
-import {useDispatch} from 'react-redux';
-import {modifyWidth} from '../../reducers/drawerWidthSlice';
-import {useNavigate} from 'react-router-dom';
+import { useCallback } from "react";
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { modifyWidth } from '../../reducers/drawerWidthSlice';
+import { useNavigate } from 'react-router-dom';
 import NewPageButton from "../Page/NewPageButton/NewPageButton";
-import {minDrawerWidth} from "../../reducers/drawerWidthSlice";
-import {makeStyles} from "@mui/styles";
+import { minDrawerWidth } from "../../reducers/drawerWidthSlice";
+import { makeStyles } from "@mui/styles";
 
 const maxDrawerWidth = 750;
 
@@ -63,20 +63,21 @@ export default function MainDrawer() {
       variant="permanent"
       anchor="left"
     >
+      <Toolbar />
       <Box px={1} py={2}>
-        <ProjectSelect/>
-        {<NewPageButton/>}
+        <ProjectSelect />
+        {<NewPageButton />}
       </Box>
       {project && (
         <>
-          <Divider/>
+          <Divider />
           <Box px={1} py={2}>
             <Button fullWidth variant="text" disableElevation onClick={() => navigate('/dashboard')}>Go to
               dashboard</Button>
           </Box>
         </>
       )}
-      <Divider/>
+      <Divider />
       <Box py={2} sx={{
         overflowY: 'auto', overflowX: 'hidden', '&::-webkit-scrollbar': {
           width: '0.4em'
@@ -100,8 +101,8 @@ export default function MainDrawer() {
           right: 0,
           bottom: 0,
           zIndex: 100,
-        }} className={classes.line}/>
-        <PageTree drawerWidth={drawerWidth}/>
+        }} className={classes.line} />
+        <PageTree drawerWidth={drawerWidth} />
       </Box>
     </Drawer>
   )

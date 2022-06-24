@@ -1,18 +1,18 @@
 import MainDrawer from "./components/Navigation/MainDrawer";
-import {Box, CircularProgress, createTheme, CssBaseline, ThemeProvider, Typography} from "@mui/material";
-import {Routes, Route, Navigate, useNavigate, useLocation} from "react-router-dom";
+import { Box, CircularProgress, createTheme, CssBaseline, ThemeProvider, Typography } from "@mui/material";
+import { Routes, Route, Navigate, useNavigate, useLocation } from "react-router-dom";
 import ShowPage from "./containers/Page/ShowPage";
 import Dashboard from "./containers/Dashboard/Dashboard";
 import EditPage from "./containers/Page/EditPage";
 import CreateProject from "./containers/Project/CreateProject";
 import EditProject from "./containers/Project/EditProject";
-import {useSelector, useDispatch} from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Notification from "./components/Notification/Notification";
-import {useEffect, useState} from "react";
-import {fetchProjects} from "./reducers/projectsSlice";
-import {selectCurrentProject} from "./reducers/currentProjectSlice";
+import { useEffect, useState } from "react";
+import { fetchProjects } from "./reducers/projectsSlice";
+import { selectCurrentProject } from "./reducers/currentProjectSlice";
 import api from './api';
-import {addHttpError, clearHttpError} from "./reducers/httpErrorSlice";
+import { addHttpError, clearHttpError } from "./reducers/httpErrorSlice";
 import HttpErrorDialog from './components/HttpError/HttpErrorDialog';
 import ProtectedRoute from "./components/Routes/ProtectedRoute";
 import Login from "./containers/Auth/Login";
@@ -63,8 +63,8 @@ function App() {
 
         // Response interceptor
         api.interceptors.response.use(
-            undefined,
-            (error) => {
+            response => response,
+            async (error) => {
                 dispatch(clearHttpError())
                 if (error.response && error.response.status !== 422) {
                     dispatch(addHttpError(error.response.data.error ?? error.response.data.message));

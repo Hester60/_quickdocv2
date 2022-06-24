@@ -1,13 +1,15 @@
-import {Box, Card, ListSubheader, Toolbar} from "@mui/material";
+import {Box, Card, ListSubheader, MenuItem, Toolbar} from "@mui/material";
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import MainToolbar from "../../components/Navigation/MainToolbar/MainToolbar";
-import {DASHBOARD_TOOLBAR} from "../../components/Navigation/MainToolbar/MainToolbar";
 import api from '../../api'
 import {Link, useNavigate} from "react-router-dom";
+import Typography from "@mui/material/Typography";
+import RemoveProjectMenuItem from "../../components/Navigation/Menu/ProjectMenu/RemoveProjectMenuItem";
+import ActionsMenu from "../../components/Navigation/Menu/ActionsMenu";
 
 export default function Dashboard() {
     const navigate = useNavigate();
@@ -21,11 +23,12 @@ export default function Dashboard() {
             if (!project) {
                 return navigate('/project/create');
             }
-
-            api.get(`pages?project=${project._id}&projection=_id,title,createdAt&limit=5`).then(res => {
+            (async function () {
+                setIsPagesLoading(true);
+                const res = await api.get(`pages?project=${project._id}&projection=_id,title,createdAt&limit=5`);
                 setLastCreatedPages(res.data.pages);
                 setIsPagesLoading(false);
-            });
+            })();
         }
     }, [project]);
 
@@ -53,7 +56,13 @@ export default function Dashboard() {
 
     return (
         <Box sx={{display: 'flex', flexFlow: 'column'}}>
-            <MainToolbar toolbarType={DASHBOARD_TOOLBAR} project={project} isLoading={isProjectLoading}/>
+            <MainToolbar title="Dashboard">
+                <ActionsMenu>
+                    <MenuItem onClick={() => navigate('/project/edit')}><Typography>Edit
+                        Projects</Typography></MenuItem>
+                    <RemoveProjectMenuItem/>
+                </ActionsMenu>
+            </MainToolbar>
             <Toolbar/>
             <Box p={3}>
                 <Card sx={{maxWidth: 360}} variant="outlined">

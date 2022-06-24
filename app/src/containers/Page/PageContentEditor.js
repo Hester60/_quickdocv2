@@ -4,6 +4,8 @@ import Quill from "quill";
 import api, { API_BASE_URL } from '../../api';
 import { useMemo } from "react";
 
+export const SAVE_KEYBOARD_SHORTCUT = 'CTRL+V';
+
 export default function PageContentEditor({ formik }) {
     const Image = Quill.import('formats/image');
     Image.className = 'img-fluid';
