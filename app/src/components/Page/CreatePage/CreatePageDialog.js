@@ -7,43 +7,31 @@ import {useEffect, useState} from "react";
 import Button from '@mui/material/Button';
 import api from '../../../api';
 import PageAutocompleter from "../PageAutocompleter/PageAutocompleter";
-import {Alert, AlertTitle, FormControl, InputLabel, MenuItem, Select, TextField, Typography} from "@mui/material";
+import {Alert, AlertTitle, TextField, Typography} from "@mui/material";
 import {useFormik} from "formik";
 import * as Yup from 'yup';
 import {validatePageParent, validatePageTitle} from "../../../form-validations/pageValidation";
 import {useDispatch, useSelector} from "react-redux";
 import {addPage} from "../../../reducers/pagesSlice";
-import {matchPath, useLocation, useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {ROOT_SELECTION} from '../../../constants/PageConstants';
 import {NOTIFICATION_SUCCESS_TYPE, pushNotification} from "../../../reducers/notificationsSlice";
 import axios from 'axios';
 import SelectTag from "../Form/SelectTag";
 
-export default function CreatePageDialog({open, setOpen}) {
+export default function CreatePageDialog({open, setOpen, selectedPage = ROOT_SELECTION}) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [errors, setErrors] = useState(null);
   const currentProject = useSelector(state => state.currentProject.item);
   const [isLoading, setIsLoading] = useState(true);
   const [pages, setPages] = useState([]);
-  const {pathname} = useLocation();
   const [tags, setTags] = useState([]);
-  const [selectedPage, setSelectedPage] = useState(null);
-  const matches = [matchPath(
-    {path: "/page/:pageId"},
-    pathname,
-  ), matchPath(
-    {path: "/page/edit/:pageId"},
-    pathname,
-  )];
 
   useEffect(() => {
     if (open) {
       const reqPages = api.get(`pages?project=${currentProject._id}&projection=_id,title`);
       const reqTags = api.get('tags');
-
-      setSelectedPage(null);
-      let match = matches.find(e => e !== null);
 
       (async () => {
         setIsLoading(true);
@@ -54,17 +42,8 @@ export default function CreatePageDialog({open, setOpen}) {
 
         setTags(resTags.data);
 
-        if (match) {
-          match = resPages.data.pages.find(e => e._id === match.params.pageId);
-          setSelectedPage(match);
-        } else {
-          setSelectedPage(ROOT_SELECTION)
-        }
-        setSelectedPage(match);
         setPages([ROOT_SELECTION, ...resPages.data.pages]);
-        if (match) {
-          formik.setFieldValue('page', !match ? null : match)
-        }
+        formik.setFieldValue('page', selectedPage);
         setIsLoading(false);
       })();
     }

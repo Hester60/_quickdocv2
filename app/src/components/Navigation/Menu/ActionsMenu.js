@@ -1,7 +1,6 @@
 import {useState} from "react";
 import {Box} from "@mui/system";
-import Button from "@mui/material/Button";
-import {KeyboardArrowDown, MoreHoriz} from "@mui/icons-material";
+import { MoreHoriz} from "@mui/icons-material";
 import {IconButton, Menu} from "@mui/material";
 
 export default function ActionsMenu({children}) {
@@ -17,16 +16,7 @@ export default function ActionsMenu({children}) {
 
     return (
         <>
-            <Box sx={{display: {xs: 'none', md: 'flex'}}}>
-                <Button
-                    endIcon={<KeyboardArrowDown/>}
-                    onClick={handleClick}
-                    color="inherit"
-                >
-                    Actions
-                </Button>
-            </Box>
-            <Box sx={{display: {xs: 'block', md: 'none'}}}>
+            <Box>
                 <IconButton
                     onClick={handleClick}
                     color="inherit"

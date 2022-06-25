@@ -10,6 +10,7 @@ import {Link, useNavigate} from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import RemoveProjectMenuItem from "../../components/Navigation/Menu/ProjectMenu/RemoveProjectMenuItem";
 import ActionsMenu from "../../components/Navigation/Menu/ActionsMenu";
+import NewPageMenuItem from "../../components/Navigation/Menu/PageMenu/NewPageMenuItem";
 
 export default function Dashboard() {
     const navigate = useNavigate();
@@ -58,6 +59,7 @@ export default function Dashboard() {
         <Box sx={{display: 'flex', flexFlow: 'column'}}>
             <MainToolbar title="Dashboard">
                 <ActionsMenu>
+                    <NewPageMenuItem />
                     <MenuItem onClick={() => navigate('/project/edit')}><Typography>Edit
                         Projects</Typography></MenuItem>
                     <RemoveProjectMenuItem/>

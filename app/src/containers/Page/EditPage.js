@@ -1,13 +1,13 @@
 import {
-    CardContent,
     TextField,
     Box,
     Alert,
     AlertTitle,
-    Typography, Button, Tooltip, Toolbar,
+    Typography, Button, Tooltip, Toolbar, Breadcrumbs,
+    Link
 } from "@mui/material";
 import {useState, useEffect} from "react";
-import {useNavigate, useParams} from "react-router-dom";
+import {Link as LinkRouter, useNavigate, useParams} from "react-router-dom";
 import api from '../../api';
 import MainToolbar from "../../components/Navigation/MainToolbar/MainToolbar";
 import PageContentEditor, {SAVE_KEYBOARD_SHORTCUT} from "./PageContentEditor";
@@ -130,25 +130,37 @@ export default function EditPage() {
         </>
     )
 
+    function breadcrumb() {
+        return (
+            <Box mb={5} alignSelf="start">
+                <Breadcrumbs aria-label="breadcrumb">
+                    <Link component={LinkRouter} to={`/dashboard`}>
+                        {page.project.name}
+                    </Link>
+                    <Link component={LinkRouter} to={`/page/${page._id}`}>
+                        {page.title}
+                    </Link>
+                    <Typography color="text.primary">Edit page</Typography>
+                </Breadcrumbs>
+            </Box>
+        )
+    }
+
     return (
         <>
             <Box sx={{display: 'flex', flexFlow: 'column'}}>
                 <MainToolbar title="Edit Page">
-                    <Button color="inherit" onClick={() => navigate(`/page/${page._id}`)} sx={{ml: 2}}>Back to
-                        page</Button>
                     <Tooltip title={`Shortcut : ${SAVE_KEYBOARD_SHORTCUT}`}>
-                        <Button type="button" variant="contained" disableElevation sx={{ml: 2}}
-                                onClick={submitAndRedirect}>Save
-                            changes</Button>
+                        <Button type="button" variant="contained" size="small" disableElevation sx={{ml: 2}}
+                                onClick={submitAndRedirect}>Save</Button>
                     </Tooltip>
                 </MainToolbar>
-                <Toolbar />
+                <Toolbar/>
             </Box>
             <Box sx={{width: '100%', flexFlow: 'column'}} display='flex' alignItems="center">
                 <Box sx={{width: '100%', maxWidth: 1250, mt: 2}}>
-                    <CardContent>
-                        {page && form()}
-                    </CardContent>
+                    {page && breadcrumb()}
+                    {page && form()}
                 </Box>
             </Box>
         </>

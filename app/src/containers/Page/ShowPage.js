@@ -1,12 +1,16 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import api from '../../api';
-import MainToolbar, {PAGE_TOOLBAR} from "../../components/Navigation/MainToolbar/MainToolbar";
-import {Box, Card, Toolbar, Typography, CardContent, Chip} from "@mui/material";
+import MainToolbar from "../../components/Navigation/MainToolbar/MainToolbar";
+import {Box, Toolbar, Typography, Chip} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {selectAllProjects} from "../../reducers/projectsSlice";
 import {selectCurrentProject} from "../../reducers/currentProjectSlice";
-import PageMenu from "../../components/Navigation/Menu/PageMenu/PageMenu";
+import ActionsMenu from "../../components/Navigation/Menu/ActionsMenu";
+import MenuItem from "@mui/material/MenuItem";
+import MovePageMenuItem from "../../components/Navigation/Menu/PageMenu/MovePageMenuItem";
+import RemovePageMenuItem from "../../components/Navigation/Menu/PageMenu/RemovePageMenuItem";
+import NewPageMenuItem from "../../components/Navigation/Menu/PageMenu/NewPageMenuItem";
 
 export default function ShowPage() {
     const dispatch = useDispatch();
@@ -41,7 +45,7 @@ export default function ShowPage() {
         htmlObject.innerHTML = page.body;
         const images = htmlObject.getElementsByTagName('img');
         [...images].forEach(image => {
-            image.setAttribute("onclick", `window.open('${image.src}', '_blank')` );
+            image.setAttribute("onclick", `window.open('${image.src}', '_blank')`);
         });
         return htmlObject.outerHTML;
     }
@@ -52,29 +56,37 @@ export default function ShowPage() {
     return (
         <>
             <Box sx={{display: 'flex', flexFlow: 'column'}}>
-                <MainToolbar title="Show Page">
-                    <PageMenu page={page} setPage={setPage} goToEdit={() => navigate(`/page/edit/${page._id}`)} isLoading={isLoading}/>
-                </MainToolbar>
-                <Toolbar/>
                 {!isLoading && (
-                    <Box sx={{width: '100%', flexFlow: 'column'}} display='flex' alignItems="center">
-                        <Box sx={{width: '100%', maxWidth: 1250}}>
-                            <Typography variant="h5" fontWeight="700" textTransform="uppercase">
-                                {page.title}
-                            </Typography>
-                        </Box>
-                        {page.tag && (
-                            <Box sx={{width: '100%', maxWidth: 1250, mt: 2}}>
-                                <Chip size="small" label={page.tag.name} color={page.tag.color}
-                                      sx={{mr: 1, cursor: 'pointer'}}/>
+                    <>
+                        <MainToolbar title="Show Page">
+                            <ActionsMenu>
+                                <NewPageMenuItem page={page}/>
+                                <MenuItem onClick={() => navigate(`/page/edit/${page._id}`)}>Edit page</MenuItem>
+                                <MovePageMenuItem page={page} setPage={setPage}/>
+                                <RemovePageMenuItem page={page}/>
+                            </ActionsMenu>
+                        </MainToolbar>
+                        <Toolbar/>
+                        <Box sx={{width: '100%'}} display='flex' justifyContent="center">
+                            <Box display='flex' alignItems="start" width="100%"
+                                 sx={{maxWidth: 1250, flexFlow: 'column'}}>
+                                <Box>
+                                    <Typography variant="h5" fontWeight="700" textTransform="uppercase">
+                                        {page.title}
+                                    </Typography>
+                                </Box>
+                                {page.tag && (
+                                    <Box sx={{my: 2}}>
+                                        <Chip size="small" label={page.tag.name} color={page.tag.color}
+                                              sx={{mr: 1, cursor: 'pointer'}}/>
+                                    </Box>
+                                )}
+                                <Box>
+                                    {pageContent()}
+                                </Box>
                             </Box>
-                        )}
-                        <Card variant="outlined" sx={{width: '100%', maxWidth: 1250, mt: 2}}>
-                            <CardContent>
-                                {pageContent()}
-                            </CardContent>
-                        </Card>
-                    </Box>
+                        </Box>
+                    </>
                 )}
             </Box>
         </>

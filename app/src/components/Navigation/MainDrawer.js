@@ -66,7 +66,7 @@ export default function MainDrawer() {
       <Toolbar />
       <Box px={1} py={2}>
         <ProjectSelect />
-        {<NewPageButton />}
+        <NewPageButton />
       </Box>
       {project && (
         <>
