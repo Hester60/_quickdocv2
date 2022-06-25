@@ -44,6 +44,21 @@ module.exports.getPageChildrenFlat = async (page) => {
 }
 
 /**
+ * Return page with a parents array who contains all parent (from all generation) of a page.
+ *
+ * @param page
+ * @returns {Promise<Array<any>>}
+ */
+module.exports.getPageParentsFlat = async (page) => {
+    const aggregate = Page.aggregate([
+        { $match: { _id: page._id } },
+        { $graphLookup: { from: 'pages', startWith: '$parent', connectFromField: 'parent', connectToField: '_id', as: 'parents', depthField: 'generation' } }
+    ]);
+
+    return await aggregate.exec();
+}
+
+/**
  * Throw error if page doesn't have same project
  *
  * @param target1
