@@ -11,6 +11,8 @@ import MenuItem from "@mui/material/MenuItem";
 import MovePageMenuItem from "../../components/Navigation/Menu/PageMenu/MovePageMenuItem";
 import RemovePageMenuItem from "../../components/Navigation/Menu/PageMenu/RemovePageMenuItem";
 import NewPageMenuItem from "../../components/Navigation/Menu/PageMenu/NewPageMenuItem";
+import "highlight.js/styles/github-dark-dimmed.css";
+import hljs from "highlight.js";
 
 export default function ShowPage() {
     const dispatch = useDispatch();
@@ -36,6 +38,7 @@ export default function ShowPage() {
 
             setPage(res.data);
             setIsLoading(false);
+            hljs.highlightAll();
         })();
     }, [pageId])
 

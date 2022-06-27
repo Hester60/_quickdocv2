@@ -1,15 +1,15 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {CKEditor} from '@ckeditor/ckeditor5-react';
 import Editor from 'ckeditor5-custom-build';
 import './CustomCKEditor.css'
 import {makeStyles} from "@mui/styles";
-
 export const SAVE_KEYBOARD_SHORTCUT = 'CTRL+V';
 
 const useStyles = makeStyles((theme) => ({
     richTextEditor: {
         "& .ck-editor__main > .ck-editor__editable": {
             backgroundColor: theme.palette.background.default,
+            minHeight: 250
         },
         "& .ck.ck-editor__main>.ck-editor__editable:not(.ck-focused)": {
             borderColor: theme.palette.action.disabled
@@ -27,6 +27,9 @@ const useStyles = makeStyles((theme) => ({
         "& .ck .ck-button": {
             backgroundColor: theme.palette.background.default,
             cursor: 'pointer'
+        },
+        "& pre": {
+            color: 'white'
         }
     }
 }));
@@ -43,19 +46,17 @@ export default function PageContentEditor({formik}) {
         }
     }
 
+    const config = {
+        placeholder: "Write something..."
+    }
+
     return (
         <div className={classes.richTextEditor} onKeyDown={handleKeydown}>
             <CKEditor
                 editor={Editor}
                 data={formik.values.body}
                 name="body"
-                sx={{
-                    background: "#121212 !important"
-                }}
-                onReady={editor => {
-                    // You can store the "editor" and use when it is needed.
-                    console.log('Editor is ready to use!', editor);
-                }}
+                config={config}
                 onChange={(event, editor) => formik.setFieldValue('body', editor.getData())}
             />
         </div>
