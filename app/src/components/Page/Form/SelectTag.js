@@ -13,6 +13,7 @@ export default function SelectTag({tags, formik, isLoading}) {
                 sx={{mb: 3}}
                 fullWidth
             >
+                <MenuItem value={''}>Ne pas choisir de tag</MenuItem>
                 {tags.map(tag => <MenuItem key={tag._id} value={tag._id}>{tag.name}</MenuItem>)}
             </Select>
         </FormControl>

@@ -27,7 +27,7 @@ const AppLoader = () => (
         alignItems: 'center',
         justifyContent: 'center'
     }}>
-        <CircularProgress size={75} />
+        <CircularProgress size={75}/>
         <Box component="div" mt={3}>
             <Typography>Loading. Please wait ...</Typography>
         </Box>
@@ -51,22 +51,21 @@ function App() {
     useEffect(() => {
         api.interceptors.request.use(
             (req) => {
-               req.headers.authorization = `Bearer ${localStorage.getItem('token')}`
+                req.headers.authorization = `Bearer ${localStorage.getItem('token')}`
                 setIsLoading(false);
-               return req;
+                return req;
             },
             (err) => {
                 setIsLoading(false);
-               return Promise.reject(err);
+                return Promise.reject(err);
             }
-         );
+        );
 
         // Response interceptor
         api.interceptors.response.use(
             response => response,
             async (error) => {
                 dispatch(clearHttpError())
-                console.log(error);
                 if (error.response && error.response.status !== 422) {
                     dispatch(addHttpError(error.response.data.error ?? error.response.data.message));
                 }
@@ -74,6 +73,7 @@ function App() {
                     localStorage.removeItem('token');
                     navigate('/login');
                 }
+
                 setIsLoading(false);
                 return Promise.reject(error);
             });
@@ -81,49 +81,52 @@ function App() {
         if (location.pathname !== '/login') {
             (async () => {
                 setIsLoading(true);
-                const projects = await dispatch(fetchProjects()).unwrap();
-                const selectedProject = currentProject ?? projects[0];
-                if (projects.length > 0) {
-                    await dispatch(selectCurrentProject(selectedProject));
-                    setIsLoading(false);
-                } else {
-                    setIsLoading(false);
-                    return navigate('/project/create');
-                }
-
-                const query = `?project=${selectedProject._id}&projection=_id,title,parent`;
-                dispatch(fetchPages(query));
+                dispatch(fetchProjects()).unwrap().then(projects => {
+                    const selectedProject = currentProject ?? projects[0];
+                    if (projects.length > 0) {
+                        dispatch(selectCurrentProject(selectedProject));
+                        const query = `?project=${selectedProject._id}&projection=_id,title,parent`;
+                        dispatch(fetchPages(query)).unwrap();
+                        setIsLoading(false);
+                    } else {
+                        setIsLoading(false);
+                        return navigate('/project/create');
+                    }
+                })
             })();
         }
+
         setIsLoading(false);
     }, [])
 
     return (
         <>
             {!isLoading ? (
-                <ThemeProvider theme={darkTheme}>
-                    <CssBaseline />
-                    <Box display="flex">
-                        {location.pathname !== '/login' && (<MainDrawer />)}
-                        <Box p={3} sx={{ flexGrow: 1 }}>
-                            <Routes>
-                                <Route path="/dashboard" element={<ProtectedRoute ><Dashboard /></ProtectedRoute>} />
-                                <Route path="/project/create" element={<ProtectedRoute><CreateProject /></ProtectedRoute>} />
-                                <Route path="/project/edit" element={<ProtectedRoute><EditProject /></ProtectedRoute>} />
-                                <Route path="/page/:pageId" element={<ProtectedRoute><ShowPage /></ProtectedRoute>} />
-                                <Route path="/page/edit/:pageId" element={<ProtectedRoute><EditPage /></ProtectedRoute>} />
-                                <Route path="/login" element={<Login />} />
-                                <Route path="/" element={<Navigate replace to="/dashboard" />} />
-                            </Routes>
+                    <ThemeProvider theme={darkTheme}>
+                        <CssBaseline/>
+                        <Box display="flex">
+                            {location.pathname !== '/login' && (<MainDrawer/>)}
+                            <Box p={3} sx={{flexGrow: 1}}>
+                                <Routes>
+                                    <Route path="/dashboard" element={<ProtectedRoute><Dashboard/></ProtectedRoute>}/>
+                                    <Route path="/project/create"
+                                           element={<ProtectedRoute><CreateProject/></ProtectedRoute>}/>
+                                    <Route path="/project/edit" element={<ProtectedRoute><EditProject/></ProtectedRoute>}/>
+                                    <Route path="/page/:pageId" element={<ProtectedRoute><ShowPage/></ProtectedRoute>}/>
+                                    <Route path="/page/edit/:pageId"
+                                           element={<ProtectedRoute><EditPage/></ProtectedRoute>}/>
+                                    <Route path="/login" element={<Login/>}/>
+                                    <Route path="/" element={<Navigate replace to="/dashboard"/>}/>
+                                </Routes>
+                            </Box>
                         </Box>
-                    </Box>
-                    {notifications.map(notification => <Notification type={notification.type} id={notification.id}
-                        text={notification.text} key={notification.id} />)}
-                    <HttpErrorDialog />
-                    <CssBaseline />
-                </ThemeProvider>
-            ) :
-                <AppLoader />}
+                        {notifications.map(notification => <Notification type={notification.type} id={notification.id}
+                                                                         text={notification.text} key={notification.id}/>)}
+                        <HttpErrorDialog/>
+                        <CssBaseline/>
+                    </ThemeProvider>
+                ) :
+                <AppLoader/>}
         </>
     );
 }
