@@ -26,8 +26,8 @@ export default function PageContentEditor({ formik }) {
             container: [
                 [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
                 ['bold', 'italic', 'underline', 'blockquote'],
-                [{ 'list': 'ordered' }, { 'list': 'bullet' },
-                { 'indent': '-1' }, { 'indent': '+1' }],
+                [{color: []}],
+                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
                 ['link', 'image', 'code-block'],
             ],
         },
