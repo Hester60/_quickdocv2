@@ -30,7 +30,7 @@ services:
       - ${QUICKDOC_NETWORK_NAME}
     env_file:
       - .env
-    command: "/bin/bash -c 'cd /usr/src/app && npm install && npm start'"
+    command: "/bin/bash -c 'cd /usr/src/app && yarn install && npm start'"
     working_dir: /usr/src/app
 
   quickdoc_database_3:

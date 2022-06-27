@@ -10,7 +10,6 @@ import '@fontsource/roboto/700.css';
 import {Provider} from 'react-redux';
 import store from './store';
 import {BrowserRouter} from "react-router-dom";
-import 'react-quill/dist/quill.snow.css';
 
 ReactDOM.render(
     <Provider store={store}>

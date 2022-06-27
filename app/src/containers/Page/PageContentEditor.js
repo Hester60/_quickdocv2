@@ -1,16 +1,38 @@
-import ReactQuill from "react-quill";
-import ImageUploader from "quill-image-uploader";
-import Quill from "quill";
-import api, { API_BASE_URL } from '../../api';
-import { useMemo } from "react";
+import React from 'react';
+import {CKEditor} from '@ckeditor/ckeditor5-react';
+import Editor from 'ckeditor5-custom-build';
+import './CustomCKEditor.css'
+import {makeStyles} from "@mui/styles";
 
 export const SAVE_KEYBOARD_SHORTCUT = 'CTRL+V';
 
-export default function PageContentEditor({ formik }) {
-    const Image = Quill.import('formats/image');
-    Image.className = 'img-fluid';
-    Quill.register(Image, true);
-    Quill.register("modules/imageUploader", ImageUploader, true);
+const useStyles = makeStyles((theme) => ({
+    richTextEditor: {
+        "& .ck-editor__main > .ck-editor__editable": {
+            backgroundColor: theme.palette.background.default,
+        },
+        "& .ck.ck-editor__main>.ck-editor__editable:not(.ck-focused)": {
+            borderColor: theme.palette.action.disabled
+        },
+        "& .ck.ck-editor__main>.ck-editor__editable:not(.ck-focused):hover": {
+            borderColor: theme.palette.action.active
+        },
+        "& .ck.ck-toolbar": {
+            backgroundColor: theme.palette.background.default,
+            borderColor: theme.palette.action.disabled
+        },
+        "& .ck.ck-toolbar__items": {
+            backgroundColor: theme.palette.background.default,
+        },
+        "& .ck .ck-button": {
+            backgroundColor: theme.palette.background.default,
+            cursor: 'pointer'
+        }
+    }
+}));
+
+export default function PageContentEditor({formik}) {
+    const classes = useStyles();
 
     const handleKeydown = (e) => {
         let charCode = String.fromCharCode(e.which).toLowerCase();
@@ -21,37 +43,21 @@ export default function PageContentEditor({ formik }) {
         }
     }
 
-    const modules = useMemo(() => ({
-        toolbar: {
-            container: [
-                [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-                ['bold', 'italic', 'underline', 'blockquote'],
-                [{color: []}],
-                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                ['link', 'image', 'code-block'],
-            ],
-        },
-        imageUploader: {
-            upload: (file) => {
-                return new Promise((resolve, reject) => {
-                    const formData = new FormData();
-                    formData.append('file', file);
-
-                    api.post(`upload`, formData)
-                        .then(result => {
-                            const filename = result.data.filename;
-                            resolve(`${API_BASE_URL}static/uploads/${filename}`);
-                        })
-                        .catch(error => {
-                            reject("Upload failed");
-                        });
-                });
-            },
-        },
-    }), []);
-
     return (
-        <ReactQuill name="body" theme="snow" onChange={value => formik.setFieldValue('body', value)} onKeyDown={handleKeydown}
-            value={formik.values.body} modules={modules} placeholder="Your page content ..." />
+        <div className={classes.richTextEditor} onKeyDown={handleKeydown}>
+            <CKEditor
+                editor={Editor}
+                data={formik.values.body}
+                name="body"
+                sx={{
+                    background: "#121212 !important"
+                }}
+                onReady={editor => {
+                    // You can store the "editor" and use when it is needed.
+                    console.log('Editor is ready to use!', editor);
+                }}
+                onChange={(event, editor) => formik.setFieldValue('body', editor.getData())}
+            />
+        </div>
     )
 }
