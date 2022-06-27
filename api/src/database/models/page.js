@@ -13,11 +13,6 @@ const pageSchema = new Schema({
     required: false,
     default: null
   },
-  childrenCount: {
-    type: Number,
-    required: false,
-    default: 0
-  },
   parent: {
     type: Schema.Types.ObjectId,
     ref: 'Page',
@@ -59,7 +54,6 @@ const pageSchema = new Schema({
     validate: {
       validator: async function (value) {
         if (value) {
-          console.log(value);
           const tag = await model('Tag').findById(value);
 
           return !!tag;
@@ -72,29 +66,6 @@ const pageSchema = new Schema({
   }
 }, {
   timestamps: true
-});
-
-pageSchema.pre('save', async function (next) {
-  // Increment parent childrenCount in case of new page or update
-  if (this.parent && (this.isNew || this.modifiedPaths().includes('parent'))) {
-    const parent = await model('Page').findById(this.parent);
-    parent.childrenCount = parent.childrenCount + 1;
-    await parent.save();
-  }
-
-  // Decrement old parent in case of update
-  if (this.modifiedPaths().includes('parent') && this._oldParent) {
-    if (this._oldParent) {
-      const oldParent = await model('Page').findById(this._oldParent);
-
-      if (oldParent) {
-        oldParent.childrenCount = oldParent.childrenCount - 1;
-        await oldParent.save();
-      }
-    }
-  }
-
-  next();
 });
 
 pageSchema.plugin(require('mongoose-autopopulate'));
