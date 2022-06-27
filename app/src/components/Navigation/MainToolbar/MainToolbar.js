@@ -7,7 +7,6 @@ import {MenuOpen, Menu} from "@mui/icons-material";
 import {modifyWidth} from "../../../reducers/drawerWidthSlice";
 import {minDrawerWidth} from "../../../reducers/drawerWidthSlice";
 
-export const PAGE_TOOLBAR = 'PAGE_TOOLBAR';
 export const CREATE_PROJECT_TOOLBAR = 'CREATE_PROJECT_TOOLBAR';
 export const EDIT_PROJECT_TOOLBAR = 'EDIT_PROJECT_TOOLBAR';
 

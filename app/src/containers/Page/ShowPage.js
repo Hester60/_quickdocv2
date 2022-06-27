@@ -35,7 +35,6 @@ export default function ShowPage() {
             }
 
             setPage(res.data);
-            console.log(res.data);
             setIsLoading(false);
         })();
     }, [pageId])

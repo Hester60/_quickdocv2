@@ -11,8 +11,11 @@ init: up exec-setup seed-tags
 exec-setup:
 	docker exec -it quickdoc_database_1 ./scripts/cluster-setup.sh
 
-up: ## Build containers
+up: ## Start containers
 	docker-compose up -d
+
+build: ## Build containers
+	docker-compose up -d --build
 
 restart: ## Restart containers
 	docker-compose restart
