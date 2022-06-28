@@ -15,7 +15,7 @@ const useStyle = makeStyles(theme => ({
     appBar: {
         zIndex: theme.zIndex.drawer + 1,
         borderBottom: '1px solid ' + theme.palette.action.disabledBackground
-    }
+    },
 }));
 
 export default function MainToolbar({title, children}) {

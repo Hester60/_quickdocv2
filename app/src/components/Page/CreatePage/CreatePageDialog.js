@@ -84,7 +84,7 @@ export default function CreatePageDialog({open, setOpen, selectedPage = ROOT_SEL
       dispatch(addPage(page));
 
       dispatch(pushNotification({text: 'Page has been created !', type: NOTIFICATION_SUCCESS_TYPE}));
-      navigate(`page/edit/${page._id}`);
+      navigate(`/page/edit/${page._id}`);
       handleClose();
       setIsLoading(false);
     } catch (error) {
