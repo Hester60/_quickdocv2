@@ -15,7 +15,7 @@
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/user-event": "^14.2.0",
     "axios": "^0.27.2",
-    "ckeditor5-custom-build": "file:./ckeditor5",
+    "ckeditor5-custom-build": "file:./ckeditor5/",
     "formik": "^2.2.9",
     "highlight.js": "^11.5.1",
     "react": "^17.0.2",
