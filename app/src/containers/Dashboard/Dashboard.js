@@ -7,10 +7,7 @@ import {useSelector} from "react-redux";
 import MainToolbar from "../../components/Navigation/MainToolbar/MainToolbar";
 import api from '../../api'
 import {Link, useNavigate} from "react-router-dom";
-import Typography from "@mui/material/Typography";
-import RemoveProjectMenuItem from "../../components/Navigation/Menu/ProjectMenu/RemoveProjectMenuItem";
-import ActionsMenu from "../../components/Navigation/Menu/ActionsMenu";
-import NewPageMenuItem from "../../components/Navigation/Menu/PageMenu/NewPageMenuItem";
+import DashboardMenu from "../../components/Navigation/Menu/DashboardMenu";
 
 export default function Dashboard() {
     const navigate = useNavigate();
@@ -58,12 +55,7 @@ export default function Dashboard() {
     return (
         <Box sx={{display: 'flex', flexFlow: 'column'}}>
             <MainToolbar title="Dashboard">
-                <ActionsMenu>
-                    <NewPageMenuItem />
-                    <MenuItem onClick={() => navigate('/project/edit')}><Typography>Edit
-                        Projects</Typography></MenuItem>
-                    <RemoveProjectMenuItem/>
-                </ActionsMenu>
+                <DashboardMenu />
             </MainToolbar>
             <Toolbar/>
             <Box p={3}>

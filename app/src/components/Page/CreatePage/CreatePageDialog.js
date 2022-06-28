@@ -13,7 +13,7 @@ import * as Yup from 'yup';
 import {validatePageParent, validatePageTitle} from "../../../form-validations/pageValidation";
 import {useDispatch, useSelector} from "react-redux";
 import {addPage} from "../../../reducers/pagesSlice";
-import {useLocation, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {ROOT_SELECTION} from '../../../constants/PageConstants';
 import {NOTIFICATION_SUCCESS_TYPE, pushNotification} from "../../../reducers/notificationsSlice";
 import axios from 'axios';
