@@ -53,7 +53,6 @@ export default function ShowPage() {
     }
 
     function handleClick(e) {
-        console.log(e.detail);
         if (e.detail >= 2) {
             return navigate(`/page/edit/${page._id}`);
         }
@@ -79,7 +78,7 @@ export default function ShowPage() {
                         <Box sx={{width: '100%'}} display='flex' justifyContent="center">
                             <Box display='flex' alignItems="start" width="100%"
                                  sx={{maxWidth: 1250, flexFlow: 'column'}}>
-                                <Box>
+                                <Box width="100%" onClick={handleClick} component="div" title="Double click to edit page">
                                     <Typography variant="h5" fontWeight="700" textTransform="uppercase">
                                         {page.title}
                                     </Typography>
@@ -90,7 +89,7 @@ export default function ShowPage() {
                                               sx={{mr: 1, cursor: 'pointer'}}/>
                                     </Box>
                                 )}
-                                <Box onClick={handleClick} component="div" title="Double click to edit page">
+                                <Box width="100%" onClick={handleClick} component="div" title="Double click to edit page">
                                     {pageContent()}
                                 </Box>
                             </Box>
