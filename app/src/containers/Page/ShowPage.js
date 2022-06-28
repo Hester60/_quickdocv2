@@ -52,6 +52,13 @@ export default function ShowPage() {
         return htmlObject.outerHTML;
     }
 
+    function handleClick(e) {
+        console.log(e.detail);
+        if (e.detail >= 2) {
+            return navigate(`/page/edit/${page._id}`);
+        }
+    }
+
     const pageContent = () => !page.body || page.body.replace(/(<([^>]+)>)/ig, '') === '' ?
         <Typography>Cette page est vide.</Typography> : <div dangerouslySetInnerHTML={{__html: parseBody()}}/>;
 
@@ -83,7 +90,7 @@ export default function ShowPage() {
                                               sx={{mr: 1, cursor: 'pointer'}}/>
                                     </Box>
                                 )}
-                                <Box>
+                                <Box onClick={handleClick} component="div" title="Double click to edit page">
                                     {pageContent()}
                                 </Box>
                             </Box>
