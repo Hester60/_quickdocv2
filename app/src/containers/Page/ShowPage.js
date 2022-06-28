@@ -6,13 +6,8 @@ import {Box, Toolbar, Typography, Chip} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {selectAllProjects} from "../../reducers/projectsSlice";
 import {selectCurrentProject} from "../../reducers/currentProjectSlice";
-import ActionsMenu from "../../components/Navigation/Menu/ActionsMenu";
-import MenuItem from "@mui/material/MenuItem";
 import "highlight.js/styles/github-dark-dimmed.css";
 import hljs from "highlight.js";
-import MovePageDialog from "../../components/Page/MovePage/MovePageDialog";
-import RemovePageDialog from "../../components/Page/RemovePage/RemovePageDialog";
-import CreatePageDialog from "../../components/Page/CreatePage/CreatePageDialog";
 import ShowPageMenu from "../../components/Navigation/Menu/ShowPageMenu";
 
 export default function ShowPage() {

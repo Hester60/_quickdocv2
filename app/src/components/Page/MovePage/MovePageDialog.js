@@ -16,7 +16,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {editPage} from "../../../reducers/pagesSlice";
 import {NOTIFICATION_SUCCESS_TYPE, pushNotification} from "../../../reducers/notificationsSlice";
 
-export default function MovePageDialog({open, setOpen, page, setPage}) {
+export default function MovePageDialog({open, setOpen, page, setPage = null}) {
     const dispatch = useDispatch();
     const [pages, setPages] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -83,7 +83,9 @@ export default function MovePageDialog({open, setOpen, page, setPage}) {
 
             const updatedPage = res.data;
             dispatch(editPage({...updatedPage, parent: updatedPage.parent ? updatedPage.parent._id : null}));
-            setPage(updatedPage)
+            if (setPage) {
+                setPage(updatedPage);
+            }
             dispatch(pushNotification({text: 'Page has been moved !', type: NOTIFICATION_SUCCESS_TYPE}))
             handleClose();
             setIsLoading(false);
@@ -126,7 +128,8 @@ export default function MovePageDialog({open, setOpen, page, setPage}) {
                     </DialogContent>
                     <DialogActions>
                         <Button variant="contained" color="error" disableElevation onClick={handleClose}>Cancel</Button>
-                        <Button variant="contained" type="submit" disableElevation disabled={isLoading}>Validate</Button>
+                        <Button variant="contained" type="submit" disableElevation
+                                disabled={isLoading}>Validate</Button>
                     </DialogActions>
                 </form>
             </Dialog>

@@ -65,7 +65,9 @@ module.exports.movePage = asyncWrapper(async (req, res, next) => {
 
     page = pageManager.move(page, parent);
     await page.save();
-    await page.populate('parent');
+    await page.populate({
+        path: 'parent', select: '_id title __v'
+    });
 
     return res.status(200).json(page);
 });
