@@ -49,7 +49,6 @@ export default function EditPage() {
 
             const resTags = await api.get('tags');
             setTags(resTags.data);
-            console.log(res.data);
             await formik.setFieldValue('title', res.data.title);
             await formik.setFieldValue('body', res.data.body ?? '');
             await formik.setFieldValue('tag', res.data.tag ? res.data.tag._id : '');
