@@ -6,11 +6,20 @@ import IconButton from "@mui/material/IconButton";
 import {MenuOpen, Menu} from "@mui/icons-material";
 import {modifyWidth} from "../../../reducers/drawerWidthSlice";
 import {minDrawerWidth} from "../../../reducers/drawerWidthSlice";
+import {makeStyles} from "@mui/styles";
 
 export const CREATE_PROJECT_TOOLBAR = 'CREATE_PROJECT_TOOLBAR';
 export const EDIT_PROJECT_TOOLBAR = 'EDIT_PROJECT_TOOLBAR';
 
+const useStyle = makeStyles(theme => ({
+    appBar: {
+        zIndex: theme.zIndex.drawer + 1,
+        borderBottom: '1px solid ' + theme.palette.action.disabledBackground
+    }
+}));
+
 export default function MainToolbar({title, children}) {
+    const classes = useStyle();
     const drawerWidth = useSelector(state => state.drawerWidth.width);
     const dispatch = useDispatch();
 
@@ -47,7 +56,8 @@ export default function MainToolbar({title, children}) {
         <AppBar
             position="fixed"
             color="default"
-            sx={{zIndex: 1201}}
+            elevation={0}
+            className={classes.appBar}
         >
             <Toolbar>
                 {drawerButtons()}
