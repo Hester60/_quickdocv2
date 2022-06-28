@@ -4,9 +4,11 @@
  */
 import ClassicEditor from '@ckeditor/ckeditor5-editor-classic/src/classiceditor.js';
 import Autoformat from '@ckeditor/ckeditor5-autoformat/src/autoformat.js';
+import AutoLink from '@ckeditor/ckeditor5-link/src/autolink.js';
 import BlockQuote from '@ckeditor/ckeditor5-block-quote/src/blockquote.js';
 import Bold from '@ckeditor/ckeditor5-basic-styles/src/bold.js';
 import CloudServices from '@ckeditor/ckeditor5-cloud-services/src/cloudservices.js';
+import CodeBlock from '@ckeditor/ckeditor5-code-block/src/codeblock.js';
 import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials.js';
 import FontBackgroundColor from '@ckeditor/ckeditor5-font/src/fontbackgroundcolor.js';
 import FontColor from '@ckeditor/ckeditor5-font/src/fontcolor.js';
@@ -26,18 +28,25 @@ import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph.js';
 import PasteFromOffice from '@ckeditor/ckeditor5-paste-from-office/src/pastefromoffice.js';
 import RemoveFormat from '@ckeditor/ckeditor5-remove-format/src/removeformat.js';
 import SimpleUploadAdapter from '@ckeditor/ckeditor5-upload/src/adapters/simpleuploadadapter.js';
+import SourceEditing from '@ckeditor/ckeditor5-source-editing/src/sourceediting.js';
 import Table from '@ckeditor/ckeditor5-table/src/table.js';
+import TableCellProperties from '@ckeditor/ckeditor5-table/src/tablecellproperties';
+import TableColumnResize from '@ckeditor/ckeditor5-table/src/tablecolumnresize.js';
+import TableProperties from '@ckeditor/ckeditor5-table/src/tableproperties';
 import TableToolbar from '@ckeditor/ckeditor5-table/src/tabletoolbar.js';
 import TextTransformation from '@ckeditor/ckeditor5-typing/src/texttransformation.js';
+import TodoList from '@ckeditor/ckeditor5-list/src/todolist';
 
 class Editor extends ClassicEditor {}
 
 // Plugins to include in the build.
 Editor.builtinPlugins = [
 	Autoformat,
+	AutoLink,
 	BlockQuote,
 	Bold,
 	CloudServices,
+	CodeBlock,
 	Essentials,
 	FontBackgroundColor,
 	FontColor,
@@ -57,9 +66,14 @@ Editor.builtinPlugins = [
 	PasteFromOffice,
 	RemoveFormat,
 	SimpleUploadAdapter,
+	SourceEditing,
 	Table,
+	TableCellProperties,
+	TableColumnResize,
+	TableProperties,
 	TableToolbar,
-	TextTransformation
+	TextTransformation,
+	TodoList
 ];
 
 // Editor configuration.
@@ -71,8 +85,9 @@ Editor.defaultConfig = {
 			'bold',
 			'italic',
 			'link',
-			'numberedList',
+			'todoList',
 			'bulletedList',
+			'numberedList',
 			'removeFormat',
 			'|',
 			'fontBackgroundColor',
@@ -86,8 +101,10 @@ Editor.defaultConfig = {
 			'blockQuote',
 			'insertTable',
 			'mediaEmbed',
+			'codeBlock',
 			'undo',
-			'redo'
+			'redo',
+			'sourceEditing'
 		]
 	},
 	language: 'en',
@@ -103,7 +120,9 @@ Editor.defaultConfig = {
 		contentToolbar: [
 			'tableColumn',
 			'tableRow',
-			'mergeTableCells'
+			'mergeTableCells',
+			'tableCellProperties',
+			'tableProperties'
 		]
 	}
 };
