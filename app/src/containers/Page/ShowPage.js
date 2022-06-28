@@ -1,11 +1,11 @@
-import {useNavigate, useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import api from '../../api';
 import MainToolbar from "../../components/Navigation/MainToolbar/MainToolbar";
-import {Box, Toolbar, Typography, Chip} from "@mui/material";
-import {useDispatch, useSelector} from "react-redux";
-import {selectAllProjects} from "../../reducers/projectsSlice";
-import {selectCurrentProject} from "../../reducers/currentProjectSlice";
+import { Box, Toolbar, Typography, Chip } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { selectAllProjects } from "../../reducers/projectsSlice";
+import { selectCurrentProject } from "../../reducers/currentProjectSlice";
 import ActionsMenu from "../../components/Navigation/Menu/ActionsMenu";
 import MenuItem from "@mui/material/MenuItem";
 import MovePageMenuItem from "../../components/Navigation/Menu/PageMenu/MovePageMenuItem";
@@ -17,7 +17,7 @@ import hljs from "highlight.js";
 export default function ShowPage() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    let {pageId} = useParams();
+    let { pageId } = useParams();
     const [isLoading, setIsLoading] = useState(true);
     const [page, setPage] = useState(null);
     const currentProject = useSelector(state => state.currentProject.item);
@@ -59,42 +59,44 @@ export default function ShowPage() {
     }
 
     const pageContent = () => !page.body || page.body.replace(/(<([^>]+)>)/ig, '') === '' ?
-        <Typography>Cette page est vide.</Typography> : <div dangerouslySetInnerHTML={{__html: parseBody()}}/>;
+        <Typography>Cette page est vide.</Typography> : <div dangerouslySetInnerHTML={{ __html: parseBody() }} />;
 
     return (
         <>
-            <Box sx={{display: 'flex', flexFlow: 'column'}}>
-                {!isLoading && (
-                    <>
-                        <MainToolbar title="Show Page">
+            <Box sx={{ display: 'flex', flexFlow: 'column' }}>
+                <MainToolbar title="Show Page">
+                    {page && (
+                        <>
                             <ActionsMenu>
-                                <NewPageMenuItem page={page}/>
+                                <NewPageMenuItem page={page} />
                                 <MenuItem onClick={() => navigate(`/page/edit/${page._id}`)}>Edit page</MenuItem>
-                                <MovePageMenuItem page={page} setPage={setPage}/>
-                                <RemovePageMenuItem page={page}/>
+                                <MovePageMenuItem page={page} setPage={setPage} />
+                                <RemovePageMenuItem page={page} />
                             </ActionsMenu>
-                        </MainToolbar>
-                        <Toolbar/>
-                        <Box sx={{width: '100%'}} display='flex' justifyContent="center">
-                            <Box display='flex' alignItems="start" width="100%"
-                                 sx={{maxWidth: 1250, flexFlow: 'column'}}>
-                                <Box width="100%" onClick={handleClick} component="div" title="Double click to edit page">
-                                    <Typography variant="h5" fontWeight="700" textTransform="uppercase">
-                                        {page.title}
-                                    </Typography>
+                        </>
+                    )}
+                </MainToolbar>
+                <Toolbar />
+                {!isLoading && (
+                    <Box sx={{ width: '100%' }} display='flex' justifyContent="center">
+                        <Box display='flex' alignItems="start" width="100%"
+                            sx={{ maxWidth: 1250, flexFlow: 'column' }}>
+                            <Box width="100%" onClick={handleClick} component="div" title="Double click to edit page">
+                                <Typography variant="h5" fontWeight="700" textTransform="uppercase">
+                                    {page.title}
+                                </Typography>
+                            </Box>
+                            {page.tag && (
+                                <Box sx={{ my: 2 }}>
+                                    <Chip size="small" label={page.tag.name} color={page.tag.color}
+                                        sx={{ mr: 1, cursor: 'pointer' }} />
                                 </Box>
-                                {page.tag && (
-                                    <Box sx={{my: 2}}>
-                                        <Chip size="small" label={page.tag.name} color={page.tag.color}
-                                              sx={{mr: 1, cursor: 'pointer'}}/>
-                                    </Box>
-                                )}
-                                <Box width="100%" onClick={handleClick} component="div" title="Double click to edit page">
-                                    {pageContent()}
-                                </Box>
+                            )}
+                            <Box width="100%" onClick={handleClick} component="div" title="Double click to edit page">
+                                {pageContent()}
                             </Box>
                         </Box>
-                    </>
+                    </Box>
                 )}
             </Box>
         </>
