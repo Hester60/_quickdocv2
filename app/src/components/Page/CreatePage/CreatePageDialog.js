@@ -47,6 +47,10 @@ export default function CreatePageDialog({open, setOpen, selectedPage = ROOT_SEL
         setIsLoading(false);
       })();
     }
+
+    return () => {
+      setIsLoading(false);
+    }
   }, [open]);
 
   const handleClose = () => {

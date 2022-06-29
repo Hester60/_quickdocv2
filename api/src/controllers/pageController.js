@@ -22,6 +22,9 @@ module.exports.createPage = async (req, res, next) => {
         }
 
         await session.commitTransaction();
+        await page.populate({
+            path: 'parent', select: '_id title'
+        });
 
         res.status(201).json(page);
     } catch (error) {

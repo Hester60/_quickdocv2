@@ -5,13 +5,21 @@ import CreatePageDialog from "../../Page/CreatePage/CreatePageDialog";
 import MovePageDialog from "../../Page/MovePage/MovePageDialog";
 import RemovePageDialog from "../../Page/RemovePage/RemovePageDialog";
 import {useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 export default function ShowPageMenu({page, setPage}) {
     const navigate = useNavigate();
     const [openMoveDialog, setOpenMoveDialog] = useState(false);
     const [openRemoveDialog, setOpenRemoveDialog] = useState(false);
     const [openCreateDialog, setOpenCreateDialog] = useState(false);
+
+    useEffect(() => {
+        return () => {
+            setOpenMoveDialog(false);
+            setOpenRemoveDialog(false);
+            setOpenCreateDialog(false);
+        }
+    }, []);
 
     return (
         <>
