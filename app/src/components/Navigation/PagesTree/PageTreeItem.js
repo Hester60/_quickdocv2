@@ -1,14 +1,13 @@
-import {Box, Button, Chip, Typography} from "@mui/material";
+import { Box, Button, Chip, Typography } from "@mui/material";
 import TreeItem from "@mui/lab/TreeItem";
-import {useNavigate} from "react-router-dom";
-import {ChevronRight, CompareArrows, ExpandMore} from "@mui/icons-material";
-import {makeStyles} from "@mui/styles";
-import {useEffect, useState} from "react";
-import MovePageDialog from "../../Page/MovePage/MovePageDialog";
+import { useNavigate } from "react-router-dom";
+import { ChevronRight, CompareArrows, ExpandMore } from "@mui/icons-material";
+import { makeStyles } from "@mui/styles";
+import { useEffect, useState } from "react";
 
 const useStyle = makeStyles((theme) => ({
     moveBtn: {
-        height: 28,
+        height: '100%',
         padding: 0,
         minWidth: 'unset',
         width: 35,
@@ -20,35 +19,32 @@ const useStyle = makeStyles((theme) => ({
     }
 }))
 
-export default function PageTreeItem({page, selectedPageId, pages, onIconClick}) {
+export default function PageTreeItem({ page, selectedPageId, pages, onIconClick, handleMoveBtnClick }) {
     const navigate = useNavigate();
     const classes = useStyle();
     const [showMoveBtn, setShowMoveBtn] = useState(false);
-    const [openMoveDialog, setOpenMoveDialog] = useState(false);
 
     useEffect(() => {
         return () => {
-            setOpenMoveDialog(false);
             setShowMoveBtn(false);
-        } 
+        }
     }, []);
 
     const label = (
-        <Box sx={{display: 'flex', alignItems: 'center'}}
-             onMouseEnter={() => setShowMoveBtn(true)}
-             onMouseLeave={() => setShowMoveBtn(false)}>
+        <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}
+            onMouseEnter={() => setShowMoveBtn(true)}
+            onMouseLeave={() => setShowMoveBtn(false)}>
             {page.tag && (
-                <Chip size="small" label={page.tag.name} color={page.tag.color} sx={{mr: 1, cursor: 'pointer'}}/>
+                <Chip size="small" label={page.tag.name} color={page.tag.color} sx={{ mr: 1, cursor: 'pointer' }} />
             )}
-            <Typography sx={{pr: 5}}
+            <Typography sx={{ mr: showMoveBtn ? 1 : 0 }}
                 noWrap
             >{page.title}</Typography>
             {showMoveBtn && (
-                <Box sx={{position: 'absolute', right: 0}}>
-                    <Button variant="contained" disableElevation className={classes.moveBtn} onClick={() => setOpenMoveDialog(true)}><CompareArrows/></Button>
+                <Box ml='auto'>
+                    <Button variant="contained" disableElevation className={classes.moveBtn} onClick={(e) => { setShowMoveBtn(false); handleMoveBtnClick(e, page); }}><CompareArrows /></Button>
                 </Box>
             )}
-            <MovePageDialog page={page} setOpen={setOpenMoveDialog} open={openMoveDialog} />
         </Box>
     );
 
@@ -57,30 +53,30 @@ export default function PageTreeItem({page, selectedPageId, pages, onIconClick})
 
         return (
             <TreeItem nodeId={page._id}
-                      key={page._id}
-                      expandIcon={<ChevronRight onClick={(e) => {
-                          e.stopPropagation();
-                          onIconClick(page._id)
-                      }}/>}
-                      collapseIcon={<ExpandMore onClick={(e) => {
-                          e.stopPropagation();
-                          onIconClick(page._id)
-                      }}/>}
-                      onClick={(e) => {
-                          e.stopPropagation();
-                          navigate(`/page/${page._id}`)
-                      }}
-                      sx={{
-                          '& .MuiTreeItem-content': {
-                              margin: '2px 0 2px 0',
-                              padding: '6px 4px 6px 4px',
-                              borderRadius: '5px',
-                          },
-                      }}
-                      label={label}>
+                key={page._id}
+                expandIcon={<ChevronRight onClick={(e) => {
+                    e.stopPropagation();
+                    onIconClick(page._id)
+                }} />}
+                collapseIcon={<ExpandMore onClick={(e) => {
+                    e.stopPropagation();
+                    onIconClick(page._id)
+                }} />}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    navigate(`/page/${page._id}`)
+                }}
+                sx={{
+                    '& .MuiTreeItem-content': {
+                        margin: '2px 0 2px 0',
+                        padding: '6px 4px 6px 4px',
+                        borderRadius: '5px',
+                    },
+                }}
+                label={label}>
                 {children.map(child => {
-                    return <PageTreeItem onIconClick={onIconClick} page={child} key={child._id}
-                                         selectedPageId={selectedPageId} pages={pages}/>;
+                    return <PageTreeItem handleMoveBtnClick={handleMoveBtnClick} onIconClick={onIconClick} page={child} key={child._id}
+                        selectedPageId={selectedPageId} pages={pages} />;
                 })}
             </TreeItem>
         )
