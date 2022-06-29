@@ -42,6 +42,9 @@ module.exports.updatePage = asyncWrapper(async (req, res, next) => {
 
     const updatedPage = pageManager.update(page, req.body);
     await updatedPage.save();
+    await page.populate({
+        path: 'parent', select: '_id title'
+    });
 
     return res.status(200).json(updatedPage);
 });
@@ -112,7 +115,9 @@ module.exports.findAllPages = asyncWrapper(async (req, res) => {
 
     const projection = req.query.projection ? req.query.projection.split(',').join(' ') : '';
 
-    const pages = await Page.find(query, projection).sort({createdAt: -1}).skip(skip).limit(limit);
+    const pages = await Page.find(query, projection).populate({
+        path: 'parent', select: '_id title'
+    }).sort({createdAt: -1}).skip(skip).limit(limit);
     const totalItems = await Page.count(query);
     const pagination = {
         totalItems,

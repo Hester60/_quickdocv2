@@ -67,7 +67,7 @@ export default function PageTree({drawerWidth}) {
     }
 
     const getParent = (page) => {
-        return pages.find(e => e._id === page.parent);
+        return pages.find(e => page.parent && e._id === page.parent._id);
     }
 
     return (

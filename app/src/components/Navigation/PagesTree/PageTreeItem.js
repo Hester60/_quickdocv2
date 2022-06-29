@@ -46,7 +46,7 @@ export default function PageTreeItem({page, selectedPageId, pages, onIconClick})
     );
 
     const renderNode = () => {
-        const children = pages.filter(e => e.parent === page._id);
+        const children = pages.filter(e => e.parent && e.parent._id === page._id);
 
         return (
             <TreeItem nodeId={page._id}

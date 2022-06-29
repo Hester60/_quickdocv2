@@ -48,7 +48,7 @@ export default function MovePageDialog({open, setOpen, page, setPage = null}) {
                 return previousState;
             });
 
-            const children = currentPages.filter(e => e.parent === p._id);
+            const children = currentPages.filter(e => e.parent && e.parent._id === p._id);
             children.forEach(child => {
                 removeChildren(child, currentPages);
             });
@@ -82,7 +82,7 @@ export default function MovePageDialog({open, setOpen, page, setPage = null}) {
             const res = await api.put(`pages/${page._id}/move`, {parent: values.page._id === '*' ? null : values.page._id});
 
             const updatedPage = res.data;
-            dispatch(editPage({...updatedPage, parent: updatedPage.parent ? updatedPage.parent._id : null}));
+            dispatch(editPage({...updatedPage, parent: updatedPage.parent}));
             if (setPage) {
                 setPage(updatedPage);
             }
