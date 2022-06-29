@@ -50,12 +50,6 @@ export default function ShowPage() {
         return htmlObject.outerHTML;
     }
 
-    function handleClick(e) {
-        if (e.detail >= 2) {
-            return navigateToEdit();
-        }
-    }
-
     function navigateToEdit() {
         navigate(`/page/edit/${page._id}`);
     }
@@ -76,7 +70,7 @@ export default function ShowPage() {
                     <Box sx={{ width: '100%' }} display='flex' justifyContent="center">
                         <Box display='flex' alignItems="start" width="100%"
                             sx={{ maxWidth: 1250, flexFlow: 'column' }}>
-                            <Box width="100%" onClick={handleClick} component="div" title="Double click to edit page">
+                            <Box width="100%">
                                 <Typography variant="h5" fontWeight="700" textTransform="uppercase">
                                     {page.title}
                                 </Typography>
@@ -87,7 +81,7 @@ export default function ShowPage() {
                                         sx={{ mr: 1, cursor: 'pointer' }} />
                                 </Box>
                             )}
-                            <Box width="100%" onClick={handleClick} component="div" title="Double click to edit page">
+                            <Box width="100%" component="div">
                                 {pageContent()}
                             </Box>
                         </Box>
