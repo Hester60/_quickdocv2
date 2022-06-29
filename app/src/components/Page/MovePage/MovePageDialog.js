@@ -37,6 +37,10 @@ export default function MovePageDialog({open, setOpen, page, setPage = null}) {
                 setIsLoading(false);
             })();
         }
+
+        return () => {
+            setIsLoading(false);
+        } 
     }, [open]);
 
     const removeChildren = (p, currentPages) => {

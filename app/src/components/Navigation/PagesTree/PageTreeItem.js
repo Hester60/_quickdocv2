@@ -3,7 +3,7 @@ import TreeItem from "@mui/lab/TreeItem";
 import {useNavigate} from "react-router-dom";
 import {ChevronRight, CompareArrows, ExpandMore} from "@mui/icons-material";
 import {makeStyles} from "@mui/styles";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import MovePageDialog from "../../Page/MovePage/MovePageDialog";
 
 const useStyle = makeStyles((theme) => ({
@@ -25,6 +25,13 @@ export default function PageTreeItem({page, selectedPageId, pages, onIconClick})
     const classes = useStyle();
     const [showMoveBtn, setShowMoveBtn] = useState(false);
     const [openMoveDialog, setOpenMoveDialog] = useState(false);
+
+    useEffect(() => {
+        return () => {
+            setOpenMoveDialog(false);
+            setShowMoveBtn(false);
+        } 
+    }, []);
 
     const label = (
         <Box sx={{display: 'flex', alignItems: 'center'}}
