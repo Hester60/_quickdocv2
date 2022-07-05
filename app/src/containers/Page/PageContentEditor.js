@@ -3,6 +3,8 @@ import {CKEditor} from '@ckeditor/ckeditor5-react';
 import Editor from 'ckeditor5-custom-build';
 import styles from './CustomCKEditor.css'
 import {makeStyles} from "@mui/styles";
+import { API_BASE_URL } from '../../api';
+
 export const SAVE_KEYBOARD_SHORTCUT = 'CTRL+V';
 
 const useStyles = makeStyles((theme) => ({
@@ -47,7 +49,10 @@ export default function PageContentEditor({formik}) {
     }
 
     const config = {
-        placeholder: "Write something..."
+        placeholder: "Write something...",
+        simpleUpload: {
+            uploadUrl: `${API_BASE_URL}upload`,
+        }
     }
 
     return (
