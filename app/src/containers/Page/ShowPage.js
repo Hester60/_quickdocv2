@@ -85,7 +85,7 @@ export default function ShowPage() {
                                 {pageContent()}
                             </Box>
                         </Box>
-                        <Box sx={{position: 'absolute', bottom: 20, right: 20}}>
+                        <Box sx={{position: 'fixed', bottom: 20, right: 20}}>
                             <Tooltip title="Edit page">
                                 <Fab size="medium" color="primary" aria-label="edit" onClick={navigateToEdit}>
                                     <Edit/>
