@@ -1,7 +1,6 @@
 import React from 'react';
 import {CKEditor} from '@ckeditor/ckeditor5-react';
 import Editor from 'ckeditor5-custom-build';
-import styles from './CustomCKEditor.css'
 import {makeStyles} from "@mui/styles";
 import { API_BASE_URL } from '../../api';
 
@@ -62,7 +61,6 @@ export default function PageContentEditor({formik}) {
                 data={formik.values.body}
                 name="body"
                 config={config}
-                style={styles[':root']}
                 onChange={(event, editor) => formik.setFieldValue('body', editor.getData())}
             />
         </div>
