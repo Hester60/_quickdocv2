@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import NewPageButton from "../Page/NewPageButton/NewPageButton";
 import { minDrawerWidth } from "../../reducers/drawerWidthSlice";
 import { makeStyles } from "@mui/styles";
+import {Settings} from "@mui/icons-material";
 
 const maxDrawerWidth = 750;
 
@@ -66,6 +67,7 @@ export default function MainDrawer() {
       <Toolbar />
       <Box px={1} py={2}>
         <ProjectSelect />
+        <Button startIcon={<Settings />} onClick={() => navigate('/tags')} fullWidth variant="contained" disableElevation sx={{ mt: 1 }}>Manage tags</Button>
         <NewPageButton />
       </Box>
       {project && (

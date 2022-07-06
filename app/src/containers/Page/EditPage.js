@@ -93,7 +93,6 @@ export default function EditPage() {
             const res = await api.put(`pages/${page._id}`, {title, body, tag: tag === '' ? null : tag});
             setIsLoading(false);
             dispatch(editPage(res.data));
-            console.log('ok');
             dispatch(pushNotification({text: 'Page has been updated !', type: NOTIFICATION_SUCCESS_TYPE}));
         } catch (error) {
             setIsLoading(false);

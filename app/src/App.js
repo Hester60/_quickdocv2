@@ -17,6 +17,7 @@ import HttpErrorDialog from './components/HttpError/HttpErrorDialog';
 import ProtectedRoute from "./components/Routes/ProtectedRoute";
 import Login from "./containers/Auth/Login";
 import {fetchPages} from "./reducers/pagesSlice";
+import ShowTags from "./containers/Tag/ShowTags";
 
 const AppLoader = () => (
     <Box sx={{
@@ -115,6 +116,7 @@ function App() {
                                     <Route path="/page/:pageId" element={<ProtectedRoute><ShowPage/></ProtectedRoute>}/>
                                     <Route path="/page/edit/:pageId"
                                            element={<ProtectedRoute><EditPage/></ProtectedRoute>}/>
+                                    <Route path="/tags" element={<ProtectedRoute><ShowTags /></ProtectedRoute>}/>
                                     <Route path="/login" element={<Login/>}/>
                                     <Route path="/" element={<Navigate replace to="/dashboard"/>}/>
                                 </Routes>
