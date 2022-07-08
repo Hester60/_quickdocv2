@@ -52,6 +52,9 @@ export default function PageContentEditor({formik}) {
         placeholder: "Write something...",
         simpleUpload: {
             uploadUrl: `${API_BASE_URL}upload`,
+            headers: {
+                authorization: `Bearer ${localStorage.getItem('token')}`
+            }
         }
     }
 
