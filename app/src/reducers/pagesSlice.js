@@ -15,11 +15,13 @@ const pagesSlice = createSlice({
         addPage(state, action) {
             const page = action.payload;
             state.items = state.items.concat(page);
+            state.items = [...state.items].sort((a, b) => a.title.localeCompare(b.title));
         },
         editPage(state, action) {
             const page = action.payload;
             let foundPage = state.items.findIndex(e => e._id === page._id);
             state.items[foundPage] = { ...state.items[foundPage], ...page };
+            state.items = [...state.items].sort((a, b) => a.title.localeCompare(b.title));
         },
         deletePages(state, action) {
             const deletedIds = action.payload;
@@ -30,7 +32,7 @@ const pagesSlice = createSlice({
                     copy.splice(index, 1);
                 }
             });
-            state.items = copy;
+            state.items = copy.sort((a, b) => a.title.localeCompare(b.title));
         },
         resetPages(state, action) {
             state.items = [];
@@ -43,7 +45,7 @@ const pagesSlice = createSlice({
             })
             .addCase(fetchPages.fulfilled, (state, action) => {
                 state.loading = false;
-                state.items = action.payload.pages;
+                state.items = [...action.payload.pages].sort((a, b) => a.title.localeCompare(b.title));
                 state.pagination = action.payload.pagination;
             })
             .addCase(fetchPages.rejected, (state, action) => {

@@ -1,4 +1,4 @@
-import {Box, Card, ListSubheader, MenuItem, Toolbar} from "@mui/material";
+import {Box, Card, ListSubheader, Toolbar} from "@mui/material";
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
