@@ -83,7 +83,7 @@ export default function TagRow({tag, setErrors, tags}) {
                             onChange={formik.handleChange}
                             fullWidth
                         >
-                            {TAGS_COLORS.map(color => <MenuItem key={color} value={color}>{tag.color}</MenuItem>)}
+                            {TAGS_COLORS.map(color => <MenuItem key={color} value={color}>{color}</MenuItem>)}
                         </Select>
                     </FormControl>
                 </TableCell>
