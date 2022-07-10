@@ -159,6 +159,9 @@ img {
 }
 
 a {
-  color: white;
-  text-decoration: none;
+  color: deepskyblue;
+}
+
+a:hover {
+  color: cornflowerblue;
 }
