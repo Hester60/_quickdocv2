@@ -30,6 +30,7 @@ export default function RemovePageDialog({ open, setOpen, page }) {
             dispatch(deletePages(deletedIds));
             dispatch(pushNotification({text: 'Page has been removed !', type: NOTIFICATION_SUCCESS_TYPE}));
             handleClose();
+            setIsLoading(false);
             if (page.parent) {
                 return navigate(`/page/${page.parent._id}`);
             } else {
