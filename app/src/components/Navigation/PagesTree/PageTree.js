@@ -22,7 +22,7 @@ export default function PageTree({ drawerWidth }) {
     const [selectedPageId, setSelectedPageId] = useState(null);
     const [expanded, setExpanded] = useState([]);
     const [openMoveDialog, setOpenMoveDialog] = useState(false);
-    const [selectedPageToMove, setSelectedPageToMove] = useState(null); 
+    const [selectedPageToMove, setSelectedPageToMove] = useState(null);
 
     useEffect(() => {
         const match = matches.find(e => e !== null);
@@ -37,7 +37,7 @@ export default function PageTree({ drawerWidth }) {
 
     const renderTree = () => {
         return pages.filter(e => e.parent === null).map(page => <PageTreeItem handleMoveBtnClick={handleMoveBtnClick} onIconClick={toggleNode} key={page._id} page={page} pages={pages}
-            selectedPageId={selectedPageId} />)
+                                                                              selectedPageId={selectedPageId} />)
     }
 
     const expandItem = (pageId) => {

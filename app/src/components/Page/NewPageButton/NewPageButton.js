@@ -9,7 +9,7 @@ export default function NewPageButton({page = null}) {
 
     return (
         <>
-            <Button fullWidth disabled={!project} variant="contained" disableElevation sx={{ mt: 1 }} onClick={() => {setOpen(true)}}>New page</Button>
+            <Button size="small" fullWidth disabled={!project} variant="contained" disableElevation sx={{ mt: 1 }} onClick={() => {setOpen(true)}}>New page</Button>
             <CreatePageDialog open={open} setOpen={setOpen} page={page} />
         </>
     )

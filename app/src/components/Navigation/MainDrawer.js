@@ -67,7 +67,7 @@ export default function MainDrawer() {
       <Toolbar />
       <Box px={1} py={2}>
         <ProjectSelect />
-        <Button startIcon={<Settings />} onClick={() => navigate('/tags')} fullWidth variant="contained" disableElevation sx={{ mt: 1 }}>Manage tags</Button>
+        <Button size="small" startIcon={<Settings />} onClick={() => navigate('/tags')} fullWidth variant="contained" disableElevation sx={{ mt: 1 }}>Manage tags</Button>
         <NewPageButton />
       </Box>
       {project && (
