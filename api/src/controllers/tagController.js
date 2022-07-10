@@ -50,7 +50,7 @@ module.exports.removeTag = asyncWrapper(async (req, res) => {
     throw new NotFoundError(`Tag with id ${req.params.tagId} not found`)
   }
 
-  const session = tagManager.removeTag(tag);
+  const session = await tagManager.removeTag(tag);
   session.endSession();
 
   return res.status(200).json({});

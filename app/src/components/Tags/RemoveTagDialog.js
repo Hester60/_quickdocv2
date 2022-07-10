@@ -5,14 +5,11 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useState } from "react";
 import Button from '@mui/material/Button';
-import api from '../../../api';
-import { useDispatch } from 'react-redux';
-import { deletePages } from '../../../reducers/pagesSlice';
-import { useNavigate } from 'react-router-dom';
-import {NOTIFICATION_SUCCESS_TYPE, pushNotification} from "../../../reducers/notificationsSlice";
+import api from '../../api';
+import {useDispatch} from "react-redux";
+import {NOTIFICATION_SUCCESS_TYPE, pushNotification} from "../../reducers/notificationsSlice";
 
-export default function RemovePageDialog({ open, setOpen, page }) {
-    const navigate = useNavigate();
+export default function RemoveTagDialog({ open, setOpen, tag, tags = [] }) {
     const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(false);
 
@@ -24,17 +21,16 @@ export default function RemovePageDialog({ open, setOpen, page }) {
         try {
             setIsLoading(true);
 
-            const res = await api.delete(`pages/${page._id}`);
+            await api.delete(`tags/${tag._id}`);
 
-            const { deletedIds } = res.data;
-            dispatch(deletePages(deletedIds));
-            dispatch(pushNotification({text: 'Page has been removed !', type: NOTIFICATION_SUCCESS_TYPE}));
-            handleClose();
-            if (page.parent) {
-                return navigate(`/page/${page.parent._id}`);
-            } else {
-                return navigate('/dashboard');
+            const index = tags.findIndex(e => e._id === tag._id);
+            if (index >= 0) {
+                tags.splice(index, 1);
             }
+
+            dispatch(pushNotification({text: 'Tag has been removed !', type: NOTIFICATION_SUCCESS_TYPE}));
+            handleClose();
+            setIsLoading(false);
         } catch (error) {
             setIsLoading(false);
             alert(error);
@@ -49,11 +45,11 @@ export default function RemovePageDialog({ open, setOpen, page }) {
                 onClose={handleClose}
             >
                 <DialogTitle>
-                    {"Are you sure to delete this page ?"}
+                    {"Are you sure to delete this tag ?"}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        This action is irreversible and all children will be deleted too.
+                        This action is irreversible.
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>

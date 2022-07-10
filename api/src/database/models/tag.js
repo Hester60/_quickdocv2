@@ -9,7 +9,7 @@ const tagSchema = new Schema({
   },
   color: {
     type: String,
-    enum: ['primary', 'secondary', 'error', 'info', 'success', 'warning'],
+    enum: ['primary', 'secondary', 'error', 'info', 'success', 'warning', 'default'],
     required: [true, 'Tag color is required'],
     set: value => value ? value.trim() : null,
     default: 'primary'
