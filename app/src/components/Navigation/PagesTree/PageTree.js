@@ -1,20 +1,22 @@
-import { useSelector } from "react-redux";
-import { selectAllPage } from "../../../reducers/pagesSlice";
+import {useSelector} from "react-redux";
+import {selectAllPage} from "../../../reducers/pagesSlice";
 import TreeView from '@mui/lab/TreeView';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { matchPath, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import {matchPath, useLocation} from "react-router-dom";
+import {useEffect, useState} from "react";
 import PageTreeItem from "./PageTreeItem";
 import MovePageDialog from '../../Page/MovePage/MovePageDialog'
+import FindPageForm from "../../Page/FindPage/FindPageForm";
+import {Box} from "@mui/system";
 
-export default function PageTree({ drawerWidth }) {
-    const { pathname } = useLocation();
+export default function PageTree({drawerWidth}) {
+    const {pathname} = useLocation();
     const matches = [matchPath(
-        { path: "/page/:pageId" },
+        {path: "/page/:pageId"},
         pathname,
     ), matchPath(
-        { path: "/page/edit/:pageId" },
+        {path: "/page/edit/:pageId"},
         pathname,
     )];
     const pages = useSelector(selectAllPage);
@@ -36,8 +38,10 @@ export default function PageTree({ drawerWidth }) {
     }, [pages, matches])
 
     const renderTree = () => {
-        return pages.filter(e => e.parent === null).map(page => <PageTreeItem handleMoveBtnClick={handleMoveBtnClick} onIconClick={toggleNode} key={page._id} page={page} pages={pages}
-                                                                              selectedPageId={selectedPageId} />)
+        return pages.filter(e => e.parent === null).map(page => <PageTreeItem handleMoveBtnClick={handleMoveBtnClick}
+                                                                              onIconClick={toggleNode} key={page._id}
+                                                                              page={page} pages={pages}
+                                                                              selectedPageId={selectedPageId}/>)
     }
 
     const expandItem = (pageId) => {
@@ -80,29 +84,35 @@ export default function PageTree({ drawerWidth }) {
     }
 
     return (
-        <TreeView
-            aria-label="Pages tree view"
-            defaultCollapseIcon={<ExpandMoreIcon />}
-            defaultExpandIcon={<ChevronRightIcon />}
-            selected={selectedPageId}
-            expanded={expanded}
-            sx={{
-                flexGrow: 1,
-                width: drawerWidth,
-                overflowY: 'auto',
-                overflowX: 'hidden',
-                textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap',
-                display: 'block',
-                padding: '0 15px 0 5px'
-            }}
-        >
-            {!pagesLoading && (
-                <>
-                    {renderTree()}
-                    {selectedPageToMove && <MovePageDialog page={selectedPageToMove} setOpen={setOpenMoveDialog} open={openMoveDialog} />}
-                </>
-            )}
-        </TreeView>
+        <>
+            <Box px={1} pb={2}>
+                <FindPageForm isLoading={pagesLoading} />
+            </Box>
+            <TreeView
+                aria-label="Pages tree view"
+                defaultCollapseIcon={<ExpandMoreIcon/>}
+                defaultExpandIcon={<ChevronRightIcon/>}
+                selected={selectedPageId}
+                expanded={expanded}
+                sx={{
+                    flexGrow: 1,
+                    width: drawerWidth,
+                    overflowY: 'auto',
+                    overflowX: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    display: 'block',
+                    padding: '0 15px 0 5px'
+                }}
+            >
+                {!pagesLoading && (
+                    <>
+                        {renderTree()}
+                        {selectedPageToMove && <MovePageDialog page={selectedPageToMove} setOpen={setOpenMoveDialog}
+                                                               open={openMoveDialog}/>}
+                    </>
+                )}
+            </TreeView>
+        </>
     )
 }
