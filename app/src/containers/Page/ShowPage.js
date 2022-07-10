@@ -54,7 +54,7 @@ export default function ShowPage() {
         navigate(`/page/edit/${page._id}`);
     }
 
-    const pageContent = () => !page.body || page.body.replace(/(<([^>]+)>)/ig, '') === '' ?
+    const pageContent = () => !page.body || page.body === '' ?
         <Typography>Cette page est vide.</Typography> : <div dangerouslySetInnerHTML={{__html: parseBody()}}/>;
 
     return (
