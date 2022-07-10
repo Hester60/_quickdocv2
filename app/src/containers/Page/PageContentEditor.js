@@ -2,6 +2,7 @@ import React from 'react';
 import {CKEditor} from '@ckeditor/ckeditor5-react';
 import Editor from 'ckeditor5-custom-build';
 import {makeStyles} from "@mui/styles";
+import './ContentEditor.css';
 import { API_BASE_URL } from '../../api';
 
 export const SAVE_KEYBOARD_SHORTCUT = 'CTRL+V';
@@ -60,6 +61,7 @@ export default function PageContentEditor({formik}) {
     return (
         <div className={classes.richTextEditor} onKeyDown={handleKeydown}>
             <CKEditor
+                className=":root"
                 editor={Editor}
                 data={formik.values.body}
                 name="body"
