@@ -19,7 +19,7 @@ export default function PageTree({drawerWidth}) {
         {path: "/page/edit/:pageId"},
         pathname,
     )];
-    const pages = useSelector(selectAllPage);
+    let pages = useSelector(selectAllPage);
     const pagesLoading = useSelector(state => state.pages.loading);
     const [selectedPageId, setSelectedPageId] = useState(null);
     const [expanded, setExpanded] = useState([]);

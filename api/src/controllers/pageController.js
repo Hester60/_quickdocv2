@@ -108,6 +108,7 @@ module.exports.findAllPages = asyncWrapper(async (req, res) => {
     const currentPage = req.query.page ?? 1;
     const skip = limit * (currentPage - 1);
     const {project} = req.query;
+    const sort = req.query.sort ? [req.query.sort.split(',')] : [['createdAt', -1]];
     const query = {
         title: {$regex: req.query.q ?? '', $options: 'i'}
     };
@@ -120,7 +121,7 @@ module.exports.findAllPages = asyncWrapper(async (req, res) => {
 
     const pages = await Page.find(query, projection).populate({
         path: 'parent', select: '_id title'
-    }).sort({createdAt: -1}).skip(skip).limit(limit);
+    }).sort(sort).skip(skip).limit(limit);
     const totalItems = await Page.count(query);
     const pagination = {
         totalItems,
